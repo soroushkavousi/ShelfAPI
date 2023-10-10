@@ -9,7 +9,7 @@
     }
   },
   "profiles": {
-    "http": {
+    "ShelfApi.Presentation": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,

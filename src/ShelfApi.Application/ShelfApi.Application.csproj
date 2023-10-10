@@ -1,9 +1,26 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
+    <Nullable>disable</Nullable>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="EFCore.BulkExtensions" Version="7.1.6" />
+    <PackageReference Include="MediatR" Version="12.1.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.11" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="AuthApplication\Commands\Admin\" />
+    <Folder Include="AuthApplication\Commands\Internal\" />
+    <Folder Include="AuthApplication\Commands\User\" />
+    <Folder Include="UserApplication\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ShelfApi.Domain\ShelfApi.Domain.csproj" />
+  </ItemGroup>
 
 </Project>

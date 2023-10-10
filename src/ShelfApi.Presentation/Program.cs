@@ -1,23 +1,29 @@
+using ShelfApi.Application;
+using ShelfApi.Infrastructure;
+using ShelfApi.Presentation;
+using ShelfApi.Presentation.Middlewares;
+using ShelfApi.Presentation.Tools;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+var services = builder.Services;
+services.AddControllers();
+services.AddEndpointsApiExplorer();
+services.AddSwaggerGen();
+services.AddPresentation();
+services.AddInfrastructure(EnvironmentVariable.ConnectionString.Value);
+services.AddApplication();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
+app.UseApiExceptionHandler();
 app.UseAuthorization();
-
+app.UseAuthorization();
 app.MapControllers();
-
 app.Run();
