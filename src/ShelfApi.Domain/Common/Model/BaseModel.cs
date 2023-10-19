@@ -4,8 +4,7 @@ public class BaseModel
 {
     protected BaseModel() { }
 
-    public BaseModel(ulong id)
-        : this()
+    public BaseModel(ulong id) : this()
     {
         Id = id;
         CreatedAt = DateTime.UtcNow;

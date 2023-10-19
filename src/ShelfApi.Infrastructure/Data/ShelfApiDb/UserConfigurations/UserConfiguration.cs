@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using ShelfApi.Domain.UserAggregate;
+using ShelfApi.Infrastructure.Extensions;
 
 namespace ShelfApi.Infrastructure.Data;
 
@@ -10,10 +11,8 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
     {
         builder.ToTable("Users");
 
+        builder.AddBaseConfigurations();
+
         builder.Property(x => x.IsAdmin);
-
-        builder.Property(x => x.CreatedAt);
-
-        builder.Property(x => x.ModifiedAt);
     }
 }

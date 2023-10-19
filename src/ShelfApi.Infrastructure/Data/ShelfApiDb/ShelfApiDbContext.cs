@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using ShelfApi.Application.Common;
+using ShelfApi.Domain.Common;
 using ShelfApi.Domain.UserAggregate;
 
 namespace ShelfApi.Infrastructure.Data;
@@ -31,6 +32,21 @@ public class ShelfApiDbContext : IdentityDbContext<User, Role, ulong>, IShelfApi
         builder.ApplyConfiguration(new UserClaimConfiguration());
         builder.ApplyConfiguration(new UserLoginConfiguration());
         builder.ApplyConfiguration(new UserTokenConfiguration());
+    }
+
+    public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess,
+        CancellationToken cancellationToken = default)
+    {
+        var EditedEntities = ChangeTracker.Entries()
+            .Where(E => E.State == EntityState.Modified)
+            .ToList();
+
+        EditedEntities.ForEach(E =>
+        {
+            E.Property(nameof(BaseModel.ModifiedAt)).CurrentValue = DateTime.UtcNow;
+        });
+
+        return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
     }
 
     public async Task BulkInsertAsync<T>(IList<T> entities, BulkConfig bulkConfig = null, Action<decimal> progress = null, CancellationToken cancellationToken = default) where T : class
