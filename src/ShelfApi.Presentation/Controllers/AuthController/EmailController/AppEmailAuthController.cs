@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ShelfApi.Application.AuthApplication;
 using ShelfApi.Application.Common;
@@ -8,6 +9,8 @@ namespace ShelfApi.Presentation.Controllers;
 [Route("auth/email")]
 public class AppEmailAuthController : AppBaseController
 {
+    public AppEmailAuthController(ISender sender) : base(sender) { }
+
     /// <summary>
     /// Sign up with email.
     /// </summary>

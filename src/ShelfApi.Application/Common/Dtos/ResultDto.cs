@@ -25,7 +25,7 @@ public record ResultDto<TData> : ResultDto
 
     public override void SetErrors(List<ErrorDto> errors)
     {
-        if (Data != null)
+        if (!EqualityComparer<TData>.Default.Equals(Data, default))
             throw new InvalidOperationException();
 
         Errors = errors;

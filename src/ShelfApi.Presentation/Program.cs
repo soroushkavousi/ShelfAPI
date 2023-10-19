@@ -3,11 +3,16 @@ using ShelfApi.Infrastructure;
 using ShelfApi.Presentation;
 using ShelfApi.Presentation.Middlewares;
 using ShelfApi.Presentation.Tools;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 var services = builder.Services;
-services.AddControllers();
+services.AddControllers()
+    .AddJsonOptions(o =>
+    {
+        o.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    });
 services.AddEndpointsApiExplorer();
 services.AddSwaggerGen();
 services.AddPresentation();

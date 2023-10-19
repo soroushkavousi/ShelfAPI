@@ -11,19 +11,17 @@ public class ApiExceptionHandlerMiddleware
 {
     private readonly ILogger<ApiExceptionHandlerMiddleware> _logger;
     private readonly RequestDelegate _next;
-    private readonly IMediator _mediator;
     private readonly ISerializer _serializer;
 
-    public ApiExceptionHandlerMiddleware(ILogger<ApiExceptionHandlerMiddleware> logger, RequestDelegate next,
-        IMediator mediator, ISerializer serializer)
+    public ApiExceptionHandlerMiddleware(ILogger<ApiExceptionHandlerMiddleware> logger,
+        RequestDelegate next, ISerializer serializer)
     {
         _logger = logger;
         _next = next;
-        _mediator = mediator;
         _serializer = serializer;
     }
 
-    public async Task InvokeAsync(HttpContext httpContext)
+    public async Task InvokeAsync(HttpContext httpContext, ISender sender)
     {
         var sw = Stopwatch.StartNew();
         try
@@ -33,7 +31,7 @@ public class ApiExceptionHandlerMiddleware
         catch (Exception ex)
         {
             ApiException apiException = ex is ApiException ? ex as ApiException : new InternalServerException(ex);
-            ErrorDto error = await _mediator.Send(new GetErrorQuery
+            ErrorDto error = await sender.Send(new GetErrorQuery
             {
                 ErrorType = apiException.Type,
                 ErrorField = apiException.Field

@@ -10,13 +10,13 @@ public class ExceptionHandler<TRequest, TResponse, TException> : IRequestExcepti
     where TResponse : new()
 {
     private readonly ILogger<ExceptionHandler<TRequest, TResponse, TException>> _logger;
-    private readonly IMediator _mediator;
+    private readonly ISender _sender;
 
     public ExceptionHandler(ILogger<ExceptionHandler<TRequest, TResponse, TException>> logger,
-        IMediator mediator)
+        ISender sender)
     {
         _logger = logger;
-        _mediator = mediator;
+        _sender = sender;
     }
 
     public async Task Handle(TRequest request,
@@ -25,11 +25,11 @@ public class ExceptionHandler<TRequest, TResponse, TException> : IRequestExcepti
         CancellationToken cancellationToken)
     {
         // Handle the exceptions of internal requests
-        if (state.Response is not ResultDto)
+        if (state.GetType().GenericTypeArguments[0].IsAssignableFrom(typeof(ResultDto)))
             throw exception;
 
         ApiException apiException = exception is ApiException ? exception as ApiException : new InternalServerException(exception);
-        ErrorDto error = await _mediator.Send(new GetErrorQuery
+        ErrorDto error = await _sender.Send(new GetErrorQuery
         {
             ErrorType = apiException.Type,
             ErrorField = apiException.Field

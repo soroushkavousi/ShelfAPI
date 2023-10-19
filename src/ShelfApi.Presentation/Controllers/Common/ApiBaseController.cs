@@ -5,7 +5,7 @@ namespace ShelfApi.Presentation.Controllers;
 
 [ApiController]
 [Produces(Tools.Constants.JsonContentTypeName)]
-public class ApiBaseController : ControllerBase
+public abstract class ApiBaseController : ControllerBase
 {
     protected readonly ISender _sender;
 

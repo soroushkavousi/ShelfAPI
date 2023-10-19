@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ShelfApi.Presentation.Controllers;
 
 [Authorize(Roles = "Admin")]
 [Route("admin")]
-public class AdminBaseController : ApiBaseController
+public abstract class AdminBaseController : ApiBaseController
 {
-
+    public AdminBaseController(ISender sender) : base(sender) { }
 }
