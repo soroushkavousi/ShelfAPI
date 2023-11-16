@@ -11,6 +11,8 @@ public class UserClaimConfiguration : IEntityTypeConfiguration<IdentityUserClaim
     {
         builder.ToTable("UserClaims");
 
-        builder.AddBaseConfigurations(ignoreKey: true);
+        builder.ConfigureOrders();
+        builder.ConfigureCreatedAt();
+        builder.ConfigureModifiedAt();
     }
 }

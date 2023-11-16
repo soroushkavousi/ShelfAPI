@@ -1,16 +1,16 @@
 ﻿namespace ShelfApi.Domain.Common;
 
-public class BaseModel
+public abstract class BaseModel<TKey>
 {
     protected BaseModel() { }
 
-    public BaseModel(ulong id) : this()
+    public BaseModel(TKey id) : this()
     {
         Id = id;
         CreatedAt = DateTime.UtcNow;
     }
 
-    public ulong Id { get; }
+    public TKey Id { get; }
     public DateTime CreatedAt { get; }
     public DateTime? ModifiedAt { get; private set; }
 

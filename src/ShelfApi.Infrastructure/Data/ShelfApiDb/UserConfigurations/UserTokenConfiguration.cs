@@ -11,6 +11,8 @@ public class UserTokenConfiguration : IEntityTypeConfiguration<IdentityUserToken
     {
         builder.ToTable("UserTokens");
 
-        builder.AddBaseConfigurations(ignoreKey: true);
+        builder.ConfigureOrders();
+        builder.ConfigureCreatedAt();
+        builder.ConfigureModifiedAt();
     }
 }

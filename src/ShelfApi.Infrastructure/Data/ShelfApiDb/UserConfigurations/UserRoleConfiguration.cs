@@ -11,6 +11,8 @@ public class UserRoleConfiguration : IEntityTypeConfiguration<IdentityUserRole<u
     {
         builder.ToTable("UserRoles");
 
-        builder.AddBaseConfigurations(ignoreKey: true);
+        builder.ConfigureOrders();
+        builder.ConfigureCreatedAt();
+        builder.ConfigureModifiedAt();
     }
 }

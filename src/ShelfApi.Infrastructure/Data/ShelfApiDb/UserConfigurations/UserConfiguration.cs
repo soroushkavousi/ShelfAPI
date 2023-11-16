@@ -11,7 +11,10 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
     {
         builder.ToTable("Users");
 
-        builder.AddBaseConfigurations();
+        builder.ConfigureOrders();
+        builder.ConfigureUlongKey();
+        builder.ConfigureCreatedAt();
+        builder.ConfigureModifiedAt();
 
         builder.Property(x => x.IsAdmin);
     }

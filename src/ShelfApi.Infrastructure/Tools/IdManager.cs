@@ -6,9 +6,9 @@ namespace ShelfApi.Infrastructure.Tools;
 
 public partial class IdManager : IIdManager
 {
-    public static readonly byte EpochLength = 43;
-    public static readonly byte ServerIdLength = 7; //only 127 server instances are allowed
-    public static readonly byte SequenceLength = 13; //only 16,383 ids per millisecond
+    public static readonly byte _epochLength = 41;
+    public static readonly byte _serverIdLength = 6; //only 127 server instances are allowed
+    public static readonly byte _sequenceLength = 16; //only 131,071 ids per millisecond
     private readonly IdGenerator _idGenerator;
 
     public IdManager(int serverId)
@@ -19,12 +19,12 @@ public partial class IdManager : IIdManager
 
     private static IdGeneratorOptions CreateOptions()
     {
-        IdStructure structure = new(EpochLength, ServerIdLength, SequenceLength);
+        IdStructure structure = new(_epochLength, _serverIdLength, _sequenceLength);
         IdGeneratorOptions options = new(structure);
         return options;
     }
 
-    public ulong GenerateNewId()
+    public ulong GenerateNextUlong()
     {
         ulong id; bool idIsValid;
         do

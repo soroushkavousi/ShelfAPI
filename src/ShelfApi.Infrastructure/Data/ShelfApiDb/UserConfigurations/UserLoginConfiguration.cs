@@ -11,7 +11,9 @@ public class UserLoginConfiguration : IEntityTypeConfiguration<IdentityUserLogin
     {
         builder.ToTable("UserLogins");
 
-        builder.AddBaseConfigurations(ignoreKey: true);
+        builder.ConfigureOrders();
+        builder.ConfigureCreatedAt();
+        builder.ConfigureModifiedAt();
 
         builder.Property(x => x.UserId)
             .HasColumnOrder(0);

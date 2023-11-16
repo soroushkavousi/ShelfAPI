@@ -43,7 +43,7 @@ public class ShelfApiDbContext : IdentityDbContext<User, Role, ulong>, IShelfApi
 
         EditedEntities.ForEach(E =>
         {
-            E.Property(nameof(BaseModel.ModifiedAt)).CurrentValue = DateTime.UtcNow;
+            E.Property(nameof(BaseModel<object>.ModifiedAt)).CurrentValue = DateTime.UtcNow;
         });
 
         return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);

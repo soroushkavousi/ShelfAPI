@@ -15,7 +15,8 @@ namespace ShelfApi.Infrastructure.Migrations
                 name: "Roles",
                 columns: table => new
                 {
-                    Id = table.Column<decimal>(type: "decimal(20,0)", nullable: false),
+                    Id = table.Column<byte>(type: "tinyint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -61,7 +62,7 @@ namespace ShelfApi.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    RoleId = table.Column<decimal>(type: "decimal(20,0)", nullable: false),
+                    RoleId = table.Column<byte>(type: "tinyint", nullable: false),
                     ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "SYSUTCDATETIME()"),
@@ -128,7 +129,7 @@ namespace ShelfApi.Infrastructure.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<decimal>(type: "decimal(20,0)", nullable: false),
-                    RoleId = table.Column<decimal>(type: "decimal(20,0)", nullable: false),
+                    RoleId = table.Column<byte>(type: "tinyint", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "SYSUTCDATETIME()"),
                     ModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },

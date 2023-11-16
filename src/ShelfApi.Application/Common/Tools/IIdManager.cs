@@ -2,7 +2,7 @@
 
 public interface IIdManager
 {
-    public ulong GenerateNewId();
+    public ulong GenerateNextUlong();
     public string EncodeId(ulong id);
     public ulong DecodeEncodedId(string encodedId);
 }

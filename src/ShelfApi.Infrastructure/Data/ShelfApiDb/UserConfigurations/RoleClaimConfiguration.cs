@@ -11,6 +11,8 @@ public class RoleClaimConfiguration : IEntityTypeConfiguration<IdentityRoleClaim
     {
         builder.ToTable("RoleClaims");
 
-        builder.AddBaseConfigurations(ignoreKey: true);
+        builder.ConfigureOrders();
+        builder.ConfigureCreatedAt();
+        builder.ConfigureModifiedAt();
     }
 }

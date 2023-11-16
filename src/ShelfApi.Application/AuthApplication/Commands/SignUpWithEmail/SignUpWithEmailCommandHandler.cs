@@ -27,7 +27,7 @@ public class SignUpWithEmailCommandHandler : ApiRequestHandler<SignUpWithEmailCo
 
     protected override async Task<bool> OperateAsync(SignUpWithEmailCommand request, CancellationToken cancellationToken)
     {
-        var userId = _idManager.GenerateNewId();
+        var userId = _idManager.GenerateNextUlong();
         var user = new User(userId, false, request.Username, request.EmailAddress);
 
         var result = await _userManager.CreateAsync(user, request.Password);

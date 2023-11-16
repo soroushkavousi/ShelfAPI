@@ -12,7 +12,7 @@ using ShelfApi.Infrastructure.Data;
 namespace ShelfApi.Infrastructure.Migrations
 {
     [DbContext(typeof(ShelfApiDbContext))]
-    [Migration("20231019094622_AddIdentityEntities")]
+    [Migration("20231116062212_AddIdentityEntities")]
     partial class AddIdentityEntities
     {
         /// <inheritdoc />
@@ -52,8 +52,8 @@ namespace ShelfApi.Infrastructure.Migrations
                         .HasColumnType("datetime2")
                         .HasColumnOrder(1001);
 
-                    b.Property<decimal>("RoleId")
-                        .HasColumnType("decimal(20,0)")
+                    b.Property<byte>("RoleId")
+                        .HasColumnType("tinyint")
                         .HasColumnOrder(101);
 
                     b.HasKey("Id");
@@ -142,8 +142,8 @@ namespace ShelfApi.Infrastructure.Migrations
                         .HasColumnType("decimal(20,0)")
                         .HasColumnOrder(100);
 
-                    b.Property<decimal>("RoleId")
-                        .HasColumnType("decimal(20,0)")
+                    b.Property<byte>("RoleId")
+                        .HasColumnType("tinyint")
                         .HasColumnOrder(101);
 
                     b.Property<DateTime>("CreatedAt")
@@ -198,9 +198,12 @@ namespace ShelfApi.Infrastructure.Migrations
 
             modelBuilder.Entity("ShelfApi.Domain.UserAggregate.Role", b =>
                 {
-                    b.Property<decimal>("Id")
-                        .HasColumnType("decimal(20,0)")
+                    b.Property<byte>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("tinyint")
                         .HasColumnOrder(1);
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<byte>("Id"));
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()

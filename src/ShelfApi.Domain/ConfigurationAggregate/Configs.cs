@@ -2,7 +2,7 @@
 
 namespace ShelfApi.Domain.ConfigurationAggregate;
 
-public class Configs : BaseModel
+public class Configs : BaseModel<byte>
 {
     public static Configs Current { get; set; } = new
     (
@@ -10,7 +10,7 @@ public class Configs : BaseModel
         jwt: new JwtConfigs("temp-key", "http://localhost:57074", "http://localhost:57074")
     );
 
-    public Configs(ulong id, JwtConfigs jwt) : base(id)
+    public Configs(byte id, JwtConfigs jwt) : base(id)
     {
         Jwt = jwt;
     }
