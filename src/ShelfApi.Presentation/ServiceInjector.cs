@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using ShelfApi.Domain.ConfigurationAggregate;
 using ShelfApi.Domain.UserAggregate;
 using ShelfApi.Infrastructure.Data;
+using ShelfApi.Presentation.Tools;
 using System.Text;
 
 namespace ShelfApi.Presentation;
@@ -65,7 +67,8 @@ public static class ServiceInjector
     {
         services.AddAuthorization(options =>
         {
-
         });
+
+        services.AddSingleton<IAuthorizationMiddlewareResultHandler, ApiAuthorizationMiddlewareResultHandler>();
     }
 }

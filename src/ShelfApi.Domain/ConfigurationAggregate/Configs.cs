@@ -7,7 +7,7 @@ public class Configs : BaseModel<byte>
     public static Configs Current { get; set; } = new
     (
         id: 1,
-        jwt: new JwtConfigs("temp-key", "http://localhost:57074", "http://localhost:57074")
+        jwt: new JwtConfigs("C08D9BF9-597D-437E-9686-E47766F91DBB", "http://localhost:57074", "http://localhost:57074")
     );
 
     public Configs(byte id, JwtConfigs jwt) : base(id)

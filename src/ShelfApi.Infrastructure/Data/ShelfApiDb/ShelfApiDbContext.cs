@@ -37,16 +37,20 @@ public class ShelfApiDbContext : IdentityDbContext<User, Role, ulong>, IShelfApi
     public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess,
         CancellationToken cancellationToken = default)
     {
+        SetModifiedAt();
+        return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+    }
+
+    private void SetModifiedAt()
+    {
         var EditedEntities = ChangeTracker.Entries()
-            .Where(E => E.State == EntityState.Modified)
+            .Where(e => e.State == EntityState.Modified)
             .ToList();
 
-        EditedEntities.ForEach(E =>
+        EditedEntities.ForEach(e =>
         {
-            E.Property(nameof(BaseModel<object>.ModifiedAt)).CurrentValue = DateTime.UtcNow;
+            e.Property(nameof(BaseModel<object>.ModifiedAt)).CurrentValue = DateTime.UtcNow;
         });
-
-        return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
     }
 
     public async Task BulkInsertAsync<T>(IList<T> entities, BulkConfig bulkConfig = null, Action<decimal> progress = null, CancellationToken cancellationToken = default) where T : class
