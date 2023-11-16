@@ -7,10 +7,8 @@ public class Role : IdentityRole<ulong>
 {
     private Role() { }
 
-    public Role(ulong id, RoleName name) : base(name.ToString())
+    public Role(RoleName name) : base(name.ToString())
     {
-        Id = id;
-
         NormalizedName = name.ToString().ToUpper();
 
         ConcurrencyStamp = Utils.GenerateNewConcurrencyStamp();

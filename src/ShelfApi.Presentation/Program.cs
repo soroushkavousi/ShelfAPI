@@ -14,7 +14,10 @@ services.AddControllers()
         o.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
     });
 services.AddEndpointsApiExplorer();
-services.AddSwaggerGen();
+services.AddSwaggerGen(o =>
+{
+    o.DocumentFilter<SwaggerDocumentFilter>();
+});
 services.AddPresentation();
 services.AddInfrastructure(EnvironmentVariable.ConnectionString.Value);
 services.AddApplication();
