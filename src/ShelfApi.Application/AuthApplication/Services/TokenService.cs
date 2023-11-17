@@ -42,7 +42,7 @@ public class TokenService
 
     private static string GenerateAccessToken(List<Claim> claims)
     {
-        Configs.JwtConfigs jwtConfigs = Configs.Current.Jwt;
+        JwtConfigs jwtConfigs = Configs.Jwt;
         SymmetricSecurityKey authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtConfigs.Key));
 
         JwtSecurityToken jwtToken = new JwtSecurityToken(

@@ -3,27 +3,27 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using ShelfApi.Application.Common;
 using ShelfApi.Domain.Common;
+using ShelfApi.Domain.ConfigurationAggregate;
 using ShelfApi.Domain.UserAggregate;
 
 namespace ShelfApi.Infrastructure.Data;
 
 public class ShelfApiDbContext : IdentityDbContext<User, Role, ulong>, IShelfApiDbContext
 {
-    private ShelfApiDbContext()
-    { }
+    public DbSet<Configs> Configs { get; set; }
 
-    public ShelfApiDbContext(DbContextOptions options) : base(options)
-    {
-    }
+    private ShelfApiDbContext() { }
+
+    public ShelfApiDbContext(DbContextOptions options) : base(options) { }
 
     public ShelfApiDbContext(string connectionString)
-        : base(CreateOptionsFromConnectionString(connectionString))
-    {
-    }
+        : base(CreateOptionsFromConnectionString(connectionString)) { }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
+
+        #region User Configs
 
         builder.ApplyConfiguration(new UserConfiguration());
         builder.ApplyConfiguration(new RoleConfiguration());
@@ -32,6 +32,15 @@ public class ShelfApiDbContext : IdentityDbContext<User, Role, ulong>, IShelfApi
         builder.ApplyConfiguration(new UserClaimConfiguration());
         builder.ApplyConfiguration(new UserLoginConfiguration());
         builder.ApplyConfiguration(new UserTokenConfiguration());
+
+        #endregion
+
+        #region Configuration
+
+        builder.ApplyConfiguration(new ConfigsConfiguration());
+
+        #endregion
+
     }
 
     public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess,

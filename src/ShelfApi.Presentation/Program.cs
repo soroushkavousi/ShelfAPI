@@ -5,6 +5,8 @@ using ShelfApi.Presentation.Middlewares;
 using ShelfApi.Presentation.Tools;
 using System.Text.Json.Serialization;
 
+ShelfApi.Presentation.ProjectInitializer.Initialize();
+
 var builder = WebApplication.CreateBuilder(args);
 
 var services = builder.Services;

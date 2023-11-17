@@ -56,9 +56,9 @@ public static class ServiceInjector
                 ValidateLifetime = true,
                 ValidateIssuerSigningKey = true,
                 ClockSkew = TimeSpan.Zero,
-                ValidIssuer = Configs.Current.Jwt.Issuer,
-                ValidAudience = Configs.Current.Jwt.Audience,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configs.Current.Jwt.Key))
+                ValidIssuer = Configs.Jwt.Issuer,
+                ValidAudience = Configs.Jwt.Audience,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configs.Jwt.Key))
             };
         });
     }

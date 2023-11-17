@@ -16,6 +16,7 @@
     <Folder Include="AuthApplication\Commands\Admin\" />
     <Folder Include="AuthApplication\Commands\Internal\" />
     <Folder Include="AuthApplication\Commands\User\" />
+    <Folder Include="ConfigsApplication\Services\" />
     <Folder Include="UserApplication\" />
   </ItemGroup>
 

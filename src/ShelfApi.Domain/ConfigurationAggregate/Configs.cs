@@ -4,18 +4,41 @@ namespace ShelfApi.Domain.ConfigurationAggregate;
 
 public class Configs : BaseModel<byte>
 {
-    public static Configs Current { get; set; } = new
-    (
-        id: 1,
-        jwt: new JwtConfigs("C08D9BF9-597D-437E-9686-E47766F91DBB", "http://localhost:57074", "http://localhost:57074")
-    );
-
-    public Configs(byte id, JwtConfigs jwt) : base(id)
+    public Configs(EnvironmentName environmentName, ConfigsCategory category, string value) : base()
     {
-        Jwt = jwt;
+        EnvironmentName = environmentName;
+        Category = category;
+        Value = value;
     }
 
-    public JwtConfigs Jwt { get; init; }
+    static Configs()
+    {
+        SetDefaultConfigs();
+    }
 
-    public record JwtConfigs(string Key, string Issuer, string Audience);
+    public EnvironmentName EnvironmentName { get; }
+    public ConfigsCategory Category { get; }
+    public string Value { get; }
+
+    public static JwtConfigs Jwt { get; private set; }
+
+    public void SetAsStatic()
+    {
+        switch (Category)
+        {
+            case ConfigsCategory.JWT:
+                Jwt = Value.FromJson<JwtConfigs>();
+                break;
+            default:
+                break;
+        }
+    }
+
+    private static void SetDefaultConfigs()
+    {
+        Jwt = new JwtConfigs("jwt-key", "https://server.com", "https://server.com");
+    }
 }
+
+public record JwtConfigs(string Key, string Issuer, string Audience);
+
