@@ -10,6 +10,7 @@
 - ASP.NET Core Identity
 - JWT
 - Role Based Authorization
+- Serilog, Seq
 - Using environment variables for loading connection string
 - Storing project configurations in a database table with JSON format
 - Entity Framework Core for SQL Server

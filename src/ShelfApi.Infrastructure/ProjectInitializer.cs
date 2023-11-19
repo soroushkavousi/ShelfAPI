@@ -1,4 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Serilog;
+using Serilog.Events;
+using Serilog.Exceptions;
+using Serilog.Exceptions.Core;
+using Serilog.Exceptions.EntityFrameworkCore.Destructurers;
 using ShelfApi.Domain.ConfigurationAggregate;
 using ShelfApi.Infrastructure.Data;
 
@@ -10,6 +15,7 @@ public static class ProjectInitializer
     {
         CheckDbConnectionString(dbConnectionString);
         LoadConfigsFromTheDatabase(environmentName, dbConnectionString);
+        ConfigSerilog();
         Console.WriteLine($"Project '{nameof(Infrastructure)}' has initialized successfully.");
     }
 
@@ -34,5 +40,21 @@ public static class ProjectInitializer
 
         if (configs.Any())
             configs.ForEach(x => x.SetAsStatic());
+    }
+
+    private static void ConfigSerilog()
+    {
+        Log.Logger = new LoggerConfiguration()
+            .Enrich.WithProperty("Application", "ShelfApi")
+            .WriteTo.Seq("http://localhost:5341")
+            .WriteTo.Console(LogEventLevel.Warning)
+            .Enrich.WithExceptionDetails(new DestructuringOptionsBuilder()
+                .WithDefaultDestructurers()
+                .WithDestructurers(new[] { new DbUpdateExceptionDestructurer() }))
+            .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
+            .MinimumLevel.Override("Microsoft.EntityFrameworkCore.Query", LogEventLevel.Error)
+            .MinimumLevel.Override("Microsoft.EntityFrameworkCore.Update", LogEventLevel.Error)
+            .MinimumLevel.Override("Microsoft.EntityFrameworkCore.Model.Validation", LogEventLevel.Error)
+            .CreateLogger();
     }
 }
