@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ShelfApi.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using ShelfApi.Infrastructure.Data;
 namespace ShelfApi.Infrastructure.Migrations
 {
     [DbContext(typeof(ShelfApiDbContext))]
-    partial class ShelfApiDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231125105414_AddProductAndOrderEntities")]
+    partial class AddProductAndOrderEntities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

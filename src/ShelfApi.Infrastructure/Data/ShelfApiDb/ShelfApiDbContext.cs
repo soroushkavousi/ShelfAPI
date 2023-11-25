@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using ShelfApi.Application.Common;
 using ShelfApi.Domain.Common;
 using ShelfApi.Domain.ConfigurationAggregate;
+using ShelfApi.Domain.OrderAggregate;
+using ShelfApi.Domain.ProductAggregate;
 using ShelfApi.Domain.UserAggregate;
 
 namespace ShelfApi.Infrastructure.Data;
@@ -11,6 +13,11 @@ namespace ShelfApi.Infrastructure.Data;
 public class ShelfApiDbContext : IdentityDbContext<User, Role, ulong>, IShelfApiDbContext
 {
     public DbSet<Configs> Configs { get; set; }
+
+    public DbSet<Product> Products { get; set; }
+
+    public DbSet<Order> Orders { get; set; }
+    public DbSet<OrderLine> OrderLines { get; set; }
 
     private ShelfApiDbContext() { }
 
@@ -41,6 +48,18 @@ public class ShelfApiDbContext : IdentityDbContext<User, Role, ulong>, IShelfApi
 
         #endregion
 
+        #region Product
+
+        builder.ApplyConfiguration(new ProductConfiguration());
+
+        #endregion
+
+        #region Order
+
+        builder.ApplyConfiguration(new OrderConfiguration());
+        builder.ApplyConfiguration(new OrderLineConfiguration());
+
+        #endregion
     }
 
     public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess,

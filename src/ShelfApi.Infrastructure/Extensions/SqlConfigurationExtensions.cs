@@ -7,16 +7,16 @@ namespace ShelfApi.Infrastructure.Extensions;
 
 public static class SqlConfigurationExtensions
 {
-    public static void ConfigureOrders<T>(this EntityTypeBuilder<T> builder, int startOrderNumber = 100) where T : class
+    public static void SetOrderForAllProperties<T>(this EntityTypeBuilder<T> builder, int startOrderNumber = 100) where T : class
     {
-        var columns = builder.Metadata.ClrType
+        var properties = builder.Metadata.ClrType
             .GetProperties(BindingFlags.Public | BindingFlags.Instance)
             .Select(x => x.Name)
             .ToList();
 
-        foreach (var column in columns)
+        foreach (var property in properties)
         {
-            builder.Property(column).HasColumnOrder(startOrderNumber);
+            builder.Property(property).HasColumnOrder(startOrderNumber);
             startOrderNumber++;
         }
     }

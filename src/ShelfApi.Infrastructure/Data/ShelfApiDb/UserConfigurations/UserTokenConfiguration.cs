@@ -11,7 +11,7 @@ public class UserTokenConfiguration : IEntityTypeConfiguration<IdentityUserToken
     {
         builder.ToTable("UserTokens");
 
-        builder.ConfigureOrders();
+        builder.SetOrderForAllProperties();
         builder.ConfigureCreatedAt();
         builder.ConfigureModifiedAt();
     }

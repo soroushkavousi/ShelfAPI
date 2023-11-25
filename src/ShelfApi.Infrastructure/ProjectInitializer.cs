@@ -23,7 +23,7 @@ public static class ProjectInitializer
     {
         if (string.IsNullOrWhiteSpace(dbConnectionString))
         {
-            var message = "Please provide connection string!";
+            string message = "Please provide connection string!";
             Console.WriteLine($"Error: {message}");
             throw new Exception(message);
         }
@@ -31,7 +31,7 @@ public static class ProjectInitializer
 
     private static void LoadConfigsFromTheDatabase(EnvironmentName environmentName, string dbConnectionString)
     {
-        var dbContext = new ShelfApiDbContext(dbConnectionString);
+        ShelfApiDbContext dbContext = new(dbConnectionString);
 
         List<Configs> configs = dbContext.Configs
             .Where(e => e.EnvironmentName == environmentName)

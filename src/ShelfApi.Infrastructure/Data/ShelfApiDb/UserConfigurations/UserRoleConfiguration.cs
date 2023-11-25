@@ -11,7 +11,7 @@ public class UserRoleConfiguration : IEntityTypeConfiguration<IdentityUserRole<u
     {
         builder.ToTable("UserRoles");
 
-        builder.ConfigureOrders();
+        builder.SetOrderForAllProperties();
         builder.ConfigureCreatedAt();
         builder.ConfigureModifiedAt();
     }

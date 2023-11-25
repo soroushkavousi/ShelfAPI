@@ -6,7 +6,7 @@ using ShelfApi.Application.Common;
 
 namespace ShelfApi.Presentation.Controllers;
 
-[Route("auth/username")]
+[Route("app/auth/username")]
 public class AppUsernameAuthController : AppBaseController
 {
     public AppUsernameAuthController(ISender sender) : base(sender) { }

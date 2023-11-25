@@ -16,17 +16,14 @@ public class SignUpWithEmailCommandHandler : ApiRequestHandler<SignUpWithEmailCo
         _idManager = idManager;
     }
 
-    protected override async Task ValidateAsync(SignUpWithEmailCommand request, CancellationToken cancellationToken)
+    protected override async Task<bool> OperateAsync(SignUpWithEmailCommand request, CancellationToken cancellationToken)
     {
         if (await _userManager.Users.AnyAsync(u => u.NormalizedEmail == request.EmailAddress.ToUpper(), cancellationToken: cancellationToken))
             throw new ALreadyExistsException(ErrorField.EMAIL, request.EmailAddress);
 
         if (await _userManager.Users.AnyAsync(u => u.NormalizedUserName == request.Username.ToUpper(), cancellationToken: cancellationToken))
             throw new ALreadyExistsException(ErrorField.USERNAME, request.Username);
-    }
 
-    protected override async Task<bool> OperateAsync(SignUpWithEmailCommand request, CancellationToken cancellationToken)
-    {
         var userId = _idManager.GenerateNextUlong();
         var user = new User(userId, false, request.Username, request.EmailAddress);
 

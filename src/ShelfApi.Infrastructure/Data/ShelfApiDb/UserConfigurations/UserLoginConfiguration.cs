@@ -11,11 +11,12 @@ public class UserLoginConfiguration : IEntityTypeConfiguration<IdentityUserLogin
     {
         builder.ToTable("UserLogins");
 
-        builder.ConfigureOrders();
-        builder.ConfigureCreatedAt();
-        builder.ConfigureModifiedAt();
+        builder.SetOrderForAllProperties();
 
         builder.Property(x => x.UserId)
-            .HasColumnOrder(0);
+            .HasColumnOrder(1);
+
+        builder.ConfigureCreatedAt();
+        builder.ConfigureModifiedAt();
     }
 }

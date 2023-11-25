@@ -1,4 +1,5 @@
-﻿using MediatR.Pipeline;
+﻿using Mapster;
+using MediatR.Pipeline;
 using Microsoft.Extensions.DependencyInjection;
 using ShelfApi.Application.AuthApplication;
 using ShelfApi.Application.ErrorApplication;
@@ -13,5 +14,7 @@ public static class ServiceInjector
         services.AddScoped<TokenService>();
         services.AddMediatR(cfg => { cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()); });
         services.AddTransient(typeof(IRequestExceptionHandler<,,>), typeof(ExceptionHandler<,,>));
+
+        TypeAdapterConfig.GlobalSettings.Scan(Assembly.GetExecutingAssembly());
     }
 }

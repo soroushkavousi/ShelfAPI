@@ -4,6 +4,8 @@ namespace ShelfApi.Domain.ConfigurationAggregate;
 
 public class Configs : BaseModel<byte>
 {
+    private Configs() { }
+
     public Configs(EnvironmentName environmentName, ConfigsCategory category, string value) : base()
     {
         EnvironmentName = environmentName;
@@ -21,6 +23,7 @@ public class Configs : BaseModel<byte>
     public string Value { get; }
 
     public static JwtConfigs Jwt { get; private set; }
+    public static FinancialConfigs Financial { get; private set; }
 
     public void SetAsStatic()
     {
@@ -28,6 +31,9 @@ public class Configs : BaseModel<byte>
         {
             case ConfigsCategory.JWT:
                 Jwt = Value.FromJson<JwtConfigs>();
+                break;
+            case ConfigsCategory.FINANCIAL:
+                Financial = Value.FromJson<FinancialConfigs>();
                 break;
             default:
                 break;
@@ -41,4 +47,5 @@ public class Configs : BaseModel<byte>
 }
 
 public record JwtConfigs(string Key, string Issuer, string Audience);
+public record FinancialConfigs(decimal TaxPercentage);
 

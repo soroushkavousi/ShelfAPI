@@ -11,7 +11,7 @@ public class UserClaimConfiguration : IEntityTypeConfiguration<IdentityUserClaim
     {
         builder.ToTable("UserClaims");
 
-        builder.ConfigureOrders();
+        builder.SetOrderForAllProperties();
         builder.ConfigureCreatedAt();
         builder.ConfigureModifiedAt();
     }

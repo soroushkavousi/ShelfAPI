@@ -5,7 +5,7 @@ using ShelfApi.Application.ProductApplication;
 
 namespace ShelfApi.Presentation.Controllers;
 
-[Route("products")]
+[Route("app/products")]
 public class AppProductController : AppBaseController
 {
     public AppProductController(ISender sender) : base(sender) { }
