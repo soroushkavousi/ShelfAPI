@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Bitiano.DevKit\Bitiano.DevKit.csproj" />
+    <ProjectReference Include="..\Bitiano.DevKit\Bitiano.DevKit.csproj" />
   </ItemGroup>
 
 </Project>

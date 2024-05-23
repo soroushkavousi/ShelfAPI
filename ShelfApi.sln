@@ -19,7 +19,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bitiano.DevKit", "Bitiano.DevKit\Bitiano.DevKit.csproj", "{3E0FAC22-F6F6-4F82-9532-DC7D361C4763}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bitiano.DevKit", "src\Bitiano.DevKit\Bitiano.DevKit.csproj", "{3E0FAC22-F6F6-4F82-9532-DC7D361C4763}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
