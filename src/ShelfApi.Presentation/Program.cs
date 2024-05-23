@@ -25,7 +25,7 @@ try
         o.DocumentFilter<SwaggerDocumentFilter>();
     });
     services.AddPresentation();
-    services.AddInfrastructure(EnvironmentVariable.ConnectionString.Value);
+    services.AddInfrastructure(EnvironmentVariables.ConnectionString.Value);
     services.AddApplication();
 
     var app = builder.Build();

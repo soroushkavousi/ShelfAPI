@@ -14,10 +14,10 @@ public static class ProjectInitializer
             return;
 
         _initialized = true;
-        EnvironmentName environmentName = EnvironmentVariable.EnvironmentName.Value.ToEnum<EnvironmentName>()
+        EnvironmentName environmentName = EnvironmentVariables.EnvironmentName.Value.ToEnum<EnvironmentName>()
             ?? EnvironmentName.DEVELOPMENT;
 
-        Infrastructure.ProjectInitializer.Initialize(environmentName, EnvironmentVariable.ConnectionString.Value);
+        Infrastructure.ProjectInitializer.Initialize(environmentName, EnvironmentVariables.ConnectionString.Value);
         Console.WriteLine($"Project '{nameof(Presentation)}' has initialized successfully.");
     }
 }

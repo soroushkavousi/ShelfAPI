@@ -1,29 +1,17 @@
-﻿namespace ShelfApi.Presentation.Tools;
+﻿namespace Bitiano.DevKit;
 
 public class EnvironmentVariable
 {
-    public string Key { get; private set; }
+    public string Key { get; }
     public string Value { get; private set; }
-    public string Default { get; private set; }
+    public string Default { get; }
 
-    private EnvironmentVariable(string key, string @default)
+    public EnvironmentVariable(string key, string @default)
     {
         Key = key;
         Default = @default;
         ReadValue();
     }
-
-    public static EnvironmentVariable EnvironmentName { get; } = new
-    (
-        key: "SHELF_API_ASPNETCORE_ENVIRONMENT",
-        @default: "Production"
-    );
-
-    public static EnvironmentVariable ConnectionString { get; } = new
-    (
-        key: "SHELF_API_CONNECTION_STRING",
-        @default: null
-    );
 
     private void ReadValue()
     {
@@ -42,4 +30,3 @@ public class EnvironmentVariable
         Value = Default;
     }
 }
-

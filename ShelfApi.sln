@@ -9,15 +9,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShelfApi.Domain", "src\Shel
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShelfApi.Application", "src\ShelfApi.Application\ShelfApi.Application.csproj", "{4B2182A2-C282-473D-B7BE-71119BF936BD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShelfApi.Infrastructure", "src\ShelfApi.Infrastructure\ShelfApi.Infrastructure.csproj", "{DE2F676D-A16A-414B-9D72-64A987BA41F7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShelfApi.Infrastructure", "src\ShelfApi.Infrastructure\ShelfApi.Infrastructure.csproj", "{DE2F676D-A16A-414B-9D72-64A987BA41F7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShelfApi.Presentation", "src\ShelfApi.Presentation\ShelfApi.Presentation.csproj", "{08EECFE3-C5A3-4D34-920D-80961D360240}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShelfApi.Presentation", "src\ShelfApi.Presentation\ShelfApi.Presentation.csproj", "{08EECFE3-C5A3-4D34-920D-80961D360240}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B67CF9BF-C292-41AF-AE35-803704109AE4}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
 		README.md = README.md
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bitiano.DevKit", "Bitiano.DevKit\Bitiano.DevKit.csproj", "{3E0FAC22-F6F6-4F82-9532-DC7D361C4763}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +43,10 @@ Global
 		{08EECFE3-C5A3-4D34-920D-80961D360240}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{08EECFE3-C5A3-4D34-920D-80961D360240}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{08EECFE3-C5A3-4D34-920D-80961D360240}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E0FAC22-F6F6-4F82-9532-DC7D361C4763}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E0FAC22-F6F6-4F82-9532-DC7D361C4763}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E0FAC22-F6F6-4F82-9532-DC7D361C4763}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E0FAC22-F6F6-4F82-9532-DC7D361C4763}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -50,6 +56,7 @@ Global
 		{4B2182A2-C282-473D-B7BE-71119BF936BD} = {897BF6FB-AC6C-4258-AE0B-0420641E0244}
 		{DE2F676D-A16A-414B-9D72-64A987BA41F7} = {897BF6FB-AC6C-4258-AE0B-0420641E0244}
 		{08EECFE3-C5A3-4D34-920D-80961D360240} = {897BF6FB-AC6C-4258-AE0B-0420641E0244}
+		{3E0FAC22-F6F6-4F82-9532-DC7D361C4763} = {897BF6FB-AC6C-4258-AE0B-0420641E0244}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F7F53295-1D00-4BAA-AC0D-B71E49FB1272}
