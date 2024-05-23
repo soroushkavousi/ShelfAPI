@@ -1,5 +1,6 @@
 # Shelf Api (E-Commerce sample of ASP.NET Core Web API)
 
+[![.NET Version](https://img.shields.io/badge/.net_version-v8.0-4CAF50?logo=.net)](https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-8/overview)
 
 ### Features
 
