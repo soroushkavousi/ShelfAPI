@@ -6,7 +6,8 @@ namespace ShelfApi.Domain.OrderAggregate;
 
 public class OrderLine : BaseModel<ulong>
 {
-    private OrderLine() { }
+    private OrderLine()
+    { }
 
     public OrderLine(ulong id, ulong orderId, Product product, int quantity) : base(id)
     {

@@ -6,12 +6,14 @@ namespace ShelfApi.Domain.OrderAggregate;
 
 public class Order : BaseModel<ulong>
 {
-    private Order() { }
+    private Order()
+    { }
 
-    public Order(ulong id, ulong userId, List<OrderLine> orderLines) : base(id)
+    public Order(ulong id, ulong userId, decimal taxPercentage, List<OrderLine> orderLines) : base(id)
     {
         UserId = userId;
         State = OrderState.CREATED;
+        TaxPercentage = taxPercentage;
         SetOrderLines(orderLines);
     }
 
@@ -19,13 +21,19 @@ public class Order : BaseModel<ulong>
     {
         Lines = orderLines;
         ListPrice = new(orderLines.Sum(x => x.TotalPrice.Value));
-        TaxPrice = ListPrice.GetTaxPrice();
+        OnOrderLineChanged();
+    }
+
+    private void OnOrderLineChanged()
+    {
+        TaxPrice = ListPrice.GetTax(TaxPercentage);
         NetPrice = ListPrice + TaxPrice;
     }
 
     public ulong UserId { get; }
     public User User { get; }
     public OrderState State { get; }
+    public decimal TaxPercentage { get; }
     public List<OrderLine> Lines { get; private set; }
     public Price ListPrice { get; private set; }
     public Price TaxPrice { get; private set; }

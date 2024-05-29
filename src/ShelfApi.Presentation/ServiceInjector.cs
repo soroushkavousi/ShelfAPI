@@ -2,9 +2,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
-using ShelfApi.Domain.ConfigurationAggregate;
+using ShelfApi.Domain.BaseDataAggregate;
 using ShelfApi.Domain.UserAggregate;
-using ShelfApi.Infrastructure.Data;
+using ShelfApi.Infrastructure.Data.ShelfApiDb;
 using ShelfApi.Presentation.Tools;
 using System.Text;
 
@@ -12,15 +12,15 @@ namespace ShelfApi.Presentation;
 
 public static class ServiceInjector
 {
-    public static void AddPresentation(this IServiceCollection services)
+    public static void AddPresentation(this IServiceCollection services, JwtSettings jwtSettings)
     {
-        services.AddAuth();
+        services.AddAuth(jwtSettings);
     }
 
-    private static void AddAuth(this IServiceCollection services)
+    private static void AddAuth(this IServiceCollection services, JwtSettings jwtSettings)
     {
         services.AddIdentity();
-        services.AddAuthentication();
+        services.AddAuthentication(jwtSettings);
         services.AddAuthorization();
     }
 
@@ -40,7 +40,7 @@ public static class ServiceInjector
         .AddDefaultTokenProviders();
     }
 
-    private static void AddAuthentication(this IServiceCollection services)
+    private static void AddAuthentication(this IServiceCollection services, JwtSettings jwtSettings)
     {
         services.AddAuthentication(options =>
         {
@@ -56,9 +56,9 @@ public static class ServiceInjector
                 ValidateLifetime = true,
                 ValidateIssuerSigningKey = true,
                 ClockSkew = TimeSpan.Zero,
-                ValidIssuer = Configs.Jwt.Issuer,
-                ValidAudience = Configs.Jwt.Audience,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configs.Jwt.Key))
+                ValidIssuer = jwtSettings.Issuer,
+                ValidAudience = jwtSettings.Audience,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Key))
             };
         });
     }

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
-using ShelfApi.Domain.ConfigurationAggregate;
+using ShelfApi.Application.BaseDataApplication.Interfaces;
 using ShelfApi.Domain.UserAggregate;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -8,22 +8,18 @@ using System.Text;
 
 namespace ShelfApi.Application.AuthApplication;
 
-public class TokenService
+public class TokenService(IBaseDataService baseDataService, UserManager<User> userManager)
 {
-    private readonly UserManager<User> _userManager;
-
-    public TokenService(UserManager<User> userManager)
-    {
-        _userManager = userManager;
-    }
+    private readonly IBaseDataService _baseDataService = baseDataService;
+    private readonly UserManager<User> _userManager = userManager;
 
     public async Task<UserCredentialDto> GenerateAccessTokenAsync(User user)
     {
-        List<Claim> authClaims = new()
-        {
+        List<Claim> authClaims =
+        [
             new(ClaimTypes.NameIdentifier, user.Id.ToString()),
             new(ClaimTypes.Name, user.UserName),
-        };
+        ];
 
         IList<string> userRoles = await _userManager.GetRolesAsync(user);
         authClaims.AddRange(userRoles.Select(x => new Claim(ClaimTypes.Role, x)));
@@ -40,14 +36,13 @@ public class TokenService
         return userCredential;
     }
 
-    private static string GenerateAccessToken(List<Claim> claims)
+    private string GenerateAccessToken(List<Claim> claims)
     {
-        JwtConfigs jwtConfigs = Configs.Jwt;
-        SymmetricSecurityKey authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtConfigs.Key));
+        SymmetricSecurityKey authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_baseDataService.JwtSettings.Key));
 
         JwtSecurityToken jwtToken = new JwtSecurityToken(
-            issuer: jwtConfigs.Issuer,
-            audience: jwtConfigs.Audience,
+            issuer: _baseDataService.JwtSettings.Issuer,
+            audience: _baseDataService.JwtSettings.Audience,
             claims: claims,
             expires: DateTime.Now.AddHours(24),
             signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)

@@ -2,29 +2,43 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using ShelfApi.Application.Common;
+using ShelfApi.Domain.BaseDataAggregate;
 using ShelfApi.Domain.Common;
-using ShelfApi.Domain.ConfigurationAggregate;
 using ShelfApi.Domain.OrderAggregate;
 using ShelfApi.Domain.ProductAggregate;
 using ShelfApi.Domain.UserAggregate;
+using ShelfApi.Infrastructure.Data.ShelfApiDb.BaseDataConfigurations;
+using ShelfApi.Infrastructure.Data.ShelfApiDb.OrderConfigurations;
+using ShelfApi.Infrastructure.Data.ShelfApiDb.ProductConfigurations;
+using ShelfApi.Infrastructure.Data.ShelfApiDb.UserConfigurations;
 
-namespace ShelfApi.Infrastructure.Data;
+namespace ShelfApi.Infrastructure.Data.ShelfApiDb;
 
 public class ShelfApiDbContext : IdentityDbContext<User, Role, ulong>, IShelfApiDbContext
 {
-    public DbSet<Configs> Configs { get; set; }
+    public DbSet<MainSettings> MainSettings { get; set; }
 
     public DbSet<Product> Products { get; set; }
 
     public DbSet<Order> Orders { get; set; }
     public DbSet<OrderLine> OrderLines { get; set; }
 
-    private ShelfApiDbContext() { }
+    private ShelfApiDbContext()
+    { }
 
-    public ShelfApiDbContext(DbContextOptions options) : base(options) { }
+    public ShelfApiDbContext(DbContextOptions options) : base(options)
+    {
+    }
 
     public ShelfApiDbContext(string connectionString)
         : base(CreateOptionsFromConnectionString(connectionString)) { }
+
+    protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+    {
+        configurationBuilder
+            .Properties<DateTime>()
+            .HavePrecision(2);
+    }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -40,26 +54,26 @@ public class ShelfApiDbContext : IdentityDbContext<User, Role, ulong>, IShelfApi
         builder.ApplyConfiguration(new UserLoginConfiguration());
         builder.ApplyConfiguration(new UserTokenConfiguration());
 
-        #endregion
+        #endregion User Configs
 
-        #region Configuration
+        #region Settings
 
-        builder.ApplyConfiguration(new ConfigsConfiguration());
+        builder.ApplyConfiguration(new MainSettingsConfiguration());
 
-        #endregion
+        #endregion Settings
 
         #region Product
 
         builder.ApplyConfiguration(new ProductConfiguration());
 
-        #endregion
+        #endregion Product
 
         #region Order
 
         builder.ApplyConfiguration(new OrderConfiguration());
         builder.ApplyConfiguration(new OrderLineConfiguration());
 
-        #endregion
+        #endregion Order
     }
 
     public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess,
@@ -77,24 +91,15 @@ public class ShelfApiDbContext : IdentityDbContext<User, Role, ulong>, IShelfApi
 
         EditedEntities.ForEach(e =>
         {
-            e.Property(nameof(BaseModel<object>.ModifiedAt)).CurrentValue = DateTime.UtcNow;
+            e.Property(nameof(BaseModel.ModifiedAt)).CurrentValue = DateTime.UtcNow;
         });
     }
 
-    public async Task BulkInsertAsync<T>(IList<T> entities, BulkConfig bulkConfig = null, Action<decimal> progress = null, CancellationToken cancellationToken = default) where T : class
-    {
-        await DbContextBulkExtensions.BulkInsertAsync(this, entities, bulkConfig, progress, cancellationToken: cancellationToken);
-    }
+    public Task BulkInsertAsync<T>(IEnumerable<T> entities, BulkConfig bulkConfig = null, Action<decimal> progress = null, Type type = null, CancellationToken cancellationToken = default) where T : class
+        => DbContextBulkExtensions.BulkInsertAsync(this, entities, bulkConfig, progress, type, cancellationToken);
 
-    public async Task BulkDeleteAsync<T>(IList<T> entities, BulkConfig bulkConfig = null, Action<decimal> progress = null, CancellationToken cancellationToken = default) where T : class
-    {
-        await DbContextBulkExtensions.BulkDeleteAsync(this, entities, bulkConfig, progress, cancellationToken: cancellationToken);
-    }
-
-    public async Task BulkUpdateAsync<T>(IList<T> entities, BulkConfig bulkConfig = null, Action<decimal> progress = null, CancellationToken cancellationToken = default) where T : class
-    {
-        await DbContextBulkExtensions.BulkUpdateAsync(this, entities, bulkConfig, progress, cancellationToken: cancellationToken);
-    }
+    public Task BulkInsertAsync<T>(IEnumerable<T> entities, Action<BulkConfig> bulkAction, Action<decimal> progress = null, Type type = null, CancellationToken cancellationToken = default) where T : class
+        => DbContextBulkExtensions.BulkInsertAsync(this, entities, bulkAction, progress, type, cancellationToken);
 
     public static DbContextOptions<ShelfApiDbContext> CreateOptionsFromConnectionString(string connectionString)
     {

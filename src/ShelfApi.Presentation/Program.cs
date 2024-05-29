@@ -3,32 +3,36 @@ using ShelfApi.Application;
 using ShelfApi.Infrastructure;
 using ShelfApi.Presentation;
 using ShelfApi.Presentation.Middlewares;
+using ShelfApi.Presentation.SettingAggregate;
 using ShelfApi.Presentation.Tools;
 using System.Text.Json.Serialization;
 
-ShelfApi.Presentation.ProjectInitializer.Initialize();
+StartupSettings startupSettings = await ProjectInitializer.InitializeAsync();
 try
 {
-    var builder = WebApplication.CreateBuilder(args);
+    WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
     builder.Host.UseSerilog();
 
-    var services = builder.Services;
+    IServiceCollection services = builder.Services;
+
     services.AddControllers()
         .AddJsonOptions(o =>
         {
             o.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
         });
+
     services.AddEndpointsApiExplorer();
     services.AddSwaggerGen(o =>
     {
         o.DocumentFilter<SwaggerDocumentFilter>();
     });
-    services.AddPresentation();
-    services.AddInfrastructure(EnvironmentVariables.ConnectionString.Value);
+
+    services.AddPresentation(startupSettings.JwtSettings);
+    services.AddInfrastructure(startupSettings.ShelfApiDbConnectionString);
     services.AddApplication();
 
-    var app = builder.Build();
+    WebApplication app = builder.Build();
 
     if (app.Environment.IsDevelopment())
     {
