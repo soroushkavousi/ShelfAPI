@@ -12,9 +12,13 @@
 - **Role Based Authorization**, has admin and user routes
 - **Serilog** for logging with **Seq** sink
 - **Mapster** for mapping Models to DTOs
-- Using **environment variables** for loading connection string
-- Storing **project configurations in a database table** with JSON format
 - Entity Framework Core for **SQL Server**
+- Using **Startup Data**
+	- Load **environment variables**, such as connection string
+	- Load **service registeration settings** from **database**, such as JWT settings
+- Using **Base Data Service**
+	- Load **project main settings** from database, which are stored as several JSON values
+	- Load other **project data** from database for **caching**
 - **OwnsOne** in EF Core for owning **value objects** such as Price in Product
 - **IdGen** to generate Snowflake-based globally unique ulong IDs
 - Has **Product, Order, OrderLine**
