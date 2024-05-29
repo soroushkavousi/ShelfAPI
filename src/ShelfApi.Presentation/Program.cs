@@ -7,7 +7,7 @@ using ShelfApi.Presentation.SettingAggregate;
 using ShelfApi.Presentation.Tools;
 using System.Text.Json.Serialization;
 
-StartupSettings startupSettings = await ProjectInitializer.InitializeAsync();
+StartupData startupDate = await ProjectInitializer.InitializeAsync();
 try
 {
     WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
@@ -28,8 +28,8 @@ try
         o.DocumentFilter<SwaggerDocumentFilter>();
     });
 
-    services.AddPresentation(startupSettings.JwtSettings);
-    services.AddInfrastructure(startupSettings.ShelfApiDbConnectionString);
+    services.AddPresentation(startupDate.JwtSettings);
+    services.AddInfrastructure(startupDate.ShelfApiDbConnectionString);
     services.AddApplication();
 
     WebApplication app = builder.Build();

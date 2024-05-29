@@ -8,25 +8,25 @@ using ShelfApi.Presentation.Tools;
 
 namespace ShelfApi.Presentation.SettingAggregate;
 
-public record StartupSettings
+public record StartupData
 {
     private readonly static MainSettingsCategory[] StartupSettingCategories =
     [
         MainSettingsCategory.JWT
     ];
 
-    private StartupSettings() { }
+    private StartupData() { }
 
     public AppEnvironmentName EnvironmentName { get; private set; }
     public string ShelfApiDbConnectionString { get; private set; }
     public JwtSettings JwtSettings { get; private set; } = new("hj4EvE7fdZrliSByeJfD5vErKXkdIBSV", "http://localhost", "http://localhost");
 
-    public static async Task<StartupSettings> InitializeAsync()
+    public static async Task<StartupData> InitializeAsync()
     {
-        StartupSettings startupSettings = new();
-        startupSettings.LoadFromEnvironmentVariables();
-        await startupSettings.LoadFromDatabaseAsync();
-        return startupSettings;
+        StartupData startupData = new();
+        startupData.LoadFromEnvironmentVariables();
+        await startupData.LoadFromDatabaseAsync();
+        return startupData;
     }
 
     private void LoadFromEnvironmentVariables()

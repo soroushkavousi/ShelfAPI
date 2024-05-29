@@ -11,12 +11,12 @@ namespace ShelfApi.Presentation;
 
 public static class ProjectInitializer
 {
-    public static async Task<StartupSettings> InitializeAsync()
+    public static async Task<StartupData> InitializeAsync()
     {
-        StartupSettings startupSettings = await StartupSettings.InitializeAsync();
+        StartupData startupData = await StartupData.InitializeAsync();
         ConfigSerilog();
-        Log.Information("startupSettings: {startupSettings}", startupSettings.ToJson());
-        return startupSettings;
+        Log.Information("startupData: {startupData}", startupData.ToJson());
+        return startupData;
     }
 
     private static void ConfigSerilog()
