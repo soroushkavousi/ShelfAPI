@@ -1,5 +1,4 @@
 ﻿using ShelfApi.Domain.Common.Extensions;
-using ShelfApi.Domain.ConfigurationAggregate;
 
 namespace ShelfApi.Domain.FinancialAggregate;
 
@@ -17,20 +16,16 @@ public record Price
 
     private void Validate()
     {
-        if (Value < 0)
-            throw new ArgumentOutOfRangeException(nameof(Value), "price value should not be negative");
+        ArgumentOutOfRangeException.ThrowIfLessThan(Value, 0);
     }
 
-    public Price GetTaxPrice()
-        => new(Value.GetPercentage(Configs.Financial.TaxPercentage));
+    public Price GetTax(decimal taxPercentage)
+        => new(Value.GetPercentage(taxPercentage));
 
     public static Price operator +(Price p1, Price p2)
     {
-        if (p1 is null)
-            throw new ArgumentNullException(nameof(p1));
-
-        if (p2 is null)
-            throw new ArgumentNullException(nameof(p1));
+        ArgumentNullException.ThrowIfNull(p1);
+        ArgumentNullException.ThrowIfNull(p2);
 
         Price price = new(p1.Value + p2.Value);
         return price;
@@ -38,11 +33,8 @@ public record Price
 
     public static Price operator -(Price p1, Price p2)
     {
-        if (p1 is null)
-            throw new ArgumentNullException(nameof(p1));
-
-        if (p2 is null)
-            throw new ArgumentNullException(nameof(p1));
+        ArgumentNullException.ThrowIfNull(p1);
+        ArgumentNullException.ThrowIfNull(p2);
 
         Price price = new(p1.Value - p2.Value);
         return price;
@@ -50,11 +42,8 @@ public record Price
 
     public static Price operator *(Price p1, Price p2)
     {
-        if (p1 is null)
-            throw new ArgumentNullException(nameof(p1));
-
-        if (p2 is null)
-            throw new ArgumentNullException(nameof(p1));
+        ArgumentNullException.ThrowIfNull(p1);
+        ArgumentNullException.ThrowIfNull(p2);
 
         Price price = new(p1.Value * p2.Value);
         return price;
@@ -62,14 +51,9 @@ public record Price
 
     public static Price operator /(Price p1, Price p2)
     {
-        if (p1 is null)
-            throw new ArgumentNullException(nameof(p1));
-
-        if (p2 is null)
-            throw new ArgumentNullException(nameof(p1));
-
-        if (p2 == Zero)
-            throw new ArgumentOutOfRangeException(nameof(p1));
+        ArgumentNullException.ThrowIfNull(p1);
+        ArgumentNullException.ThrowIfNull(p2);
+        ArgumentOutOfRangeException.ThrowIfEqual(p2, Zero);
 
         Price price = new(Math.Round(p1.Value / p2.Value));
         return price;

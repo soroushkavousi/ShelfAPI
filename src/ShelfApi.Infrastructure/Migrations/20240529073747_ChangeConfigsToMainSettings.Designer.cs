@@ -12,8 +12,8 @@ using ShelfApi.Infrastructure.Data.ShelfApiDb;
 namespace ShelfApi.Infrastructure.Migrations
 {
     [DbContext(typeof(ShelfApiDbContext))]
-    [Migration("20231125105414_AddProductAndOrderEntities")]
-    partial class AddProductAndOrderEntities
+    [Migration("20240529073747_ChangeConfigsToMainSettings")]
+    partial class ChangeConfigsToMainSettings
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -44,12 +44,14 @@ namespace ShelfApi.Infrastructure.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
+                        .HasPrecision(2)
+                        .HasColumnType("datetime2(2)")
                         .HasColumnOrder(1000)
                         .HasDefaultValueSql("SYSUTCDATETIME()");
 
                     b.Property<DateTime?>("ModifiedAt")
-                        .HasColumnType("datetime2")
+                        .HasPrecision(2)
+                        .HasColumnType("datetime2(2)")
                         .HasColumnOrder(1001);
 
                     b.Property<byte>("RoleId")
@@ -82,12 +84,14 @@ namespace ShelfApi.Infrastructure.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
+                        .HasPrecision(2)
+                        .HasColumnType("datetime2(2)")
                         .HasColumnOrder(1000)
                         .HasDefaultValueSql("SYSUTCDATETIME()");
 
                     b.Property<DateTime?>("ModifiedAt")
-                        .HasColumnType("datetime2")
+                        .HasPrecision(2)
+                        .HasColumnType("datetime2(2)")
                         .HasColumnOrder(1001);
 
                     b.Property<decimal>("UserId")
@@ -113,12 +117,14 @@ namespace ShelfApi.Infrastructure.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
+                        .HasPrecision(2)
+                        .HasColumnType("datetime2(2)")
                         .HasColumnOrder(1000)
                         .HasDefaultValueSql("SYSUTCDATETIME()");
 
                     b.Property<DateTime?>("ModifiedAt")
-                        .HasColumnType("datetime2")
+                        .HasPrecision(2)
+                        .HasColumnType("datetime2(2)")
                         .HasColumnOrder(1001);
 
                     b.Property<string>("ProviderDisplayName")
@@ -148,12 +154,14 @@ namespace ShelfApi.Infrastructure.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
+                        .HasPrecision(2)
+                        .HasColumnType("datetime2(2)")
                         .HasColumnOrder(1000)
                         .HasDefaultValueSql("SYSUTCDATETIME()");
 
                     b.Property<DateTime?>("ModifiedAt")
-                        .HasColumnType("datetime2")
+                        .HasPrecision(2)
+                        .HasColumnType("datetime2(2)")
                         .HasColumnOrder(1001);
 
                     b.HasKey("UserId", "RoleId");
@@ -179,12 +187,14 @@ namespace ShelfApi.Infrastructure.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
+                        .HasPrecision(2)
+                        .HasColumnType("datetime2(2)")
                         .HasColumnOrder(1000)
                         .HasDefaultValueSql("SYSUTCDATETIME()");
 
                     b.Property<DateTime?>("ModifiedAt")
-                        .HasColumnType("datetime2")
+                        .HasPrecision(2)
+                        .HasColumnType("datetime2(2)")
                         .HasColumnOrder(1001);
 
                     b.Property<string>("Value")
@@ -196,44 +206,6 @@ namespace ShelfApi.Infrastructure.Migrations
                     b.ToTable("UserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("ShelfApi.Domain.ConfigurationAggregate.Configs", b =>
-                {
-                    b.Property<byte>("Id")
-                        .HasColumnType("tinyint")
-                        .HasColumnOrder(1);
-
-                    b.Property<string>("Category")
-                        .IsRequired()
-                        .HasColumnType("varchar(60)")
-                        .HasColumnOrder(101);
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(1000)
-                        .HasDefaultValueSql("SYSUTCDATETIME()");
-
-                    b.Property<string>("EnvironmentName")
-                        .IsRequired()
-                        .HasColumnType("varchar(60)")
-                        .HasColumnOrder(100);
-
-                    b.Property<DateTime?>("ModifiedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(1001);
-
-                    b.Property<string>("Value")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(max)")
-                        .HasDefaultValue("{}")
-                        .HasColumnOrder(102);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Configs");
-                });
-
             modelBuilder.Entity("ShelfApi.Domain.OrderAggregate.Order", b =>
                 {
                     b.Property<decimal>("Id")
@@ -242,12 +214,14 @@ namespace ShelfApi.Infrastructure.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
+                        .HasPrecision(2)
+                        .HasColumnType("datetime2(2)")
                         .HasColumnOrder(1000)
                         .HasDefaultValueSql("SYSUTCDATETIME()");
 
                     b.Property<DateTime?>("ModifiedAt")
-                        .HasColumnType("datetime2")
+                        .HasPrecision(2)
+                        .HasColumnType("datetime2(2)")
                         .HasColumnOrder(1001);
 
                     b.Property<string>("State")
@@ -274,12 +248,14 @@ namespace ShelfApi.Infrastructure.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
+                        .HasPrecision(2)
+                        .HasColumnType("datetime2(2)")
                         .HasColumnOrder(1000)
                         .HasDefaultValueSql("SYSUTCDATETIME()");
 
                     b.Property<DateTime?>("ModifiedAt")
-                        .HasColumnType("datetime2")
+                        .HasPrecision(2)
+                        .HasColumnType("datetime2(2)")
                         .HasColumnOrder(1001);
 
                     b.Property<decimal>("OrderId")
@@ -311,12 +287,14 @@ namespace ShelfApi.Infrastructure.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
+                        .HasPrecision(2)
+                        .HasColumnType("datetime2(2)")
                         .HasColumnOrder(1000)
                         .HasDefaultValueSql("SYSUTCDATETIME()");
 
                     b.Property<DateTime?>("ModifiedAt")
-                        .HasColumnType("datetime2")
+                        .HasPrecision(2)
+                        .HasColumnType("datetime2(2)")
                         .HasColumnOrder(1001);
 
                     b.Property<string>("Name")
@@ -332,14 +310,41 @@ namespace ShelfApi.Infrastructure.Migrations
                     b.ToTable("Products");
                 });
 
+            modelBuilder.Entity("ShelfApi.Domain.SettingAggregate.MainSettings", b =>
+                {
+                    b.Property<byte>("Category")
+                        .HasColumnType("tinyint")
+                        .HasColumnOrder(101);
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasPrecision(2)
+                        .HasColumnType("datetime2(2)")
+                        .HasColumnOrder(1000)
+                        .HasDefaultValueSql("SYSUTCDATETIME()");
+
+                    b.Property<string>("Data")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(max)")
+                        .HasDefaultValue("{}")
+                        .HasColumnOrder(102);
+
+                    b.Property<DateTime?>("ModifiedAt")
+                        .HasPrecision(2)
+                        .HasColumnType("datetime2(2)")
+                        .HasColumnOrder(1001);
+
+                    b.HasKey("Category");
+
+                    b.ToTable("MainSettings");
+                });
+
             modelBuilder.Entity("ShelfApi.Domain.UserAggregate.Role", b =>
                 {
                     b.Property<byte>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("tinyint")
                         .HasColumnOrder(1);
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<byte>("Id"));
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -348,12 +353,14 @@ namespace ShelfApi.Infrastructure.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
+                        .HasPrecision(2)
+                        .HasColumnType("datetime2(2)")
                         .HasColumnOrder(1000)
                         .HasDefaultValueSql("SYSUTCDATETIME()");
 
                     b.Property<DateTime?>("ModifiedAt")
-                        .HasColumnType("datetime2")
+                        .HasPrecision(2)
+                        .HasColumnType("datetime2(2)")
                         .HasColumnOrder(1001);
 
                     b.Property<string>("Name")
@@ -393,7 +400,8 @@ namespace ShelfApi.Infrastructure.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
+                        .HasPrecision(2)
+                        .HasColumnType("datetime2(2)")
                         .HasColumnOrder(1000)
                         .HasDefaultValueSql("SYSUTCDATETIME()");
 
@@ -419,7 +427,8 @@ namespace ShelfApi.Infrastructure.Migrations
                         .HasColumnOrder(115);
 
                     b.Property<DateTime?>("ModifiedAt")
-                        .HasColumnType("datetime2")
+                        .HasPrecision(2)
+                        .HasColumnType("datetime2(2)")
                         .HasColumnOrder(1001);
 
                     b.Property<string>("NormalizedEmail")

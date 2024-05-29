@@ -1,24 +1,32 @@
 ﻿namespace ShelfApi.Domain.Common;
 
-public abstract class BaseModel<TKey>
+public abstract class BaseModel
 {
-    protected BaseModel() { }
-
-    public BaseModel(TKey id) : this()
+    public BaseModel()
     {
-        Id = id;
         CreatedAt = DateTime.UtcNow;
     }
 
-    public TKey Id { get; }
     public DateTime CreatedAt { get; }
     public DateTime? ModifiedAt { get; private set; }
 
     public void SetModifiedAt(DateTime modifiedAt)
     {
-        if (modifiedAt <= CreatedAt)
-            throw new ArgumentOutOfRangeException(nameof(modifiedAt));
+        ArgumentOutOfRangeException.ThrowIfLessThanOrEqual(modifiedAt, CreatedAt);
 
         ModifiedAt = modifiedAt;
     }
+}
+
+public abstract class BaseModel<TKey> : BaseModel
+{
+    protected BaseModel()
+    { }
+
+    public BaseModel(TKey id) : base()
+    {
+        Id = id;
+    }
+
+    public TKey Id { get; }
 }
