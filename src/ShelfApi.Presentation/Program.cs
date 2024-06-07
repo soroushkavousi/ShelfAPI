@@ -1,4 +1,8 @@
 using Serilog;
+using Serilog.Events;
+using Serilog.Exceptions;
+using Serilog.Exceptions.Core;
+using Serilog.Exceptions.EntityFrameworkCore.Destructurers;
 using ShelfApi.Application;
 using ShelfApi.Infrastructure;
 using ShelfApi.Presentation;
@@ -7,15 +11,60 @@ using ShelfApi.Presentation.SettingAggregate;
 using ShelfApi.Presentation.Tools;
 using System.Text.Json.Serialization;
 
-StartupData startupDate = await ProjectInitializer.InitializeAsync();
+ConfigureBootstrapSerilog();
 try
 {
-    WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+    Log.Warning("Starting App...");
+    await StartAppAsync(args);
+    Log.Warning("App stopped.");
+}
+catch (Exception ex)
+{
+    Log.Fatal(ex, "App terminated unexpectedly");
+}
+finally
+{
+    Log.CloseAndFlush();
+}
 
+static void ConfigureBootstrapSerilog()
+{
+    Log.Logger = new LoggerConfiguration()
+        .Enrich.WithProperty("Application", "ShelfApi")
+        .WriteTo.Seq("http://localhost:5341")
+        .WriteTo.Console(LogEventLevel.Warning)
+        .Enrich.WithExceptionDetails(new DestructuringOptionsBuilder()
+            .WithDefaultDestructurers()
+            .WithDestructurers(new[] { new DbUpdateExceptionDestructurer() }))
+        .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
+        .MinimumLevel.Override("Microsoft.EntityFrameworkCore.Query", LogEventLevel.Error)
+        .MinimumLevel.Override("Microsoft.EntityFrameworkCore.Update", LogEventLevel.Error)
+        .MinimumLevel.Override("Microsoft.EntityFrameworkCore.Model.Validation", LogEventLevel.Error)
+        .CreateLogger();
+}
+
+static async Task StartAppAsync(string[] args)
+{
+    StartupData startupData = await StartupData.InitializeAsync();
+
+    WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+    ConfigureBuilder(builder, startupData);
+
+    WebApplication app = builder.Build();
+    ConfigureApp(app, builder.Configuration);
+
+    app.Run();
+}
+
+static void ConfigureBuilder(WebApplicationBuilder builder, StartupData startupData)
+{
     builder.Host.UseSerilog();
 
-    IServiceCollection services = builder.Services;
+    ConfigureServices(builder.Services, builder.Configuration, startupData);
+}
 
+static void ConfigureServices(IServiceCollection services, IConfiguration configuration, StartupData startupData)
+{
     services.AddControllers()
         .AddJsonOptions(o =>
         {
@@ -28,12 +77,13 @@ try
         o.DocumentFilter<SwaggerDocumentFilter>();
     });
 
-    services.AddPresentation(startupDate.JwtSettings);
-    services.AddInfrastructure(startupDate.ShelfApiDbConnectionString);
+    services.AddPresentation(startupData.JwtSettings);
+    services.AddInfrastructure(startupData.ShelfApiDbConnectionString);
     services.AddApplication();
+}
 
-    WebApplication app = builder.Build();
-
+static void ConfigureApp(WebApplication app, IConfiguration configuration)
+{
     if (app.Environment.IsDevelopment())
     {
         app.UseSwagger();
@@ -45,13 +95,4 @@ try
     app.UseAuthorization();
     app.UseAuthorization();
     app.MapControllers();
-    app.Run();
-}
-catch (Exception ex)
-{
-    Log.Fatal(ex, "Application terminated unexpectedly");
-}
-finally
-{
-    Log.CloseAndFlush();
 }
