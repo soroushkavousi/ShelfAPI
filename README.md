@@ -16,9 +16,9 @@
 - Using **Startup Data**
 	- Load **environment variables**, such as connection string
 	- Load **service registeration settings** from **database**, such as JWT settings
-- Using **Base Data Service**
-	- Load **project main settings** from database, which are stored as several JSON values
-	- Load other **project data** from database for **caching**
+- Utilizing **Base Data Service**
+	- Retrieve **project settings** stored as JSON values from a dedicated database table
+	- Fetch **caching data from various tables**
 - **OwnsOne** in EF Core for owning **value objects** such as Price in Product
 - **IdGen** to generate Snowflake-based globally unique ulong IDs
 - Has **Product, Order, OrderLine**

@@ -1,6 +1,6 @@
 ﻿namespace ShelfApi.Domain.BaseDataAggregate;
 
-public enum MainSettingsCategory : byte
+public enum ProjectSettingId : byte
 {
     JWT = 1,
     FINANCIAL = 2,

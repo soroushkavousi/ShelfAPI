@@ -16,7 +16,7 @@ namespace ShelfApi.Infrastructure.Data.ShelfApiDb;
 
 public class ShelfApiDbContext : IdentityDbContext<User, Role, ulong>, IShelfApiDbContext
 {
-    public DbSet<MainSettings> MainSettings { get; set; }
+    public DbSet<ProjectSetting> ProjectSettings { get; set; }
 
     public DbSet<Product> Products { get; set; }
 
@@ -58,7 +58,7 @@ public class ShelfApiDbContext : IdentityDbContext<User, Role, ulong>, IShelfApi
 
         #region Settings
 
-        builder.ApplyConfiguration(new MainSettingsConfiguration());
+        builder.ApplyConfiguration(new ProjectSettingsConfiguration());
 
         #endregion Settings
 
