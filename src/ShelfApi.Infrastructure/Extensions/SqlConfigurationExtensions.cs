@@ -62,4 +62,16 @@ public static class SqlConfigurationExtensions
 
         return propertyBuilder;
     }
+
+    public static PropertyBuilder<TProperty> CaseSensitive<TProperty>(this PropertyBuilder<TProperty> propertyBuilder)
+    {
+        propertyBuilder.UseCollation(Common.Constants.CaseSensitiveCollation);
+        return propertyBuilder;
+    }
+
+    public static PropertyBuilder<TProperty> CaseInsensitive<TProperty>(this PropertyBuilder<TProperty> propertyBuilder)
+    {
+        propertyBuilder.UseCollation(Common.Constants.CaseInsensitiveCollation);
+        return propertyBuilder;
+    }
 }

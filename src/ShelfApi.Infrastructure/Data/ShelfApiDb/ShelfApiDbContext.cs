@@ -7,6 +7,7 @@ using ShelfApi.Domain.Common;
 using ShelfApi.Domain.OrderAggregate;
 using ShelfApi.Domain.ProductAggregate;
 using ShelfApi.Domain.UserAggregate;
+using ShelfApi.Infrastructure.Common;
 using ShelfApi.Infrastructure.Data.ShelfApiDb.BaseDataConfigurations;
 using ShelfApi.Infrastructure.Data.ShelfApiDb.OrderConfigurations;
 using ShelfApi.Infrastructure.Data.ShelfApiDb.ProductConfigurations;
@@ -35,6 +36,8 @@ public class ShelfApiDbContext : IdentityDbContext<User, Role, ulong>, IShelfApi
 
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
     {
+        configurationBuilder.Properties<string>().UseCollation("case-insensitive");
+
         configurationBuilder
             .Properties<DateTime>()
             .HavePrecision(2);
@@ -43,6 +46,8 @@ public class ShelfApiDbContext : IdentityDbContext<User, Role, ulong>, IShelfApi
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
+
+        builder.HasCollation(Constants.CaseInsensitiveCollation, locale: "und-u-ks-level2", provider: "icu", deterministic: false);
 
         #region User Configs
 
