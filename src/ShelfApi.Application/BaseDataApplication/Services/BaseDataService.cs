@@ -14,17 +14,17 @@ public class BaseDataService : IBaseDataService
     {
         List<Task> tasks = [];
 
-        tasks.Add(LoadMainSettingsAsync(shelfApiDbContext));
+        tasks.Add(LoadProjectSettingsAsync(shelfApiDbContext));
 
         await Task.WhenAll(tasks);
     }
 
-    private async Task LoadMainSettingsAsync(IShelfApiDbContext shelfApiDbContext)
+    private async Task LoadProjectSettingsAsync(IShelfApiDbContext shelfApiDbContext)
     {
-        Dictionary<MainSettingsCategory, string> mainSettings = await shelfApiDbContext.MainSettings
-            .ToDictionaryAsync(x => x.Category, x => x.Data);
+        Dictionary<ProjectSettingId, string> projectSettings = await shelfApiDbContext.ProjectSettings
+            .ToDictionaryAsync(x => x.Id, x => x.Data);
 
-        JwtSettings = mainSettings[MainSettingsCategory.JWT].FromJson<JwtSettings>();
-        FinancialSettings = mainSettings[MainSettingsCategory.FINANCIAL].FromJson<FinancialSettings>();
+        JwtSettings = projectSettings[ProjectSettingId.JWT].FromJson<JwtSettings>();
+        FinancialSettings = projectSettings[ProjectSettingId.FINANCIAL].FromJson<FinancialSettings>();
     }
 }

@@ -9,7 +9,7 @@ namespace ShelfApi.Application.Common;
 
 public interface IShelfApiDbContext : IDbContext
 {
-    DbSet<MainSettings> MainSettings { get; set; }
+    DbSet<ProjectSetting> ProjectSettings { get; set; }
 
     DbSet<IdentityUserRole<ulong>> UserRoles { get; set; }
     DbSet<Role> Roles { get; set; }

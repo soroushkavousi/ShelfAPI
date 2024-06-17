@@ -16,7 +16,7 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
         builder.ConfigureKey(x => x.Id);
 
         builder.Property(x => x.Id)
-            .HasColumnType("tinyint");
+            .HasColumnType("smallint");
 
         builder.Property(x => x.CreatedAt)
             .ConfigureCreatedAt();

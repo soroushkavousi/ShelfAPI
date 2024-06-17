@@ -10,9 +10,9 @@ namespace ShelfApi.Presentation.SettingAggregate;
 
 public record StartupData
 {
-    private readonly static MainSettingsCategory[] StartupSettingCategories =
+    private readonly static ProjectSettingId[] StartupSettingCategories =
     [
-        MainSettingsCategory.JWT
+        ProjectSettingId.JWT
     ];
 
     private StartupData() { }
@@ -48,15 +48,15 @@ public record StartupData
         ShelfApiDbContext shelfApiDbContext = new(ShelfApiDbConnectionString);
         try
         {
-            Dictionary<MainSettingsCategory, string> mainSettings = await shelfApiDbContext.MainSettings
-                .Where(x => StartupSettingCategories.Contains(x.Category))
-                .ToDictionaryAsync(x => x.Category, x => x.Data);
+            Dictionary<ProjectSettingId, string> projectSettings = await shelfApiDbContext.ProjectSettings
+                .Where(x => StartupSettingCategories.Contains(x.Id))
+                .ToDictionaryAsync(x => x.Id, x => x.Data);
 
-            JwtSettings = mainSettings[MainSettingsCategory.JWT].FromJson<JwtSettings>();
+            JwtSettings = projectSettings[ProjectSettingId.JWT].FromJson<JwtSettings>();
         }
         catch (Exception ex)
         {
-            await Console.Out.WriteLineAsync($"Could not load MainSettings because of {ex.GetType().Name} {ex.Message}");
+            await Console.Out.WriteLineAsync($"Could not load ProjectSettings because of {ex.GetType().Name} {ex.Message}");
         }
         finally
         {

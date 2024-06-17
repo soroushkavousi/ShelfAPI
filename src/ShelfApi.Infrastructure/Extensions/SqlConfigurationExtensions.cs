@@ -40,7 +40,7 @@ public static class SqlConfigurationExtensions
         => propertyBuilder
             .IsRequired(true)
             .HasColumnOrder(1000)
-            .HasDefaultValueSql("SYSUTCDATETIME()");
+            .HasDefaultValueSql("now() at time zone 'utc'");
 
     public static PropertyBuilder<TProperty> ConfigureCreatedAt<TProperty>(this PropertyBuilder<TProperty> propertyBuilder)
     {
@@ -60,6 +60,18 @@ public static class SqlConfigurationExtensions
         ((PropertyBuilder)propertyBuilder)
             .ConfigureModifiedAt();
 
+        return propertyBuilder;
+    }
+
+    public static PropertyBuilder<TProperty> CaseSensitive<TProperty>(this PropertyBuilder<TProperty> propertyBuilder)
+    {
+        propertyBuilder.UseCollation(Common.Constants.CaseSensitiveCollation);
+        return propertyBuilder;
+    }
+
+    public static PropertyBuilder<TProperty> CaseInsensitive<TProperty>(this PropertyBuilder<TProperty> propertyBuilder)
+    {
+        propertyBuilder.UseCollation(Common.Constants.CaseInsensitiveCollation);
         return propertyBuilder;
     }
 }

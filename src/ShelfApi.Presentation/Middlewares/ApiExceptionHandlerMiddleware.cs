@@ -7,19 +7,12 @@ using System.Net;
 
 namespace ShelfApi.Presentation.Middlewares;
 
-public class ApiExceptionHandlerMiddleware
+public class ApiExceptionHandlerMiddleware(ILogger<ApiExceptionHandlerMiddleware> logger,
+    RequestDelegate next, ISerializer serializer)
 {
-    private readonly ILogger<ApiExceptionHandlerMiddleware> _logger;
-    private readonly RequestDelegate _next;
-    private readonly ISerializer _serializer;
-
-    public ApiExceptionHandlerMiddleware(ILogger<ApiExceptionHandlerMiddleware> logger,
-        RequestDelegate next, ISerializer serializer)
-    {
-        _logger = logger;
-        _next = next;
-        _serializer = serializer;
-    }
+    private readonly ILogger<ApiExceptionHandlerMiddleware> _logger = logger;
+    private readonly RequestDelegate _next = next;
+    private readonly ISerializer _serializer = serializer;
 
     public async Task InvokeAsync(HttpContext httpContext, ISender sender)
     {
@@ -30,6 +23,7 @@ public class ApiExceptionHandlerMiddleware
         }
         catch (Exception ex)
         {
+            _logger.LogError(ex, "Could not process the request!");
             ApiException apiException = ex is ApiException ? ex as ApiException : new InternalServerException(ex);
             ErrorDto error = await sender.Send(new GetErrorQuery
             {

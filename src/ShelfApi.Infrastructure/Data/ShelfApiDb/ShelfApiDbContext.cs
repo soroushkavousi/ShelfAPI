@@ -7,6 +7,7 @@ using ShelfApi.Domain.Common;
 using ShelfApi.Domain.OrderAggregate;
 using ShelfApi.Domain.ProductAggregate;
 using ShelfApi.Domain.UserAggregate;
+using ShelfApi.Infrastructure.Common;
 using ShelfApi.Infrastructure.Data.ShelfApiDb.BaseDataConfigurations;
 using ShelfApi.Infrastructure.Data.ShelfApiDb.OrderConfigurations;
 using ShelfApi.Infrastructure.Data.ShelfApiDb.ProductConfigurations;
@@ -16,7 +17,7 @@ namespace ShelfApi.Infrastructure.Data.ShelfApiDb;
 
 public class ShelfApiDbContext : IdentityDbContext<User, Role, ulong>, IShelfApiDbContext
 {
-    public DbSet<MainSettings> MainSettings { get; set; }
+    public DbSet<ProjectSetting> ProjectSettings { get; set; }
 
     public DbSet<Product> Products { get; set; }
 
@@ -35,14 +36,14 @@ public class ShelfApiDbContext : IdentityDbContext<User, Role, ulong>, IShelfApi
 
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
     {
-        configurationBuilder
-            .Properties<DateTime>()
-            .HavePrecision(2);
+        configurationBuilder.Properties<string>().UseCollation(Constants.CaseInsensitiveCollation);
     }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
+
+        builder.HasCollation(Constants.CaseInsensitiveCollation, locale: "und-u-ks-level2", provider: "icu", deterministic: false);
 
         #region User Configs
 
@@ -58,7 +59,7 @@ public class ShelfApiDbContext : IdentityDbContext<User, Role, ulong>, IShelfApi
 
         #region Settings
 
-        builder.ApplyConfiguration(new MainSettingsConfiguration());
+        builder.ApplyConfiguration(new ProjectSettingsConfiguration());
 
         #endregion Settings
 
@@ -104,7 +105,7 @@ public class ShelfApiDbContext : IdentityDbContext<User, Role, ulong>, IShelfApi
     public static DbContextOptions<ShelfApiDbContext> CreateOptionsFromConnectionString(string connectionString)
     {
         var optionsBuilder = new DbContextOptionsBuilder<ShelfApiDbContext>();
-        optionsBuilder.UseSqlServer(connectionString);
+        optionsBuilder.UseNpgsql(connectionString);
         return optionsBuilder.Options;
     }
 }

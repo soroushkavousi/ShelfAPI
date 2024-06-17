@@ -21,7 +21,7 @@ public static class ServiceInjector
         services.AddScoped<IShelfApiDbContext, ShelfApiDbContext>();
         services.AddDbContext<ShelfApiDbContext>(options =>
         {
-            options.UseSqlServer(shelfApiDbConnectionString)
+            options.UseNpgsql(shelfApiDbConnectionString)
                 .LogTo(message => Debug.WriteLine(message), Microsoft.Extensions.Logging.LogLevel.Information);
             options.EnableSensitiveDataLogging(true);
         });
