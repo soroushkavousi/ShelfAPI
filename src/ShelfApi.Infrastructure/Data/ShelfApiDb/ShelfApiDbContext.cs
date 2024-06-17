@@ -36,11 +36,7 @@ public class ShelfApiDbContext : IdentityDbContext<User, Role, ulong>, IShelfApi
 
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
     {
-        configurationBuilder.Properties<string>().UseCollation("case-insensitive");
-
-        configurationBuilder
-            .Properties<DateTime>()
-            .HavePrecision(2);
+        configurationBuilder.Properties<string>().UseCollation(Constants.CaseInsensitiveCollation);
     }
 
     protected override void OnModelCreating(ModelBuilder builder)
@@ -109,7 +105,7 @@ public class ShelfApiDbContext : IdentityDbContext<User, Role, ulong>, IShelfApi
     public static DbContextOptions<ShelfApiDbContext> CreateOptionsFromConnectionString(string connectionString)
     {
         var optionsBuilder = new DbContextOptionsBuilder<ShelfApiDbContext>();
-        optionsBuilder.UseSqlServer(connectionString);
+        optionsBuilder.UseNpgsql(connectionString);
         return optionsBuilder.Options;
     }
 }

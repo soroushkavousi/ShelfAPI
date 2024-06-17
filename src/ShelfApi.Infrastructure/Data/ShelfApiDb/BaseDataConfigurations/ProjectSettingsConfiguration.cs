@@ -16,7 +16,6 @@ public class ProjectSettingsConfiguration : IEntityTypeConfiguration<ProjectSett
             .IsRequired();
 
         builder.Property(x => x.Data)
-            .HasColumnType("nvarchar(max)")
             .HasDefaultValue("{}")
             .HasColumnOrder(102)
             .IsRequired();

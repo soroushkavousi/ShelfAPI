@@ -2,8 +2,8 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ShelfApi.Infrastructure.Data.ShelfApiDb;
 
 #nullable disable
@@ -17,42 +17,43 @@ namespace ShelfApi.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
+                .HasAnnotation("Npgsql:CollationDefinition:case_insensitive", "und-u-ks-level2,und-u-ks-level2,icu,False")
                 .HasAnnotation("ProductVersion", "8.0.6")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+                .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<ulong>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
+                        .HasColumnType("integer")
                         .HasColumnOrder(100);
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ClaimType")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnOrder(102);
+                        .HasColumnType("text")
+                        .HasColumnOrder(102)
+                        .UseCollation("case_insensitive");
 
                     b.Property<string>("ClaimValue")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnOrder(103);
+                        .HasColumnType("text")
+                        .HasColumnOrder(103)
+                        .UseCollation("case_insensitive");
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasPrecision(2)
-                        .HasColumnType("datetime2(2)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnOrder(1000)
-                        .HasDefaultValueSql("SYSUTCDATETIME()");
+                        .HasDefaultValueSql("now() at time zone 'utc'");
 
                     b.Property<DateTime?>("ModifiedAt")
-                        .HasPrecision(2)
-                        .HasColumnType("datetime2(2)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnOrder(1001);
 
-                    b.Property<byte>("RoleId")
-                        .HasColumnType("tinyint")
+                    b.Property<short>("RoleId")
+                        .HasColumnType("smallint")
                         .HasColumnOrder(101);
 
                     b.HasKey("Id");
@@ -66,33 +67,33 @@ namespace ShelfApi.Infrastructure.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
+                        .HasColumnType("integer")
                         .HasColumnOrder(100);
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ClaimType")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnOrder(102);
+                        .HasColumnType("text")
+                        .HasColumnOrder(102)
+                        .UseCollation("case_insensitive");
 
                     b.Property<string>("ClaimValue")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnOrder(103);
+                        .HasColumnType("text")
+                        .HasColumnOrder(103)
+                        .UseCollation("case_insensitive");
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasPrecision(2)
-                        .HasColumnType("datetime2(2)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnOrder(1000)
-                        .HasDefaultValueSql("SYSUTCDATETIME()");
+                        .HasDefaultValueSql("now() at time zone 'utc'");
 
                     b.Property<DateTime?>("ModifiedAt")
-                        .HasPrecision(2)
-                        .HasColumnType("datetime2(2)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnOrder(1001);
 
                     b.Property<decimal>("UserId")
-                        .HasColumnType("decimal(20,0)")
+                        .HasColumnType("numeric(20,0)")
                         .HasColumnOrder(101);
 
                     b.HasKey("Id");
@@ -105,31 +106,32 @@ namespace ShelfApi.Infrastructure.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<ulong>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)")
-                        .HasColumnOrder(100);
+                        .HasColumnType("text")
+                        .HasColumnOrder(100)
+                        .UseCollation("case_insensitive");
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(450)")
-                        .HasColumnOrder(101);
+                        .HasColumnType("text")
+                        .HasColumnOrder(101)
+                        .UseCollation("case_insensitive");
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasPrecision(2)
-                        .HasColumnType("datetime2(2)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnOrder(1000)
-                        .HasDefaultValueSql("SYSUTCDATETIME()");
+                        .HasDefaultValueSql("now() at time zone 'utc'");
 
                     b.Property<DateTime?>("ModifiedAt")
-                        .HasPrecision(2)
-                        .HasColumnType("datetime2(2)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnOrder(1001);
 
                     b.Property<string>("ProviderDisplayName")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnOrder(102);
+                        .HasColumnType("text")
+                        .HasColumnOrder(102)
+                        .UseCollation("case_insensitive");
 
                     b.Property<decimal>("UserId")
-                        .HasColumnType("decimal(20,0)")
+                        .HasColumnType("numeric(20,0)")
                         .HasColumnOrder(1);
 
                     b.HasKey("LoginProvider", "ProviderKey");
@@ -142,23 +144,21 @@ namespace ShelfApi.Infrastructure.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<ulong>", b =>
                 {
                     b.Property<decimal>("UserId")
-                        .HasColumnType("decimal(20,0)")
+                        .HasColumnType("numeric(20,0)")
                         .HasColumnOrder(100);
 
-                    b.Property<byte>("RoleId")
-                        .HasColumnType("tinyint")
+                    b.Property<short>("RoleId")
+                        .HasColumnType("smallint")
                         .HasColumnOrder(101);
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasPrecision(2)
-                        .HasColumnType("datetime2(2)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnOrder(1000)
-                        .HasDefaultValueSql("SYSUTCDATETIME()");
+                        .HasDefaultValueSql("now() at time zone 'utc'");
 
                     b.Property<DateTime?>("ModifiedAt")
-                        .HasPrecision(2)
-                        .HasColumnType("datetime2(2)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnOrder(1001);
 
                     b.HasKey("UserId", "RoleId");
@@ -171,32 +171,33 @@ namespace ShelfApi.Infrastructure.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<ulong>", b =>
                 {
                     b.Property<decimal>("UserId")
-                        .HasColumnType("decimal(20,0)")
+                        .HasColumnType("numeric(20,0)")
                         .HasColumnOrder(100);
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)")
-                        .HasColumnOrder(101);
+                        .HasColumnType("text")
+                        .HasColumnOrder(101)
+                        .UseCollation("case_insensitive");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(450)")
-                        .HasColumnOrder(102);
+                        .HasColumnType("text")
+                        .HasColumnOrder(102)
+                        .UseCollation("case_insensitive");
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasPrecision(2)
-                        .HasColumnType("datetime2(2)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnOrder(1000)
-                        .HasDefaultValueSql("SYSUTCDATETIME()");
+                        .HasDefaultValueSql("now() at time zone 'utc'");
 
                     b.Property<DateTime?>("ModifiedAt")
-                        .HasPrecision(2)
-                        .HasColumnType("datetime2(2)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnOrder(1001);
 
                     b.Property<string>("Value")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnOrder(103);
+                        .HasColumnType("text")
+                        .HasColumnOrder(103)
+                        .UseCollation("case_insensitive");
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
@@ -206,26 +207,25 @@ namespace ShelfApi.Infrastructure.Migrations
             modelBuilder.Entity("ShelfApi.Domain.BaseDataAggregate.ProjectSetting", b =>
                 {
                     b.Property<byte>("Id")
-                        .HasColumnType("tinyint")
+                        .HasColumnType("smallint")
                         .HasColumnOrder(101);
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasPrecision(2)
-                        .HasColumnType("datetime2(2)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnOrder(1000)
-                        .HasDefaultValueSql("SYSUTCDATETIME()");
+                        .HasDefaultValueSql("now() at time zone 'utc'");
 
                     b.Property<string>("Data")
                         .IsRequired()
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(max)")
+                        .HasColumnType("text")
                         .HasDefaultValue("{}")
-                        .HasColumnOrder(102);
+                        .HasColumnOrder(102)
+                        .UseCollation("case_insensitive");
 
                     b.Property<DateTime?>("ModifiedAt")
-                        .HasPrecision(2)
-                        .HasColumnType("datetime2(2)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnOrder(1001);
 
                     b.HasKey("Id");
@@ -236,28 +236,25 @@ namespace ShelfApi.Infrastructure.Migrations
             modelBuilder.Entity("ShelfApi.Domain.OrderAggregate.Order", b =>
                 {
                     b.Property<decimal>("Id")
-                        .HasColumnType("decimal(20,0)")
+                        .HasColumnType("numeric(20,0)")
                         .HasColumnOrder(1);
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasPrecision(2)
-                        .HasColumnType("datetime2(2)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnOrder(1000)
-                        .HasDefaultValueSql("SYSUTCDATETIME()");
+                        .HasDefaultValueSql("now() at time zone 'utc'");
 
                     b.Property<DateTime?>("ModifiedAt")
-                        .HasPrecision(2)
-                        .HasColumnType("datetime2(2)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnOrder(1001);
 
-                    b.Property<string>("State")
-                        .IsRequired()
-                        .HasColumnType("varchar(60)")
+                    b.Property<byte>("State")
+                        .HasColumnType("smallint")
                         .HasColumnOrder(101);
 
                     b.Property<decimal>("UserId")
-                        .HasColumnType("decimal(20,0)")
+                        .HasColumnType("numeric(20,0)")
                         .HasColumnOrder(100);
 
                     b.HasKey("Id");
@@ -270,31 +267,29 @@ namespace ShelfApi.Infrastructure.Migrations
             modelBuilder.Entity("ShelfApi.Domain.OrderAggregate.OrderLine", b =>
                 {
                     b.Property<decimal>("Id")
-                        .HasColumnType("decimal(20,0)")
+                        .HasColumnType("numeric(20,0)")
                         .HasColumnOrder(1);
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasPrecision(2)
-                        .HasColumnType("datetime2(2)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnOrder(1000)
-                        .HasDefaultValueSql("SYSUTCDATETIME()");
+                        .HasDefaultValueSql("now() at time zone 'utc'");
 
                     b.Property<DateTime?>("ModifiedAt")
-                        .HasPrecision(2)
-                        .HasColumnType("datetime2(2)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnOrder(1001);
 
                     b.Property<decimal>("OrderId")
-                        .HasColumnType("decimal(20,0)")
+                        .HasColumnType("numeric(20,0)")
                         .HasColumnOrder(100);
 
                     b.Property<decimal>("ProductId")
-                        .HasColumnType("decimal(20,0)")
+                        .HasColumnType("numeric(20,0)")
                         .HasColumnOrder(101);
 
                     b.Property<int>("Quantity")
-                        .HasColumnType("int")
+                        .HasColumnType("integer")
                         .HasColumnOrder(102);
 
                     b.HasKey("Id");
@@ -309,27 +304,26 @@ namespace ShelfApi.Infrastructure.Migrations
             modelBuilder.Entity("ShelfApi.Domain.ProductAggregate.Product", b =>
                 {
                     b.Property<decimal>("Id")
-                        .HasColumnType("decimal(20,0)")
+                        .HasColumnType("numeric(20,0)")
                         .HasColumnOrder(1);
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasPrecision(2)
-                        .HasColumnType("datetime2(2)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnOrder(1000)
-                        .HasDefaultValueSql("SYSUTCDATETIME()");
+                        .HasDefaultValueSql("now() at time zone 'utc'");
 
                     b.Property<DateTime?>("ModifiedAt")
-                        .HasPrecision(2)
-                        .HasColumnType("datetime2(2)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnOrder(1001);
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnOrder(100);
+                        .HasColumnType("text")
+                        .HasColumnOrder(100)
+                        .UseCollation("case_insensitive");
 
                     b.Property<int>("Quantity")
-                        .HasColumnType("int")
+                        .HasColumnType("integer")
                         .HasColumnOrder(102);
 
                     b.HasKey("Id");
@@ -339,43 +333,43 @@ namespace ShelfApi.Infrastructure.Migrations
 
             modelBuilder.Entity("ShelfApi.Domain.UserAggregate.Role", b =>
                 {
-                    b.Property<byte>("Id")
-                        .HasColumnType("tinyint")
+                    b.Property<short>("Id")
+                        .HasColumnType("smallint")
                         .HasColumnOrder(1);
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnOrder(105);
+                        .HasColumnType("text")
+                        .HasColumnOrder(105)
+                        .UseCollation("case_insensitive");
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasPrecision(2)
-                        .HasColumnType("datetime2(2)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnOrder(1000)
-                        .HasDefaultValueSql("SYSUTCDATETIME()");
+                        .HasDefaultValueSql("now() at time zone 'utc'");
 
                     b.Property<DateTime?>("ModifiedAt")
-                        .HasPrecision(2)
-                        .HasColumnType("datetime2(2)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnOrder(1001);
 
                     b.Property<string>("Name")
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)")
-                        .HasColumnOrder(103);
+                        .HasColumnType("character varying(256)")
+                        .HasColumnOrder(103)
+                        .UseCollation("case_insensitive");
 
                     b.Property<string>("NormalizedName")
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)")
-                        .HasColumnOrder(104);
+                        .HasColumnType("character varying(256)")
+                        .HasColumnOrder(104)
+                        .UseCollation("case_insensitive");
 
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedName")
                         .IsUnique()
-                        .HasDatabaseName("RoleNameIndex")
-                        .HasFilter("[NormalizedName] IS NOT NULL");
+                        .HasDatabaseName("RoleNameIndex");
 
                     b.ToTable("Roles", (string)null);
                 });
@@ -383,85 +377,91 @@ namespace ShelfApi.Infrastructure.Migrations
             modelBuilder.Entity("ShelfApi.Domain.UserAggregate.User", b =>
                 {
                     b.Property<decimal>("Id")
-                        .HasColumnType("decimal(20,0)")
+                        .HasColumnType("numeric(20,0)")
                         .HasColumnOrder(1);
 
                     b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int")
+                        .HasColumnType("integer")
                         .HasColumnOrder(117);
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnOrder(111);
+                        .HasColumnType("text")
+                        .HasColumnOrder(111)
+                        .UseCollation("case_insensitive");
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasPrecision(2)
-                        .HasColumnType("datetime2(2)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnOrder(1000)
-                        .HasDefaultValueSql("SYSUTCDATETIME()");
+                        .HasDefaultValueSql("now() at time zone 'utc'");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)")
-                        .HasColumnOrder(106);
+                        .HasColumnType("character varying(256)")
+                        .HasColumnOrder(106)
+                        .UseCollation("case_insensitive");
 
                     b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit")
+                        .HasColumnType("boolean")
                         .HasColumnOrder(108);
 
                     b.Property<bool>("IsAdmin")
-                        .HasColumnType("bit")
+                        .HasColumnType("boolean")
                         .HasColumnOrder(100);
 
                     b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit")
+                        .HasColumnType("boolean")
                         .HasColumnOrder(116);
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnOrder(115);
 
                     b.Property<DateTime?>("ModifiedAt")
-                        .HasPrecision(2)
-                        .HasColumnType("datetime2(2)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnOrder(1001);
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)")
-                        .HasColumnOrder(107);
+                        .HasColumnType("character varying(256)")
+                        .HasColumnOrder(107)
+                        .UseCollation("case_insensitive");
 
                     b.Property<string>("NormalizedUserName")
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)")
-                        .HasColumnOrder(105);
+                        .HasColumnType("character varying(256)")
+                        .HasColumnOrder(105)
+                        .UseCollation("case_insensitive");
 
                     b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnOrder(109);
+                        .HasColumnType("text")
+                        .HasColumnOrder(109)
+                        .UseCollation("case_insensitive");
 
                     b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnOrder(112);
+                        .HasColumnType("text")
+                        .HasColumnOrder(112)
+                        .UseCollation("case_insensitive");
 
                     b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit")
+                        .HasColumnType("boolean")
                         .HasColumnOrder(113);
 
                     b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnOrder(110);
+                        .HasColumnType("text")
+                        .HasColumnOrder(110)
+                        .UseCollation("case_insensitive");
 
                     b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit")
+                        .HasColumnType("boolean")
                         .HasColumnOrder(114);
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)")
-                        .HasColumnOrder(104);
+                        .HasColumnType("character varying(256)")
+                        .HasColumnOrder(104)
+                        .UseCollation("case_insensitive");
 
                     b.HasKey("Id");
 
@@ -470,8 +470,7 @@ namespace ShelfApi.Infrastructure.Migrations
 
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
-                        .HasDatabaseName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+                        .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("Users", (string)null);
                 });
@@ -538,7 +537,7 @@ namespace ShelfApi.Infrastructure.Migrations
                     b.OwnsOne("ShelfApi.Domain.FinancialAggregate.Price", "ListPrice", b1 =>
                         {
                             b1.Property<decimal>("OrderId")
-                                .HasColumnType("decimal(20,0)");
+                                .HasColumnType("numeric(20,0)");
 
                             b1.Property<decimal>("Value")
                                 .HasColumnType("DECIMAL(10,0)")
@@ -556,7 +555,7 @@ namespace ShelfApi.Infrastructure.Migrations
                     b.OwnsOne("ShelfApi.Domain.FinancialAggregate.Price", "NetPrice", b1 =>
                         {
                             b1.Property<decimal>("OrderId")
-                                .HasColumnType("decimal(20,0)");
+                                .HasColumnType("numeric(20,0)");
 
                             b1.Property<decimal>("Value")
                                 .HasColumnType("DECIMAL(10,0)")
@@ -574,7 +573,7 @@ namespace ShelfApi.Infrastructure.Migrations
                     b.OwnsOne("ShelfApi.Domain.FinancialAggregate.Price", "TaxPrice", b1 =>
                         {
                             b1.Property<decimal>("OrderId")
-                                .HasColumnType("decimal(20,0)");
+                                .HasColumnType("numeric(20,0)");
 
                             b1.Property<decimal>("Value")
                                 .HasColumnType("DECIMAL(10,0)")
@@ -618,7 +617,7 @@ namespace ShelfApi.Infrastructure.Migrations
                     b.OwnsOne("ShelfApi.Domain.FinancialAggregate.Price", "TotalPrice", b1 =>
                         {
                             b1.Property<decimal>("OrderLineId")
-                                .HasColumnType("decimal(20,0)");
+                                .HasColumnType("numeric(20,0)");
 
                             b1.Property<decimal>("Value")
                                 .HasColumnType("DECIMAL(10,0)")
@@ -644,7 +643,7 @@ namespace ShelfApi.Infrastructure.Migrations
                     b.OwnsOne("ShelfApi.Domain.FinancialAggregate.Price", "Price", b1 =>
                         {
                             b1.Property<decimal>("ProductId")
-                                .HasColumnType("decimal(20,0)");
+                                .HasColumnType("numeric(20,0)");
 
                             b1.Property<decimal>("Value")
                                 .HasColumnType("DECIMAL(10,0)")

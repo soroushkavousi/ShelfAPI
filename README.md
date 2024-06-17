@@ -12,7 +12,7 @@
 - **Role Based Authorization**, has admin and user routes
 - **Serilog** for logging with **Seq** sink
 - **Mapster** for mapping Models to DTOs
-- Entity Framework Core for **SQL Server**
+- Entity Framework Core for **PostgreSQL**
 - Using **Startup Data**
 	- Load **environment variables**, such as connection string
 	- Load **service registeration settings** from **database**, such as JWT settings

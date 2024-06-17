@@ -21,8 +21,6 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
             .OnDelete(DeleteBehavior.NoAction);
 
         builder.Property(x => x.State)
-            .HasConversion<string>()
-            .HasColumnType("varchar(60)")
             .HasColumnOrder(101)
             .IsRequired();
 

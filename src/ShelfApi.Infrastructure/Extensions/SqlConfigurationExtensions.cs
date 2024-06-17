@@ -40,7 +40,7 @@ public static class SqlConfigurationExtensions
         => propertyBuilder
             .IsRequired(true)
             .HasColumnOrder(1000)
-            .HasDefaultValueSql("SYSUTCDATETIME()");
+            .HasDefaultValueSql("now() at time zone 'utc'");
 
     public static PropertyBuilder<TProperty> ConfigureCreatedAt<TProperty>(this PropertyBuilder<TProperty> propertyBuilder)
     {
