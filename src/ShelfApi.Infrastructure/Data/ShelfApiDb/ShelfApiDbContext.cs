@@ -1,9 +1,11 @@
 ﻿using EFCore.BulkExtensions;
+using IPE.Sms.Infrastructure.Persistance.SmsDb.Configurations.FinancialConfigurations.Converters;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using ShelfApi.Application.Common;
 using ShelfApi.Domain.BaseDataAggregate;
 using ShelfApi.Domain.Common;
+using ShelfApi.Domain.FinancialAggregate;
 using ShelfApi.Domain.OrderAggregate;
 using ShelfApi.Domain.ProductAggregate;
 using ShelfApi.Domain.UserAggregate;
@@ -36,7 +38,13 @@ public class ShelfApiDbContext : IdentityDbContext<User, Role, ulong>, IShelfApi
 
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
     {
-        configurationBuilder.Properties<string>().UseCollation(Constants.CaseInsensitiveCollation);
+        configurationBuilder
+            .Properties<string>()
+            .UseCollation(Constants.CaseInsensitiveCollation);
+
+        configurationBuilder
+            .Properties<Price>()
+            .HaveConversion<PriceConverter>();
     }
 
     protected override void OnModelCreating(ModelBuilder builder)

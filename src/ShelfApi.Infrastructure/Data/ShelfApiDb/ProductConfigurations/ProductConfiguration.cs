@@ -14,14 +14,9 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         builder.Property(x => x.Name)
             .HasColumnOrder(100);
 
-        builder.OwnsOne(x => x.Price, nav =>
-        {
-            nav.Property(x => x.Value)
-                .HasColumnName("Price")
-                .HasColumnType("DECIMAL(10,0)")
-                .HasColumnOrder(101)
-                .IsRequired();
-        }).Navigation(x => x.Price).IsRequired();
+        builder.Property(x => x.Price)
+            .HasColumnOrder(101)
+            .IsRequired();
 
         builder.Property(x => x.Quantity)
             .HasColumnOrder(102);

@@ -26,14 +26,9 @@ public class OrderLineConfiguration : IEntityTypeConfiguration<OrderLine>
         builder.Property(x => x.Quantity)
             .HasColumnOrder(102);
 
-        builder.OwnsOne(x => x.TotalPrice, nav =>
-        {
-            nav.Property(x => x.Value)
-                .HasColumnName("TotalPrice")
-                .HasColumnType("DECIMAL(10,0)")
-                .HasColumnOrder(103)
-                .IsRequired();
-        }).Navigation(x => x.TotalPrice).IsRequired();
+        builder.Property(x => x.TotalPrice)
+            .HasColumnOrder(103)
+            .IsRequired();
 
         builder.Property(x => x.CreatedAt)
             .ConfigureCreatedAt();
