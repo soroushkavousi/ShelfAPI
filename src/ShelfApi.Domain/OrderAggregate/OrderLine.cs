@@ -15,7 +15,7 @@ public class OrderLine : BaseModel<ulong>
         Product = product;
         ProductId = product.Id;
         Quantity = quantity;
-        TotalPrice = new(product.Price.Value * quantity);
+        TotalPrice = Price.Create(product.Price.Value * quantity);
     }
 
     public ulong OrderId { get; }

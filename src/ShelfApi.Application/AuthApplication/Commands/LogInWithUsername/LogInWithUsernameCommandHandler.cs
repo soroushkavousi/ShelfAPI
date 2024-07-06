@@ -1,31 +1,24 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using ShelfApi.Application.ErrorApplication;
 using ShelfApi.Domain.UserAggregate;
 
 namespace ShelfApi.Application.AuthApplication;
 
-public class LogInWithUsernameCommandHandler : ApiRequestHandler<LogInWithUsernameCommand, UserCredentialDto>
+public class LogInWithUsernameCommandHandler(UserManager<User> userManager, TokenService tokenService)
+    : IRequestHandler<LogInWithUsernameCommand, Result<UserCredentialDto>>
 {
-    private readonly UserManager<User> _userManager;
-    private readonly TokenService _tokenService;
+    private readonly UserManager<User> _userManager = userManager;
+    private readonly TokenService _tokenService = tokenService;
 
-    public LogInWithUsernameCommandHandler(UserManager<User> userManager,
-        TokenService tokenService)
+    public async Task<Result<UserCredentialDto>> Handle(LogInWithUsernameCommand request, CancellationToken cancellationToken)
     {
-        _userManager = userManager;
-        _tokenService = tokenService;
-    }
-
-    protected override async Task<UserCredentialDto> OperateAsync(LogInWithUsernameCommand request, CancellationToken cancellationToken)
-    {
-        User user = await _userManager.FindByNameAsync(request.Username)
-            ?? throw new NotExistException(ErrorField.USERNAME, request.Username);
+        User user = await _userManager.FindByNameAsync(request.Username);
+        if (user is null)
+            return ErrorCode.AuthenticationError;
 
         if (!await _userManager.CheckPasswordAsync(user, request.Password))
-            throw new InvalidValueException(ErrorField.PASSWORD);
+            return ErrorCode.AuthenticationError;
 
-        var userCredential = await _tokenService.GenerateAccessTokenAsync(user);
+        UserCredentialDto userCredential = await _tokenService.GenerateAccessTokenAsync(user);
         return userCredential;
     }
 }
-

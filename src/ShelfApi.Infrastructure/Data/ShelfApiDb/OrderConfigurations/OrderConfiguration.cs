@@ -30,32 +30,17 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
              .HasPrincipalKey(x => x.Id)
              .OnDelete(DeleteBehavior.Cascade);
 
-        builder.OwnsOne(x => x.ListPrice, nav =>
-        {
-            nav.Property(x => x.Value)
-                .HasColumnName("ListPrice")
-                .HasColumnType("DECIMAL(10,0)")
-                .HasColumnOrder(102)
-                .IsRequired();
-        }).Navigation(x => x.ListPrice).IsRequired();
+        builder.Property(x => x.ListPrice)
+            .HasColumnOrder(102)
+            .IsRequired();
 
-        builder.OwnsOne(x => x.TaxPrice, nav =>
-        {
-            nav.Property(x => x.Value)
-                .HasColumnName("TaxPrice")
-                .HasColumnType("DECIMAL(10,0)")
-                .HasColumnOrder(103)
-                .IsRequired();
-        }).Navigation(x => x.TaxPrice).IsRequired();
+        builder.Property(x => x.TaxPrice)
+            .HasColumnOrder(103)
+            .IsRequired();
 
-        builder.OwnsOne(x => x.NetPrice, nav =>
-        {
-            nav.Property(x => x.Value)
-                .HasColumnName("NetPrice")
-                .HasColumnType("DECIMAL(10,0)")
-                .HasColumnOrder(104)
-                .IsRequired();
-        }).Navigation(x => x.NetPrice).IsRequired();
+        builder.Property(x => x.NetPrice)
+            .HasColumnOrder(104)
+            .IsRequired();
 
         builder.Property(x => x.CreatedAt)
             .ConfigureCreatedAt();

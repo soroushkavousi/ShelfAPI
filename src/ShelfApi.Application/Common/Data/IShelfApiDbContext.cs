@@ -15,6 +15,8 @@ public interface IShelfApiDbContext : IDbContext
     DbSet<Role> Roles { get; set; }
     DbSet<User> Users { get; set; }
 
+    DbSet<ApiError> ApiErrors { get; set; }
+
     DbSet<Product> Products { get; set; }
 
     DbSet<Order> Orders { get; set; }

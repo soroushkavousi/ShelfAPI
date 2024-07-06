@@ -1,4 +1,4 @@
-﻿using ShelfApi.Application.ErrorApplication;
+﻿using ShelfApi.Domain.Common.Exceptions;
 using System.Text.RegularExpressions;
 
 namespace ShelfApi.Application.Common;
@@ -17,7 +17,7 @@ public partial record EncodedId
     private static string GetValidatedValue(string encodedId)
     {
         if (!IsValueValid(encodedId))
-            throw new InvalidFormatException(ErrorField.ENCODED_ID, encodedId);
+            throw new ServerException(ErrorCode.InvalidFormat, encodedId, ErrorField.EncodedId);
 
         return encodedId;
     }

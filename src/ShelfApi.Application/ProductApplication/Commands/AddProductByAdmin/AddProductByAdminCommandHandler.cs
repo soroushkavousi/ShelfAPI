@@ -1,23 +1,22 @@
-﻿using Mapster;
+﻿using ShelfApi.Domain.FinancialAggregate;
 using ShelfApi.Domain.ProductAggregate;
 
 namespace ShelfApi.Application.ProductApplication;
 
-public class AddProductByAdminCommandHandler : ApiRequestHandler<AddProductByAdminCommand, ProductDto>
+public class AddProductByAdminCommandHandler(IIdManager idManager, IShelfApiDbContext dbContext)
+    : IRequestHandler<AddProductByAdminCommand, Result<ProductDto>>
 {
-    private IShelfApiDbContext _dbContext;
-    private IIdManager _idManager;
+    private IIdManager _idManager = idManager;
+    private IShelfApiDbContext _dbContext = dbContext;
 
-    public AddProductByAdminCommandHandler(IIdManager idManager, IShelfApiDbContext dbContext)
+    public async Task<Result<ProductDto>> Handle(AddProductByAdminCommand request, CancellationToken cancellationToken)
     {
-        _dbContext = dbContext;
-        _idManager = idManager;
-    }
+        (Error error, Price price) = Price.TryCreate(request.Price);
+        if (error is not null)
+            return error;
 
-    protected override async Task<ProductDto> OperateAsync(AddProductByAdminCommand request, CancellationToken cancellationToken)
-    {
         ulong id = _idManager.GenerateNextUlong();
-        Product product = new(id, request.Name, request.Price, request.Quantity);
+        Product product = new(id, request.Name, price, request.Quantity);
 
         _dbContext.Products.Add(product);
 
@@ -26,4 +25,3 @@ public class AddProductByAdminCommandHandler : ApiRequestHandler<AddProductByAdm
         return product.Adapt<ProductDto>();
     }
 }
-

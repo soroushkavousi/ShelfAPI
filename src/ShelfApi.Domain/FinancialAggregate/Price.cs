@@ -1,33 +1,46 @@
-﻿using ShelfApi.Domain.Common.Extensions;
+﻿using ShelfApi.Domain.Common.Exceptions;
+using ShelfApi.Domain.Common.Extensions;
+using ShelfApi.Domain.Common.ValueObjects;
+using ShelfApi.Domain.ErrorAggregate;
 
 namespace ShelfApi.Domain.FinancialAggregate;
 
 public record Price
 {
-    public Price(decimal value)
-    {
-        Value = value;
-        Validate();
-    }
+    private Price() { }
 
     public decimal Value { get; private set; }
 
-    public static Price Zero => new(0);
+    public static Price Zero { get; } = Create(0);
 
-    private void Validate()
+    public static Price Create(decimal value)
     {
-        ArgumentOutOfRangeException.ThrowIfLessThan(Value, 0);
+        (Error error, Price price) = TryCreate(value);
+        if (error is not null)
+            throw new ServerException(error);
+
+        return price;
+    }
+
+    public static Result<Price> TryCreate(decimal value)
+    {
+        Price price = new() { Value = value };
+
+        if (value < 0)
+            return new Error(ErrorCode.InvalidFormat, ErrorField.Price);
+
+        return price;
     }
 
     public Price GetTax(decimal taxPercentage)
-        => new(Value.GetPercentage(taxPercentage));
+        => Create(Value.GetPercentage(taxPercentage));
 
     public static Price operator +(Price p1, Price p2)
     {
         ArgumentNullException.ThrowIfNull(p1);
         ArgumentNullException.ThrowIfNull(p2);
 
-        Price price = new(p1.Value + p2.Value);
+        Price price = Create(p1.Value + p2.Value);
         return price;
     }
 
@@ -36,7 +49,7 @@ public record Price
         ArgumentNullException.ThrowIfNull(p1);
         ArgumentNullException.ThrowIfNull(p2);
 
-        Price price = new(p1.Value - p2.Value);
+        Price price = Create(p1.Value - p2.Value);
         return price;
     }
 
@@ -45,7 +58,7 @@ public record Price
         ArgumentNullException.ThrowIfNull(p1);
         ArgumentNullException.ThrowIfNull(p2);
 
-        Price price = new(p1.Value * p2.Value);
+        Price price = Create(p1.Value * p2.Value);
         return price;
     }
 
@@ -55,7 +68,7 @@ public record Price
         ArgumentNullException.ThrowIfNull(p2);
         ArgumentOutOfRangeException.ThrowIfEqual(p2, Zero);
 
-        Price price = new(Math.Round(p1.Value / p2.Value));
+        Price price = Create(Math.Round(p1.Value / p2.Value));
         return price;
     }
 }

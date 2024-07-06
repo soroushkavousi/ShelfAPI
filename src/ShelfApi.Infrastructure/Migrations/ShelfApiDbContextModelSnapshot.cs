@@ -233,6 +233,39 @@ namespace ShelfApi.Infrastructure.Migrations
                     b.ToTable("ProjectSettings");
                 });
 
+            modelBuilder.Entity("ShelfApi.Domain.ErrorAggregate.ApiError", b =>
+                {
+                    b.Property<short>("Code")
+                        .HasColumnType("smallint")
+                        .HasColumnOrder(1);
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnOrder(1000)
+                        .HasDefaultValueSql("now() at time zone 'utc'");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnOrder(102)
+                        .UseCollation("case_insensitive");
+
+                    b.Property<DateTime?>("ModifiedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnOrder(1001);
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnOrder(101)
+                        .UseCollation("case_insensitive");
+
+                    b.HasKey("Code");
+
+                    b.ToTable("ApiErrors");
+                });
+
             modelBuilder.Entity("ShelfApi.Domain.OrderAggregate.Order", b =>
                 {
                     b.Property<decimal>("Id")
@@ -245,13 +278,25 @@ namespace ShelfApi.Infrastructure.Migrations
                         .HasColumnOrder(1000)
                         .HasDefaultValueSql("now() at time zone 'utc'");
 
+                    b.Property<decimal>("ListPrice")
+                        .HasColumnType("numeric(12,2)")
+                        .HasColumnOrder(102);
+
                     b.Property<DateTime?>("ModifiedAt")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnOrder(1001);
 
+                    b.Property<decimal>("NetPrice")
+                        .HasColumnType("numeric(12,2)")
+                        .HasColumnOrder(104);
+
                     b.Property<byte>("State")
                         .HasColumnType("smallint")
                         .HasColumnOrder(101);
+
+                    b.Property<decimal>("TaxPrice")
+                        .HasColumnType("numeric(12,2)")
+                        .HasColumnOrder(103);
 
                     b.Property<decimal>("UserId")
                         .HasColumnType("numeric(20,0)")
@@ -292,6 +337,10 @@ namespace ShelfApi.Infrastructure.Migrations
                         .HasColumnType("integer")
                         .HasColumnOrder(102);
 
+                    b.Property<decimal>("TotalPrice")
+                        .HasColumnType("numeric(12,2)")
+                        .HasColumnOrder(103);
+
                     b.HasKey("Id");
 
                     b.HasIndex("OrderId");
@@ -321,6 +370,10 @@ namespace ShelfApi.Infrastructure.Migrations
                         .HasColumnType("text")
                         .HasColumnOrder(100)
                         .UseCollation("case_insensitive");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("numeric(12,2)")
+                        .HasColumnOrder(101);
 
                     b.Property<int>("Quantity")
                         .HasColumnType("integer")
@@ -534,69 +587,6 @@ namespace ShelfApi.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.OwnsOne("ShelfApi.Domain.FinancialAggregate.Price", "ListPrice", b1 =>
-                        {
-                            b1.Property<decimal>("OrderId")
-                                .HasColumnType("numeric(20,0)");
-
-                            b1.Property<decimal>("Value")
-                                .HasColumnType("DECIMAL(10,0)")
-                                .HasColumnName("ListPrice")
-                                .HasColumnOrder(102);
-
-                            b1.HasKey("OrderId");
-
-                            b1.ToTable("Orders");
-
-                            b1.WithOwner()
-                                .HasForeignKey("OrderId");
-                        });
-
-                    b.OwnsOne("ShelfApi.Domain.FinancialAggregate.Price", "NetPrice", b1 =>
-                        {
-                            b1.Property<decimal>("OrderId")
-                                .HasColumnType("numeric(20,0)");
-
-                            b1.Property<decimal>("Value")
-                                .HasColumnType("DECIMAL(10,0)")
-                                .HasColumnName("NetPrice")
-                                .HasColumnOrder(104);
-
-                            b1.HasKey("OrderId");
-
-                            b1.ToTable("Orders");
-
-                            b1.WithOwner()
-                                .HasForeignKey("OrderId");
-                        });
-
-                    b.OwnsOne("ShelfApi.Domain.FinancialAggregate.Price", "TaxPrice", b1 =>
-                        {
-                            b1.Property<decimal>("OrderId")
-                                .HasColumnType("numeric(20,0)");
-
-                            b1.Property<decimal>("Value")
-                                .HasColumnType("DECIMAL(10,0)")
-                                .HasColumnName("TaxPrice")
-                                .HasColumnOrder(103);
-
-                            b1.HasKey("OrderId");
-
-                            b1.ToTable("Orders");
-
-                            b1.WithOwner()
-                                .HasForeignKey("OrderId");
-                        });
-
-                    b.Navigation("ListPrice")
-                        .IsRequired();
-
-                    b.Navigation("NetPrice")
-                        .IsRequired();
-
-                    b.Navigation("TaxPrice")
-                        .IsRequired();
-
                     b.Navigation("User");
                 });
 
@@ -614,52 +604,7 @@ namespace ShelfApi.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.OwnsOne("ShelfApi.Domain.FinancialAggregate.Price", "TotalPrice", b1 =>
-                        {
-                            b1.Property<decimal>("OrderLineId")
-                                .HasColumnType("numeric(20,0)");
-
-                            b1.Property<decimal>("Value")
-                                .HasColumnType("DECIMAL(10,0)")
-                                .HasColumnName("TotalPrice")
-                                .HasColumnOrder(103);
-
-                            b1.HasKey("OrderLineId");
-
-                            b1.ToTable("OrderLines");
-
-                            b1.WithOwner()
-                                .HasForeignKey("OrderLineId");
-                        });
-
                     b.Navigation("Product");
-
-                    b.Navigation("TotalPrice")
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("ShelfApi.Domain.ProductAggregate.Product", b =>
-                {
-                    b.OwnsOne("ShelfApi.Domain.FinancialAggregate.Price", "Price", b1 =>
-                        {
-                            b1.Property<decimal>("ProductId")
-                                .HasColumnType("numeric(20,0)");
-
-                            b1.Property<decimal>("Value")
-                                .HasColumnType("DECIMAL(10,0)")
-                                .HasColumnName("Price")
-                                .HasColumnOrder(101);
-
-                            b1.HasKey("ProductId");
-
-                            b1.ToTable("Products");
-
-                            b1.WithOwner()
-                                .HasForeignKey("ProductId");
-                        });
-
-                    b.Navigation("Price")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("ShelfApi.Domain.OrderAggregate.Order", b =>
