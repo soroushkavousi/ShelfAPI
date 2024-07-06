@@ -21,5 +21,8 @@
 	- Retrieve **project settings** stored as JSON values from a dedicated database table
 	- Fetch **caching data from various tables**
 - **OwnsOne** in EF Core for owning **value objects** such as Price in Product
+- **Error Handling** with **Result Pattern**
+	- has implicit operator, and deconstruct
+	- used in try-create pattern value objects
 - **IdGen** to generate Snowflake-based globally unique ulong IDs
 - Has **Product, Order, OrderLine**
