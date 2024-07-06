@@ -5,7 +5,6 @@ using ShelfApi.Domain.UserAggregate;
 namespace ShelfApi.Presentation.Controllers;
 
 [Authorize(Roles = nameof(RoleName.ADMIN))]
-public abstract class AdminBaseController : ApiBaseController
+public abstract class AdminBaseController(ISender sender) : ApiBaseController(sender)
 {
-    public AdminBaseController(ISender sender) : base(sender) { }
 }

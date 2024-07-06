@@ -1,17 +1,18 @@
 ﻿using MediatR;
-using ShelfApi.Application.AuthApplication;
+using ShelfApi.Application.BaseDataApplication.Interfaces;
 using ShelfApi.Application.Common;
-using ShelfApi.Application.ErrorApplication;
+using ShelfApi.Domain.ErrorAggregate;
 using System.Diagnostics;
 using System.Net;
 
 namespace ShelfApi.Presentation.Middlewares;
 
 public class ApiExceptionHandlerMiddleware(ILogger<ApiExceptionHandlerMiddleware> logger,
-    RequestDelegate next, ISerializer serializer)
+    RequestDelegate next, IBaseDataService baseDataService, ISerializer serializer)
 {
     private readonly ILogger<ApiExceptionHandlerMiddleware> _logger = logger;
     private readonly RequestDelegate _next = next;
+    private readonly IBaseDataService _baseDataService = baseDataService;
     private readonly ISerializer _serializer = serializer;
 
     public async Task InvokeAsync(HttpContext httpContext, ISender sender)
@@ -23,22 +24,20 @@ public class ApiExceptionHandlerMiddleware(ILogger<ApiExceptionHandlerMiddleware
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Could not process the request!");
-            ApiException apiException = ex is ApiException ? ex as ApiException : new InternalServerException(ex);
-            ErrorDto error = await sender.Send(new GetErrorQuery
-            {
-                ErrorType = apiException.Type,
-                ErrorField = apiException.Field
-            });
-            await ReportError(error, httpContext);
+            await MakeResponseInternalServerErrorAsync(ex, httpContext);
         }
     }
 
-    private async Task ReportError(ErrorDto error, HttpContext httpContext)
+    private async Task MakeResponseInternalServerErrorAsync(Exception ex, HttpContext httpContext)
     {
+        _logger.LogError(ex, "Could not process the request!");
+
+        httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
         httpContext.Response.ContentType = "application/json";
-        httpContext.Response.StatusCode = error.Type == ErrorType.INTERNAL_SERVER ? (int)HttpStatusCode.InternalServerError : (int)HttpStatusCode.BadRequest;
-        string responseBody = _serializer.Serialize(error, true);
+
+        ApiError apiError = _baseDataService.ApiErrors[ErrorCode.InternalServerError];
+        Result<object> result = new Error(apiError.Code, apiError.Title, apiError.Message);
+        string responseBody = _serializer.Serialize(result, true);
         await httpContext.Response.WriteAsync(responseBody);
     }
 }

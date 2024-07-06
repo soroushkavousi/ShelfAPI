@@ -5,7 +5,7 @@ namespace IPE.Sms.Infrastructure.Persistance.SmsDb.Configurations.FinancialConfi
 
 public class PriceConverter : ValueConverter<Price, decimal>
 {
-    public PriceConverter() : base(v => v.Value, v => new Price(v), new ConverterMappingHints(precision: 12, scale: 2))
+    public PriceConverter() : base(v => v.Value, v => Price.TryCreate(v).Data ?? Price.Zero, new ConverterMappingHints(precision: 12, scale: 2))
     {
     }
 }

@@ -20,7 +20,7 @@ public class Order : BaseModel<ulong>
     private void SetOrderLines(List<OrderLine> orderLines)
     {
         Lines = orderLines;
-        ListPrice = new(orderLines.Sum(x => x.TotalPrice.Value));
+        ListPrice = Price.Create(orderLines.Sum(x => x.TotalPrice.Value));
         OnOrderLineChanged();
     }
 

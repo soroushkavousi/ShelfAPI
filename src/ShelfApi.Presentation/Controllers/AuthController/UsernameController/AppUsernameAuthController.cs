@@ -2,28 +2,25 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ShelfApi.Application.AuthApplication;
-using ShelfApi.Application.Common;
 
 namespace ShelfApi.Presentation.Controllers;
 
 [Route("app/auth/username")]
-public class AppUsernameAuthController : AppBaseController
+public class AppUsernameAuthController(ISender sender) : AppBaseController(sender)
 {
-    public AppUsernameAuthController(ISender sender) : base(sender) { }
-
     /// <summary>
     /// Log in with username.
     /// </summary>
     /// <returns>Logged in user</returns>
     /// <response code="200">Returns the newly created item</response>
     [AllowAnonymous]
-    [ProducesResponseType(typeof(ResultDto<UserCredentialDto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(Result<UserCredentialDto>), StatusCodes.Status200OK)]
     [Consumes(Tools.Constants.JsonContentTypeName)]
     [HttpPost("log-in")]
-    public async Task<ActionResult<ResultDto<UserCredentialDto>>> LogInWithUsernameAsync(
+    public async Task<ActionResult<Result<UserCredentialDto>>> LogInWithUsernameAsync(
         [FromBody] LogInWithUsernameInputBody inputBody)
     {
-        var result = await _sender.Send(new LogInWithUsernameCommand
+        Result<UserCredentialDto> result = await _sender.Send(new LogInWithUsernameCommand
         {
             Username = inputBody.Username,
             Password = inputBody.Password

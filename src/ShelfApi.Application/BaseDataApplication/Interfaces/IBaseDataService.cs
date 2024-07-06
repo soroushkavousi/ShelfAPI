@@ -6,6 +6,11 @@ public interface IBaseDataService
 {
     JwtSettings JwtSettings { get; }
     FinancialSettings FinancialSettings { get; }
+    Dictionary<ErrorCode, ApiError> ApiErrors { get; }
 
-    Task InitializeAsync(IShelfApiDbContext shelfApiDbContext);
+    Task InitializeAsync();
+
+    Task LoadProjectSettingsAsync();
+
+    Task LoadApiErrorsAsync();
 }

@@ -1,6 +1,7 @@
-﻿namespace ShelfApi.Application.ProductApplication;
+﻿using MediatR;
 
-public class ListProductsQuery : ApiRequest<List<ProductDto>>
+namespace ShelfApi.Application.ProductApplication;
+
+public class ListProductsQuery : IRequest<Result<List<ProductDto>>>
 {
-
 }

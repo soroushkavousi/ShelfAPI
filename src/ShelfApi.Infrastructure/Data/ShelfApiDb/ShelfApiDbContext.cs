@@ -5,12 +5,14 @@ using Microsoft.EntityFrameworkCore;
 using ShelfApi.Application.Common;
 using ShelfApi.Domain.BaseDataAggregate;
 using ShelfApi.Domain.Common;
+using ShelfApi.Domain.ErrorAggregate;
 using ShelfApi.Domain.FinancialAggregate;
 using ShelfApi.Domain.OrderAggregate;
 using ShelfApi.Domain.ProductAggregate;
 using ShelfApi.Domain.UserAggregate;
 using ShelfApi.Infrastructure.Common;
 using ShelfApi.Infrastructure.Data.ShelfApiDb.BaseDataConfigurations;
+using ShelfApi.Infrastructure.Data.ShelfApiDb.ErrorConfigurations;
 using ShelfApi.Infrastructure.Data.ShelfApiDb.OrderConfigurations;
 using ShelfApi.Infrastructure.Data.ShelfApiDb.ProductConfigurations;
 using ShelfApi.Infrastructure.Data.ShelfApiDb.UserConfigurations;
@@ -20,6 +22,8 @@ namespace ShelfApi.Infrastructure.Data.ShelfApiDb;
 public class ShelfApiDbContext : IdentityDbContext<User, Role, ulong>, IShelfApiDbContext
 {
     public DbSet<ProjectSetting> ProjectSettings { get; set; }
+
+    public DbSet<ApiError> ApiErrors { get; set; }
 
     public DbSet<Product> Products { get; set; }
 
@@ -53,7 +57,7 @@ public class ShelfApiDbContext : IdentityDbContext<User, Role, ulong>, IShelfApi
 
         builder.HasCollation(Constants.CaseInsensitiveCollation, locale: "und-u-ks-level2", provider: "icu", deterministic: false);
 
-        #region User Configs
+        #region User
 
         builder.ApplyConfiguration(new UserConfiguration());
         builder.ApplyConfiguration(new RoleConfiguration());
@@ -63,7 +67,13 @@ public class ShelfApiDbContext : IdentityDbContext<User, Role, ulong>, IShelfApi
         builder.ApplyConfiguration(new UserLoginConfiguration());
         builder.ApplyConfiguration(new UserTokenConfiguration());
 
-        #endregion User Configs
+        #endregion User
+
+        #region Error
+
+        builder.ApplyConfiguration(new ApiErrorConfiguration());
+
+        #endregion Error
 
         #region Settings
 

@@ -1,31 +1,24 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using ShelfApi.Application.ErrorApplication;
 using ShelfApi.Domain.UserAggregate;
 
 namespace ShelfApi.Application.AuthApplication;
 
-public class LogInWithEmailCommandHandler : ApiRequestHandler<LogInWithEmailCommand, UserCredentialDto>
+public class LogInWithEmailCommandHandler(UserManager<User> userManager, TokenService tokenService)
+    : IRequestHandler<LogInWithEmailCommand, Result<UserCredentialDto>>
 {
-    private readonly UserManager<User> _userManager;
-    private readonly TokenService _tokenService;
+    private readonly UserManager<User> _userManager = userManager;
+    private readonly TokenService _tokenService = tokenService;
 
-    public LogInWithEmailCommandHandler(UserManager<User> userManager,
-        TokenService tokenService)
+    public async Task<Result<UserCredentialDto>> Handle(LogInWithEmailCommand request, CancellationToken cancellationToken)
     {
-        _userManager = userManager;
-        _tokenService = tokenService;
-    }
-
-    protected override async Task<UserCredentialDto> OperateAsync(LogInWithEmailCommand request, CancellationToken cancellationToken)
-    {
-        User user = await _userManager.FindByEmailAsync(request.EmailAddress)
-            ?? throw new NotExistException(ErrorField.EMAIL, request.EmailAddress);
+        User user = await _userManager.FindByEmailAsync(request.EmailAddress);
+        if (user is null)
+            return ErrorCode.AuthenticationError;
 
         if (!await _userManager.CheckPasswordAsync(user, request.Password))
-            throw new InvalidValueException(ErrorField.PASSWORD);
+            return ErrorCode.AuthenticationError;
 
-        var userCredential = await _tokenService.GenerateAccessTokenAsync(user);
+        UserCredentialDto userCredential = await _tokenService.GenerateAccessTokenAsync(user);
         return userCredential;
     }
 }
-

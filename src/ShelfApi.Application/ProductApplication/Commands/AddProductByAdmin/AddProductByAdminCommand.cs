@@ -1,10 +1,8 @@
-﻿using ShelfApi.Domain.FinancialAggregate;
+﻿namespace ShelfApi.Application.ProductApplication;
 
-namespace ShelfApi.Application.ProductApplication;
-
-public class AddProductByAdminCommand : ApiRequest<ProductDto>
+public class AddProductByAdminCommand : IRequest<Result<ProductDto>>
 {
     public string Name { get; set; }
-    public Price Price { get; set; }
+    public decimal Price { get; set; }
     public int Quantity { get; set; }
 }
