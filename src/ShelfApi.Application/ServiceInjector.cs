@@ -1,4 +1,4 @@
-﻿using Bitiano.DevKit.Services.TaskServices;
+﻿using DotNetPotion.Services.ScopedTaskRunner;
 using MediatR.Pipeline;
 using Microsoft.Extensions.DependencyInjection;
 using ShelfApi.Application.AuthApplication;
@@ -14,7 +14,7 @@ public static class ServiceInjector
     public static void AddApplication(this IServiceCollection services)
     {
         services.AddSingleton<IBaseDataService, BaseDataService>();
-        services.AddTaskService();
+        services.AddScopedTaskRunner();
         services.AddScoped<TokenService>();
         services.AddTransient(typeof(IRequestExceptionHandler<,,>), typeof(ExceptionHandler<,,>));
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ErrorResultPipelineBehavior<,>));
