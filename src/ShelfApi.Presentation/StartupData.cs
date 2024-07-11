@@ -1,4 +1,4 @@
-﻿using Bitiano.DevKit;
+﻿using Bitiano.Shared;
 using Microsoft.EntityFrameworkCore;
 using ShelfApi.Domain.BaseDataAggregate;
 using ShelfApi.Domain.Common;

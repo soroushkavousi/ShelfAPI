@@ -1,4 +1,4 @@
-﻿namespace Bitiano.DevKit;
+﻿namespace Bitiano.Shared;
 
 public enum AppEnvironmentName : byte
 {
