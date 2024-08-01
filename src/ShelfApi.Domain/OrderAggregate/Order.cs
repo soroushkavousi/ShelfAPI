@@ -4,12 +4,11 @@ using ShelfApi.Domain.UserAggregate;
 
 namespace ShelfApi.Domain.OrderAggregate;
 
-public class Order : BaseModel<ulong>
+public class Order : BaseModel
 {
-    private Order()
-    { }
+    private Order() { }
 
-    public Order(ulong id, ulong userId, decimal taxPercentage, List<OrderLine> orderLines) : base(id)
+    public Order(long userId, decimal taxPercentage, List<OrderLine> orderLines) : base()
     {
         UserId = userId;
         State = OrderState.CREATED;
@@ -30,7 +29,8 @@ public class Order : BaseModel<ulong>
         NetPrice = ListPrice + TaxPrice;
     }
 
-    public ulong UserId { get; }
+    public long Id { get; }
+    public long UserId { get; }
     public User User { get; }
     public OrderState State { get; }
     public decimal TaxPercentage { get; }

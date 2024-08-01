@@ -11,9 +11,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
     {
         builder.ToTable("Users");
 
-        builder.SetOrderForAllProperties();
-
-        builder.ConfigureKey(x => x.Id);
+        builder.HasKey(x => x.Id);
 
         builder.Property(x => x.IsAdmin);
 

@@ -10,7 +10,6 @@ public class ApiError : BaseModel
         Code = Guard.Against.EnumOutOfRange(code);
         Title = Guard.Against.NullOrWhiteSpace(title);
         Message = Guard.Against.NullOrWhiteSpace(message);
-        Code = Guard.Against.EnumOutOfRange(code);
     }
 
     public ErrorCode Code { get; }

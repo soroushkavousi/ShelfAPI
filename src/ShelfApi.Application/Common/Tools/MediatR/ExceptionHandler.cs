@@ -1,6 +1,5 @@
 ﻿using MediatR.Pipeline;
 using Microsoft.Extensions.Logging;
-using ShelfApi.Domain.Common.ValueObjects;
 
 namespace ShelfApi.Application.Common.Tools.MediatR;
 

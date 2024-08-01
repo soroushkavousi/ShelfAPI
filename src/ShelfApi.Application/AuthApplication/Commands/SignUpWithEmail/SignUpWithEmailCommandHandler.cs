@@ -5,16 +5,10 @@ using ShelfApi.Domain.UserAggregate;
 
 namespace ShelfApi.Application.AuthApplication;
 
-public class SignUpWithEmailCommandHandler : IRequestHandler<SignUpWithEmailCommand, Result<bool>>
+public class SignUpWithEmailCommandHandler(UserManager<User> userManager)
+    : IRequestHandler<SignUpWithEmailCommand, Result<bool>>
 {
-    private readonly UserManager<User> _userManager;
-    private readonly IIdManager _idManager;
-
-    public SignUpWithEmailCommandHandler(UserManager<User> userManager, IIdManager idManager)
-    {
-        _userManager = userManager;
-        _idManager = idManager;
-    }
+    private readonly UserManager<User> _userManager = userManager;
 
     public async Task<Result<bool>> Handle(SignUpWithEmailCommand request, CancellationToken cancellationToken)
     {
@@ -24,8 +18,7 @@ public class SignUpWithEmailCommandHandler : IRequestHandler<SignUpWithEmailComm
         if (await _userManager.Users.AnyAsync(u => u.NormalizedUserName == request.Username.ToUpper(), cancellationToken: cancellationToken))
             return new Error(ErrorCode.ItemAlreadyExists, ErrorField.Username);
 
-        ulong userId = _idManager.GenerateNextUlong();
-        User user = new User(userId, false, request.Username, request.EmailAddress);
+        User user = new User(false, request.Username, request.EmailAddress);
 
         IdentityResult result = await _userManager.CreateAsync(user, request.Password);
         if (!result.Succeeded)

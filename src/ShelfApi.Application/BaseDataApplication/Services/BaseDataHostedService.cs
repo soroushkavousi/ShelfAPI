@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
+﻿using Microsoft.Extensions.Hosting;
 using ShelfApi.Application.BaseDataApplication.Interfaces;
 
 namespace ShelfApi.Application.BaseDataApplication.Services;

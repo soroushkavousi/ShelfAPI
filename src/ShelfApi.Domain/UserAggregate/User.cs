@@ -3,16 +3,14 @@ using ShelfApi.Domain.Common;
 
 namespace ShelfApi.Domain.UserAggregate;
 
-public class User : IdentityUser<ulong>
+public class User : IdentityUser<long>
 {
     public const string AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789._-";
 
     private User() { }
 
-    public User(ulong id, bool isAdmin, string username, string emailAddress)
+    public User(bool isAdmin, string username, string emailAddress)
     {
-        Id = id;
-
         IsAdmin = isAdmin;
 
         UserName = username;
@@ -38,7 +36,7 @@ public class User : IdentityUser<ulong>
     public DateTime CreatedAt { get; }
     public DateTime? ModifiedAt { get; private set; }
 
-    private string GenerateNewSecurityStamp()
+    private static string GenerateNewSecurityStamp()
         => Guid.NewGuid().ToString();
 
     public void SetModifiedAt(DateTime modifiedAt)
