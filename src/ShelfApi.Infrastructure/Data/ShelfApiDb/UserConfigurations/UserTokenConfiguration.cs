@@ -6,13 +6,11 @@ using ShelfApi.Infrastructure.Extensions;
 
 namespace ShelfApi.Infrastructure.Data.ShelfApiDb.UserConfigurations;
 
-public class UserTokenConfiguration : IEntityTypeConfiguration<IdentityUserToken<ulong>>
+public class UserTokenConfiguration : IEntityTypeConfiguration<IdentityUserToken<long>>
 {
-    public void Configure(EntityTypeBuilder<IdentityUserToken<ulong>> builder)
+    public void Configure(EntityTypeBuilder<IdentityUserToken<long>> builder)
     {
         builder.ToTable("UserTokens");
-
-        builder.SetOrderForAllProperties();
 
         builder.Property<DateTime>(nameof(BaseModel.CreatedAt))
             .ConfigureCreatedAt();

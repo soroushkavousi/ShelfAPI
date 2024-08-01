@@ -9,10 +9,9 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
 {
     public void Configure(EntityTypeBuilder<Order> builder)
     {
-        builder.ConfigureKey(x => x.Id);
+        builder.HasKey(x => x.Id);
 
-        builder.Property(x => x.UserId)
-            .HasColumnOrder(100);
+        builder.Property(x => x.UserId);
 
         builder.HasOne(x => x.User)
             .WithMany()
@@ -21,7 +20,6 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
             .OnDelete(DeleteBehavior.NoAction);
 
         builder.Property(x => x.State)
-            .HasColumnOrder(101)
             .IsRequired();
 
         builder.HasMany(x => x.Lines)
@@ -31,15 +29,12 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
              .OnDelete(DeleteBehavior.Cascade);
 
         builder.Property(x => x.ListPrice)
-            .HasColumnOrder(102)
             .IsRequired();
 
         builder.Property(x => x.TaxPrice)
-            .HasColumnOrder(103)
             .IsRequired();
 
         builder.Property(x => x.NetPrice)
-            .HasColumnOrder(104)
             .IsRequired();
 
         builder.Property(x => x.CreatedAt)

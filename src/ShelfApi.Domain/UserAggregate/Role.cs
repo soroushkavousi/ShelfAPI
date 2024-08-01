@@ -3,7 +3,7 @@ using ShelfApi.Domain.Common;
 
 namespace ShelfApi.Domain.UserAggregate;
 
-public class Role : IdentityRole<ulong>
+public class Role : IdentityRole<long>
 {
     private Role() { }
 

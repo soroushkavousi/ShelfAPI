@@ -1,5 +1,4 @@
-﻿using Mapster;
-using ShelfApi.Domain.ProductAggregate;
+﻿using ShelfApi.Domain.ProductAggregate;
 
 namespace ShelfApi.Application.ProductApplication;
 

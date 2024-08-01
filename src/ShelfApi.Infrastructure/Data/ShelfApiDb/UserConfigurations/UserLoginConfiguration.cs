@@ -6,16 +6,13 @@ using ShelfApi.Infrastructure.Extensions;
 
 namespace ShelfApi.Infrastructure.Data.ShelfApiDb.UserConfigurations;
 
-public class UserLoginConfiguration : IEntityTypeConfiguration<IdentityUserLogin<ulong>>
+public class UserLoginConfiguration : IEntityTypeConfiguration<IdentityUserLogin<long>>
 {
-    public void Configure(EntityTypeBuilder<IdentityUserLogin<ulong>> builder)
+    public void Configure(EntityTypeBuilder<IdentityUserLogin<long>> builder)
     {
         builder.ToTable("UserLogins");
 
-        builder.SetOrderForAllProperties();
-
-        builder.Property(x => x.UserId)
-            .HasColumnOrder(1);
+        builder.Property(x => x.UserId);
 
         builder.Property<DateTime>(nameof(BaseModel.CreatedAt))
             .ConfigureCreatedAt();

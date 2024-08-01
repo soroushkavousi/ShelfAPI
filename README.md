@@ -24,5 +24,4 @@
 - **Error Handling** with **Result Pattern**
 	- has implicit operator, and deconstruct
 	- used in try-create pattern value objects
-- **IdGen** to generate Snowflake-based globally unique ulong IDs
 - Has **Product, Order, OrderLine**

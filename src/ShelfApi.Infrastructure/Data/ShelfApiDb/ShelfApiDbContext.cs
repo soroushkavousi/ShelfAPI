@@ -19,7 +19,7 @@ using ShelfApi.Infrastructure.Data.ShelfApiDb.UserConfigurations;
 
 namespace ShelfApi.Infrastructure.Data.ShelfApiDb;
 
-public class ShelfApiDbContext : IdentityDbContext<User, Role, ulong>, IShelfApiDbContext
+public class ShelfApiDbContext : IdentityDbContext<User, Role, long>, IShelfApiDbContext
 {
     public DbSet<ProjectSetting> ProjectSettings { get; set; }
 

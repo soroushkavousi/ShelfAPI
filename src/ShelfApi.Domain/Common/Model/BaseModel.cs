@@ -17,16 +17,3 @@ public abstract class BaseModel
         ModifiedAt = modifiedAt;
     }
 }
-
-public abstract class BaseModel<TKey> : BaseModel
-{
-    protected BaseModel()
-    { }
-
-    public BaseModel(TKey id) : base()
-    {
-        Id = id;
-    }
-
-    public TKey Id { get; }
-}

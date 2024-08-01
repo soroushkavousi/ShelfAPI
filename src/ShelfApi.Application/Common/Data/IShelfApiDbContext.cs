@@ -11,7 +11,7 @@ public interface IShelfApiDbContext : IDbContext
 {
     DbSet<ProjectSetting> ProjectSettings { get; set; }
 
-    DbSet<IdentityUserRole<ulong>> UserRoles { get; set; }
+    DbSet<IdentityUserRole<long>> UserRoles { get; set; }
     DbSet<Role> Roles { get; set; }
     DbSet<User> Users { get; set; }
 

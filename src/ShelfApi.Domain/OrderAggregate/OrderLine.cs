@@ -4,12 +4,11 @@ using ShelfApi.Domain.ProductAggregate;
 
 namespace ShelfApi.Domain.OrderAggregate;
 
-public class OrderLine : BaseModel<ulong>
+public class OrderLine : BaseModel
 {
-    private OrderLine()
-    { }
+    private OrderLine() { }
 
-    public OrderLine(ulong id, ulong orderId, Product product, int quantity) : base(id)
+    public OrderLine(long orderId, Product product, int quantity) : base()
     {
         OrderId = orderId;
         Product = product;
@@ -18,8 +17,9 @@ public class OrderLine : BaseModel<ulong>
         TotalPrice = Price.Create(product.Price.Value * quantity);
     }
 
-    public ulong OrderId { get; }
-    public ulong ProductId { get; }
+    public long Id { get; }
+    public long OrderId { get; }
+    public long ProductId { get; }
     public Product Product { get; }
     public int Quantity { get; }
     public Price TotalPrice { get; }

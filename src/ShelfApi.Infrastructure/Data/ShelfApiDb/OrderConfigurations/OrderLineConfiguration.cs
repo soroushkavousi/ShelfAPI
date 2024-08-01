@@ -9,13 +9,11 @@ public class OrderLineConfiguration : IEntityTypeConfiguration<OrderLine>
 {
     public void Configure(EntityTypeBuilder<OrderLine> builder)
     {
-        builder.ConfigureKey(x => x.Id);
+        builder.HasKey(x => x.Id);
 
-        builder.Property(x => x.OrderId)
-            .HasColumnOrder(100);
+        builder.Property(x => x.OrderId);
 
-        builder.Property(x => x.ProductId)
-            .HasColumnOrder(101);
+        builder.Property(x => x.ProductId);
 
         builder.HasOne(x => x.Product)
             .WithMany()
@@ -23,12 +21,9 @@ public class OrderLineConfiguration : IEntityTypeConfiguration<OrderLine>
             .HasPrincipalKey(x => x.Id)
             .OnDelete(DeleteBehavior.Cascade);
 
-        builder.Property(x => x.Quantity)
-            .HasColumnOrder(102);
+        builder.Property(x => x.Quantity);
 
-        builder.Property(x => x.TotalPrice)
-            .HasColumnOrder(103)
-            .IsRequired();
+        builder.Property(x => x.TotalPrice);
 
         builder.Property(x => x.CreatedAt)
             .ConfigureCreatedAt();

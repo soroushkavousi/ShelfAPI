@@ -1,6 +1,4 @@
-﻿using Mapster;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace ShelfApi.Application.ProductApplication;
 

@@ -12,7 +12,7 @@ public static class ServiceInjector
     public static void AddInfrastructure(this IServiceCollection services, string shelfApiDbConnectionString)
     {
         services.AddSingleton<ISerializer, Serializer>();
-        services.AddSingleton<IIdManager>(new IdManager(0));
+        services.AddSingleton<IIdManager, IdManager>();
         AddShelfApiDbContext(services, shelfApiDbConnectionString);
     }
 

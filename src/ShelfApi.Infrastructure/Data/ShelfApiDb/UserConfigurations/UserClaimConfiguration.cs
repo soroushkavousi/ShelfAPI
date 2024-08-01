@@ -6,13 +6,11 @@ using ShelfApi.Infrastructure.Extensions;
 
 namespace ShelfApi.Infrastructure.Data.ShelfApiDb.UserConfigurations;
 
-public class UserClaimConfiguration : IEntityTypeConfiguration<IdentityUserClaim<ulong>>
+public class UserClaimConfiguration : IEntityTypeConfiguration<IdentityUserClaim<long>>
 {
-    public void Configure(EntityTypeBuilder<IdentityUserClaim<ulong>> builder)
+    public void Configure(EntityTypeBuilder<IdentityUserClaim<long>> builder)
     {
         builder.ToTable("UserClaims");
-
-        builder.SetOrderForAllProperties();
 
         builder.Property<DateTime>(nameof(BaseModel.CreatedAt))
             .ConfigureCreatedAt();

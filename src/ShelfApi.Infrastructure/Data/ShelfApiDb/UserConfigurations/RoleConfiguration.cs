@@ -11,9 +11,7 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
     {
         builder.ToTable("Roles");
 
-        builder.SetOrderForAllProperties();
-
-        builder.ConfigureKey(x => x.Id);
+        builder.HasKey(x => x.Id);
 
         builder.Property(x => x.Id)
             .HasColumnType("smallint");

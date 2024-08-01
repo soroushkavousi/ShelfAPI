@@ -6,13 +6,11 @@ using ShelfApi.Infrastructure.Extensions;
 
 namespace ShelfApi.Infrastructure.Data.ShelfApiDb.UserConfigurations;
 
-public class UserRoleConfiguration : IEntityTypeConfiguration<IdentityUserRole<ulong>>
+public class UserRoleConfiguration : IEntityTypeConfiguration<IdentityUserRole<long>>
 {
-    public void Configure(EntityTypeBuilder<IdentityUserRole<ulong>> builder)
+    public void Configure(EntityTypeBuilder<IdentityUserRole<long>> builder)
     {
         builder.ToTable("UserRoles");
-
-        builder.SetOrderForAllProperties();
 
         builder.Property<DateTime>(nameof(BaseModel.CreatedAt))
             .ConfigureCreatedAt();
