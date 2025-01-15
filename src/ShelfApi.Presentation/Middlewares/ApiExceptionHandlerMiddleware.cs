@@ -12,7 +12,7 @@ public class ApiExceptionHandlerMiddleware(ILogger<ApiExceptionHandlerMiddleware
 {
     public async Task InvokeAsync(HttpContext httpContext, ISender sender)
     {
-        var sw = Stopwatch.StartNew();
+        Stopwatch sw = Stopwatch.StartNew();
         try
         {
             await next(httpContext);

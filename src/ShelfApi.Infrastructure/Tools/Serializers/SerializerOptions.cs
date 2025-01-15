@@ -30,7 +30,7 @@ public static class SerializerOptions
         options.Converters.Add(new JsonNumberEnumConverter<ErrorCode>());
         options.Converters.Add(new JsonStringEnumConverter());
 
-        var serverJsonConverters = Assembly.GetExecutingAssembly().GetTypes().Where(type =>
+        List<JsonConverter> serverJsonConverters = Assembly.GetExecutingAssembly().GetTypes().Where(type =>
                 type.IsClass
                 && !type.IsAbstract
                 && !type.IsInterface

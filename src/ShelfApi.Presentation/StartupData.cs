@@ -59,7 +59,7 @@ public record StartupData
         }
         finally
         {
-            shelfApiDbContext.Dispose();
+            await shelfApiDbContext.DisposeAsync();
         }
     }
 }

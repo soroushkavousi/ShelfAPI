@@ -6,7 +6,7 @@ public class Utils
     {
         get
         {
-            var rootDirectory = AppContext.BaseDirectory;
+            string rootDirectory = AppContext.BaseDirectory;
             if (rootDirectory.Contains("bin"))
             {
                 rootDirectory = rootDirectory[..rootDirectory.IndexOf("bin")];

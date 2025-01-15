@@ -12,17 +12,17 @@ public class Modifiers
             object[] serializationCountAttributes = propertyInfo.AttributeProvider?.GetCustomAttributes(typeof(SensitiveAttribute), true) ?? Array.Empty<object>();
             SensitiveAttribute attribute = serializationCountAttributes.Length == 1 ? (SensitiveAttribute)serializationCountAttributes[0] : null;
 
-            if (attribute != null)
+            if (attribute == null)
+                continue;
+            
+            Func<object, object> getProperty = propertyInfo.Get;
+            if (getProperty is not null)
             {
-                var getProperty = propertyInfo.Get;
-                if (getProperty is not null)
+                propertyInfo.Get = _ =>
                 {
-                    propertyInfo.Get = obj =>
-                    {
-                        var maskedValue = $"(SENSITIVE_{propertyInfo.PropertyType.Name.ToUpper()})";
-                        return maskedValue;
-                    };
-                }
+                    string maskedValue = $"(SENSITIVE_{propertyInfo.PropertyType.Name.ToUpper()})";
+                    return maskedValue;
+                };
             }
         }
     }

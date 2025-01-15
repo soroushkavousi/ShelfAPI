@@ -1,6 +1,7 @@
 ﻿using EFCore.BulkExtensions;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using ShelfApi.Application.Common.Data;
 using ShelfApi.Domain.BaseDataAggregate;
 using ShelfApi.Domain.Common.Model;
@@ -107,7 +108,7 @@ public class ShelfApiDbContext : IdentityDbContext<User, Role, long>, IShelfApiD
 
     private void SetModifiedAt()
     {
-        var EditedEntities = ChangeTracker.Entries()
+        List<EntityEntry> EditedEntities = ChangeTracker.Entries()
             .Where(e => e.State == EntityState.Modified)
             .ToList();
 
@@ -125,7 +126,7 @@ public class ShelfApiDbContext : IdentityDbContext<User, Role, long>, IShelfApiD
 
     public static DbContextOptions<ShelfApiDbContext> CreateOptionsFromConnectionString(string connectionString)
     {
-        var optionsBuilder = new DbContextOptionsBuilder<ShelfApiDbContext>();
+        DbContextOptionsBuilder<ShelfApiDbContext> optionsBuilder = new DbContextOptionsBuilder<ShelfApiDbContext>();
         optionsBuilder.UseNpgsql(connectionString);
         return optionsBuilder.Options;
     }
