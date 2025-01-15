@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Net;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using ShelfApi.Domain.ErrorAggregate;
-using System.Net;
 
 namespace ShelfApi.Presentation.ActionFilters;
 

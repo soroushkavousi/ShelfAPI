@@ -1,10 +1,9 @@
 ﻿using EFCore.BulkExtensions;
-using IPE.Sms.Infrastructure.Persistance.SmsDb.Configurations.FinancialConfigurations.Converters;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using ShelfApi.Application.Common;
+using ShelfApi.Application.Common.Data;
 using ShelfApi.Domain.BaseDataAggregate;
-using ShelfApi.Domain.Common;
+using ShelfApi.Domain.Common.Model;
 using ShelfApi.Domain.ErrorAggregate;
 using ShelfApi.Domain.FinancialAggregate;
 using ShelfApi.Domain.OrderAggregate;
@@ -13,6 +12,7 @@ using ShelfApi.Domain.UserAggregate;
 using ShelfApi.Infrastructure.Common;
 using ShelfApi.Infrastructure.Data.ShelfApiDb.BaseDataConfigurations;
 using ShelfApi.Infrastructure.Data.ShelfApiDb.ErrorConfigurations;
+using ShelfApi.Infrastructure.Data.ShelfApiDb.FinancialConfigurations.Converters;
 using ShelfApi.Infrastructure.Data.ShelfApiDb.OrderConfigurations;
 using ShelfApi.Infrastructure.Data.ShelfApiDb.ProductConfigurations;
 using ShelfApi.Infrastructure.Data.ShelfApiDb.UserConfigurations;
@@ -31,14 +31,17 @@ public class ShelfApiDbContext : IdentityDbContext<User, Role, long>, IShelfApiD
     public DbSet<OrderLine> OrderLines { get; set; }
 
     private ShelfApiDbContext()
-    { }
+    {
+    }
 
     public ShelfApiDbContext(DbContextOptions options) : base(options)
     {
     }
 
     public ShelfApiDbContext(string connectionString)
-        : base(CreateOptionsFromConnectionString(connectionString)) { }
+        : base(CreateOptionsFromConnectionString(connectionString))
+    {
+    }
 
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
     {

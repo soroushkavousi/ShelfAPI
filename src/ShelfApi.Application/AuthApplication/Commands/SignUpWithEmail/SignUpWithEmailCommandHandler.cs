@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using ShelfApi.Domain.Common.Exceptions;
 using ShelfApi.Domain.UserAggregate;
 
-namespace ShelfApi.Application.AuthApplication;
+namespace ShelfApi.Application.AuthApplication.Commands.SignUpWithEmail;
 
 public class SignUpWithEmailCommandHandler(UserManager<User> userManager)
     : IRequestHandler<SignUpWithEmailCommand, Result<bool>>

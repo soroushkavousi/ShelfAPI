@@ -12,7 +12,7 @@ public static class Utils
             && !type.IsInterface
             && type.IsAssignableTo(typeof(T))
             && !(isLocal && !type.IsLocal())
-            ).ToList();
+        ).ToList();
     }
 
     public static bool IsLocal(this Type type)

@@ -1,4 +1,4 @@
-﻿namespace ShelfApi.Application.AuthApplication;
+﻿namespace ShelfApi.Application.AuthApplication.Commands.SignUpWithEmail;
 
 public class SignUpWithEmailCommand : IRequest<Result<bool>>
 {

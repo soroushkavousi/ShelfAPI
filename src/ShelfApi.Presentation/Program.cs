@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
 using Serilog.Events;
@@ -10,9 +11,7 @@ using ShelfApi.Infrastructure;
 using ShelfApi.Presentation;
 using ShelfApi.Presentation.ActionFilters;
 using ShelfApi.Presentation.Middlewares;
-using ShelfApi.Presentation.SettingAggregate;
-using ShelfApi.Presentation.Tools;
-using System.Text.Json.Serialization;
+using ShelfApi.Presentation.Tools.Swagger;
 
 ConfigureBootstrapSerilog();
 try
@@ -69,14 +68,14 @@ static void ConfigureBuilder(WebApplicationBuilder builder, StartupData startupD
 static void ConfigureServices(IServiceCollection services, IConfiguration configuration, StartupData startupData)
 {
     services.AddControllers(o =>
-    {
-        o.Filters.Add<StatusCodeActionFilter>();
-    })
-    .AddJsonOptions(o =>
-    {
-        o.JsonSerializerOptions.Converters.Add(new JsonNumberEnumConverter<ErrorCode>());
-        o.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-    });
+        {
+            o.Filters.Add<StatusCodeActionFilter>();
+        })
+        .AddJsonOptions(o =>
+        {
+            o.JsonSerializerOptions.Converters.Add(new JsonNumberEnumConverter<ErrorCode>());
+            o.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+        });
 
     services.Configure<ApiBehaviorOptions>(options =>
     {

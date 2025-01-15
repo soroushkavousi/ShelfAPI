@@ -1,12 +1,13 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.IdentityModel.Tokens;
-using ShelfApi.Application.BaseDataApplication.Interfaces;
-using ShelfApi.Domain.UserAggregate;
-using System.IdentityModel.Tokens.Jwt;
+﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
+using ShelfApi.Application.AuthApplication.Dtos;
+using ShelfApi.Application.BaseDataApplication.Interfaces;
+using ShelfApi.Domain.UserAggregate;
 
-namespace ShelfApi.Application.AuthApplication;
+namespace ShelfApi.Application.AuthApplication.Services;
 
 public class TokenService(IBaseDataService baseDataService, UserManager<User> userManager)
 {
@@ -18,7 +19,7 @@ public class TokenService(IBaseDataService baseDataService, UserManager<User> us
         List<Claim> authClaims =
         [
             new(ClaimTypes.NameIdentifier, user.Id.ToString()),
-            new(ClaimTypes.Name, user.UserName),
+            new(ClaimTypes.Name, user.UserName)
         ];
 
         IList<string> userRoles = await _userManager.GetRolesAsync(user);
@@ -46,7 +47,7 @@ public class TokenService(IBaseDataService baseDataService, UserManager<User> us
             claims: claims,
             expires: DateTime.Now.AddHours(24),
             signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
-            );
+        );
 
         return new JwtSecurityTokenHandler().WriteToken(jwtToken);
     }

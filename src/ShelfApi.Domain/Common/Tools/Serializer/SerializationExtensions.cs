@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 
-namespace ShelfApi.Domain.Common;
+namespace ShelfApi.Domain.Common.Tools.Serializer;
 
 public static class SerializarExtensions
 {

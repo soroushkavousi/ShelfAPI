@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
+using ShelfApi.Infrastructure.Tools.Serializers.NamingPolicies;
 
-namespace ShelfApi.Infrastructure.Tools;
+namespace ShelfApi.Infrastructure.Tools.Serializers;
 
 public static class Extensions
 {
@@ -9,8 +10,7 @@ public static class Extensions
         if (obj == null)
             return null;
 
-        JsonSerializerOptions serializerOptions = ignoreSensitiveLimit ?
-            SerializerOptions.Common : SerializerOptions.Sensitive;
+        JsonSerializerOptions serializerOptions = ignoreSensitiveLimit ? SerializerOptions.Common : SerializerOptions.Sensitive;
         return JsonSerializer.Serialize(obj, serializerOptions);
     }
 

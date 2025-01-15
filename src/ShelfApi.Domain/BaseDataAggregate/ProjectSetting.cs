@@ -1,13 +1,14 @@
-﻿using ShelfApi.Domain.Common;
+﻿using ShelfApi.Domain.Common.Model;
 
 namespace ShelfApi.Domain.BaseDataAggregate;
 
 public class ProjectSetting : BaseModel
 {
     private ProjectSetting()
-    { }
+    {
+    }
 
-    public ProjectSetting(ProjectSettingId id, string name, string data) : base()
+    public ProjectSetting(ProjectSettingId id, string name, string data)
     {
         Id = id;
         Name = name;

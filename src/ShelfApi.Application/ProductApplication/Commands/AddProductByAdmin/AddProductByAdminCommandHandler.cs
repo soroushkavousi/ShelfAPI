@@ -1,12 +1,14 @@
-﻿using ShelfApi.Domain.FinancialAggregate;
+﻿using ShelfApi.Application.Common.Data;
+using ShelfApi.Application.ProductApplication.Dtos;
+using ShelfApi.Domain.FinancialAggregate;
 using ShelfApi.Domain.ProductAggregate;
 
-namespace ShelfApi.Application.ProductApplication;
+namespace ShelfApi.Application.ProductApplication.Commands.AddProductByAdmin;
 
 public class AddProductByAdminCommandHandler(IShelfApiDbContext dbContext)
     : IRequestHandler<AddProductByAdminCommand, Result<ProductDto>>
 {
-    private IShelfApiDbContext _dbContext = dbContext;
+    private readonly IShelfApiDbContext _dbContext = dbContext;
 
     public async Task<Result<ProductDto>> Handle(AddProductByAdminCommand request, CancellationToken cancellationToken)
     {

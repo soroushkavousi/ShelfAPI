@@ -5,7 +5,7 @@ using ShelfApi.Domain.OrderAggregate;
 using ShelfApi.Domain.ProductAggregate;
 using ShelfApi.Domain.UserAggregate;
 
-namespace ShelfApi.Application.Common;
+namespace ShelfApi.Application.Common.Data;
 
 public interface IShelfApiDbContext : IDbContext
 {

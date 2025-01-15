@@ -1,4 +1,4 @@
-﻿namespace ShelfApi.Application.AuthApplication;
+﻿namespace ShelfApi.Application.AuthApplication.Dtos;
 
 public record UserCredentialDto
 {

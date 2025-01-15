@@ -1,9 +1,9 @@
-﻿using ShelfApi.Application.Common;
+﻿using ShelfApi.Application.Common.Tools;
 using SimpleBase;
 
 namespace ShelfApi.Infrastructure.Tools;
 
-public partial class IdManager : IIdManager
+public class IdManager : IIdManager
 {
     public string EncodeId(long id)
     {

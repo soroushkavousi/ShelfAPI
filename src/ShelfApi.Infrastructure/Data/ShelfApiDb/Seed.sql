@@ -1,4 +1,5 @@
-﻿USE [ShelfApiDb]
+﻿USE
+[ShelfApiDb]
 GO
 
 INSERT INTO [dbo].[Roles] ([Name], [NormalizedName], [ConcurrencyStamp]) VALUES 

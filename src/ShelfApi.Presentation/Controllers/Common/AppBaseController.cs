@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using ShelfApi.Domain.UserAggregate;
 
-namespace ShelfApi.Presentation.Controllers;
+namespace ShelfApi.Presentation.Controllers.Common;
 
 [Authorize(Roles = nameof(RoleName.USER))]
 public abstract class AppBaseController : ApiBaseController

@@ -1,7 +1,7 @@
-﻿using ShelfApi.Domain.Common.Exceptions;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
+using ShelfApi.Domain.Common.Exceptions;
 
-namespace ShelfApi.Application.Common;
+namespace ShelfApi.Application.Common.ValueObjects;
 
 public partial record EncodedId
 {

@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ShelfApi.Domain.FinancialAggregate;
 
-namespace IPE.Sms.Infrastructure.Persistance.SmsDb.Configurations.FinancialConfigurations.Converters;
+namespace ShelfApi.Infrastructure.Data.ShelfApiDb.FinancialConfigurations.Converters;
 
 public class PriceConverter : ValueConverter<Price, decimal>
 {

@@ -1,4 +1,6 @@
-﻿namespace ShelfApi.Application.ProductApplication;
+﻿using ShelfApi.Application.ProductApplication.Dtos;
+
+namespace ShelfApi.Application.ProductApplication.Commands.AddProductByAdmin;
 
 public class AddProductByAdminCommand : IRequest<Result<ProductDto>>
 {

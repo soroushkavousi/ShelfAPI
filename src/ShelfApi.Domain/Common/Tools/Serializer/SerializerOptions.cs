@@ -1,7 +1,7 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace ShelfApi.Domain.Common;
+namespace ShelfApi.Domain.Common.Tools.Serializer;
 
 public static class SerializerOptions
 {

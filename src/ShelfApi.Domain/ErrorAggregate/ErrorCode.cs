@@ -8,5 +8,5 @@ public enum ErrorCode : short
     ItemNotFound = 4,
     ItemAlreadyExists = 5,
     InvalidFormat = 6,
-    InvalidValue = 7,
+    InvalidValue = 7
 }

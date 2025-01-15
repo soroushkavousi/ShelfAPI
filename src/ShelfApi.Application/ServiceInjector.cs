@@ -1,11 +1,11 @@
-﻿using DotNetPotion.Services.ScopedTaskRunner;
+﻿using System.Reflection;
+using DotNetPotion.Services.ScopedTaskRunner;
 using MediatR.Pipeline;
 using Microsoft.Extensions.DependencyInjection;
-using ShelfApi.Application.AuthApplication;
+using ShelfApi.Application.AuthApplication.Services;
 using ShelfApi.Application.BaseDataApplication.Interfaces;
 using ShelfApi.Application.BaseDataApplication.Services;
 using ShelfApi.Application.Common.Tools.MediatR;
-using System.Reflection;
 
 namespace ShelfApi.Application;
 

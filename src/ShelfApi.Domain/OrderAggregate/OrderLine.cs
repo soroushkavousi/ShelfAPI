@@ -1,4 +1,4 @@
-﻿using ShelfApi.Domain.Common;
+﻿using ShelfApi.Domain.Common.Model;
 using ShelfApi.Domain.FinancialAggregate;
 using ShelfApi.Domain.ProductAggregate;
 
@@ -8,7 +8,7 @@ public class OrderLine : BaseModel
 {
     private OrderLine() { }
 
-    public OrderLine(long orderId, Product product, int quantity) : base()
+    public OrderLine(long orderId, Product product, int quantity)
     {
         OrderId = orderId;
         Product = product;

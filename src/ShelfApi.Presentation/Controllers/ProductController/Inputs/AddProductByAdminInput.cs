@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ShelfApi.Presentation.Controllers;
+namespace ShelfApi.Presentation.Controllers.ProductController.Inputs;
 
 public class AddProductByAdminInput
 {

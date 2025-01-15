@@ -1,6 +1,6 @@
 ﻿using Bitiano.Shared;
 
-namespace ShelfApi.Presentation.Tools;
+namespace ShelfApi.Presentation;
 
 public static class EnvironmentVariables
 {

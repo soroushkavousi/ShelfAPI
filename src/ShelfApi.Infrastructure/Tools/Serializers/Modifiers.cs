@@ -1,7 +1,7 @@
-﻿using ShelfApi.Domain.Common;
-using System.Text.Json.Serialization.Metadata;
+﻿using System.Text.Json.Serialization.Metadata;
+using ShelfApi.Domain.Common.Attributes;
 
-namespace ShelfApi.Infrastructure.Tools;
+namespace ShelfApi.Infrastructure.Tools.Serializers;
 
 public class Modifiers
 {
@@ -17,7 +17,7 @@ public class Modifiers
                 var getProperty = propertyInfo.Get;
                 if (getProperty is not null)
                 {
-                    propertyInfo.Get = (obj) =>
+                    propertyInfo.Get = obj =>
                     {
                         var maskedValue = $"(SENSITIVE_{propertyInfo.PropertyType.Name.ToUpper()})";
                         return maskedValue;

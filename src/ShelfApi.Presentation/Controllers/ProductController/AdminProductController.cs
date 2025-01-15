@@ -1,8 +1,11 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using ShelfApi.Application.ProductApplication;
+using ShelfApi.Application.ProductApplication.Commands.AddProductByAdmin;
+using ShelfApi.Application.ProductApplication.Dtos;
+using ShelfApi.Presentation.Controllers.Common;
+using ShelfApi.Presentation.Controllers.ProductController.Inputs;
 
-namespace ShelfApi.Presentation.Controllers;
+namespace ShelfApi.Presentation.Controllers.ProductController;
 
 [Route("admin/products")]
 public class AdminProductController(ISender sender) : AdminBaseController(sender)
@@ -15,7 +18,7 @@ public class AdminProductController(ISender sender) : AdminBaseController(sender
         {
             Name = inputBody.Name,
             Price = inputBody.Price,
-            Quantity = inputBody.Quantity,
+            Quantity = inputBody.Quantity
         });
 
         return result;

@@ -1,12 +1,12 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using ShelfApi.Domain.BaseDataAggregate;
 using ShelfApi.Domain.UserAggregate;
 using ShelfApi.Infrastructure.Data.ShelfApiDb;
-using ShelfApi.Presentation.Tools;
-using System.Text;
+using ShelfApi.Presentation.Tools.Auth;
 
 namespace ShelfApi.Presentation;
 
@@ -27,17 +27,17 @@ public static class ServiceInjector
     private static void AddIdentity(this IServiceCollection services)
     {
         services.AddIdentity<User, Role>(options =>
-        {
-            options.Password.RequireNonAlphanumeric = true;
-            options.Password.RequireDigit = true;
-            options.Password.RequiredLength = 8;
-            options.Password.RequireUppercase = true;
-            options.Password.RequireLowercase = true;
-            options.User.RequireUniqueEmail = true;
-            options.User.AllowedUserNameCharacters = User.AllowedUserNameCharacters;
-        })
-        .AddEntityFrameworkStores<ShelfApiDbContext>()
-        .AddDefaultTokenProviders();
+            {
+                options.Password.RequireNonAlphanumeric = true;
+                options.Password.RequireDigit = true;
+                options.Password.RequiredLength = 8;
+                options.Password.RequireUppercase = true;
+                options.Password.RequireLowercase = true;
+                options.User.RequireUniqueEmail = true;
+                options.User.AllowedUserNameCharacters = User.AllowedUserNameCharacters;
+            })
+            .AddEntityFrameworkStores<ShelfApiDbContext>()
+            .AddDefaultTokenProviders();
     }
 
     private static void AddAuthentication(this IServiceCollection services, JwtSettings jwtSettings)

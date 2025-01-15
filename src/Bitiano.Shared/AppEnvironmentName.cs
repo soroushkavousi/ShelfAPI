@@ -3,5 +3,5 @@
 public enum AppEnvironmentName : byte
 {
     DEVELOPMENT,
-    PRODUCTION,
+    PRODUCTION
 }

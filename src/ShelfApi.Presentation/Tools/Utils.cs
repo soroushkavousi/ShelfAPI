@@ -11,6 +11,7 @@ public class Utils
             {
                 rootDirectory = rootDirectory[..rootDirectory.IndexOf("bin")];
             }
+
             return rootDirectory;
         }
     }

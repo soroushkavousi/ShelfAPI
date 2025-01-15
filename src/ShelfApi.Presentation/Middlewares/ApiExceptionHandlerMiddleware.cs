@@ -1,9 +1,9 @@
-﻿using MediatR;
-using ShelfApi.Application.BaseDataApplication.Interfaces;
-using ShelfApi.Application.Common;
-using ShelfApi.Domain.ErrorAggregate;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Net;
+using MediatR;
+using ShelfApi.Application.BaseDataApplication.Interfaces;
+using ShelfApi.Application.Common.Tools;
+using ShelfApi.Domain.ErrorAggregate;
 
 namespace ShelfApi.Presentation.Middlewares;
 

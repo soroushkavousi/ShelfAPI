@@ -1,7 +1,7 @@
-﻿using Newtonsoft.Json.Serialization;
-using System.Text.Json;
+﻿using System.Text.Json;
+using Newtonsoft.Json.Serialization;
 
-namespace ShelfApi.Infrastructure.Tools;
+namespace ShelfApi.Infrastructure.Tools.Serializers.NamingPolicies;
 
 public class KebabCaseNamingPolicy : JsonNamingPolicy
 {

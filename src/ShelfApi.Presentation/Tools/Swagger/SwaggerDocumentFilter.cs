@@ -1,7 +1,7 @@
 ﻿using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace ShelfApi.Presentation.Tools;
+namespace ShelfApi.Presentation.Tools.Swagger;
 
 internal class SwaggerDocumentFilter : IDocumentFilter
 {

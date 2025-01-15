@@ -1,7 +1,7 @@
-﻿using Newtonsoft.Json.Serialization;
-using System.Text.Json;
+﻿using System.Text.Json;
+using Newtonsoft.Json.Serialization;
 
-namespace ShelfApi.Domain.Common;
+namespace ShelfApi.Domain.Common.Tools.Serializer;
 
 public class SnakeCaseNamingPolicy : JsonNamingPolicy
 {

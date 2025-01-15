@@ -1,9 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Diagnostics;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using ShelfApi.Application.Common;
+using Microsoft.Extensions.Logging;
+using ShelfApi.Application.Common.Data;
+using ShelfApi.Application.Common.Tools;
 using ShelfApi.Infrastructure.Data.ShelfApiDb;
 using ShelfApi.Infrastructure.Tools;
-using System.Diagnostics;
+using ShelfApi.Infrastructure.Tools.Serializers;
 
 namespace ShelfApi.Infrastructure;
 
@@ -22,8 +25,8 @@ public static class ServiceInjector
         services.AddDbContext<ShelfApiDbContext>(options =>
         {
             options.UseNpgsql(shelfApiDbConnectionString)
-                .LogTo(message => Debug.WriteLine(message), Microsoft.Extensions.Logging.LogLevel.Information);
-            options.EnableSensitiveDataLogging(true);
+                .LogTo(message => Debug.WriteLine(message), LogLevel.Information);
+            options.EnableSensitiveDataLogging();
         });
     }
 }
