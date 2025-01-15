@@ -105,6 +105,5 @@ static void ConfigureApp(WebApplication app, IConfiguration configuration)
     app.UseSerilogRequestLogging();
     app.UseApiExceptionHandler();
     app.UseAuthorization();
-    app.UseAuthorization();
     app.MapControllers();
 }

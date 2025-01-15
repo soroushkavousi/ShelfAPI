@@ -3,9 +3,10 @@ using ShelfApi.Domain.UserAggregate;
 
 namespace ShelfApi.Application.AuthApplication;
 
-public class LogInWithEmailCommandHandler(UserManager<User> userManager, TokenService tokenService)
+public class LogInWithEmailCommandHandler(SignInManager<User> signInManager, UserManager<User> userManager, TokenService tokenService)
     : IRequestHandler<LogInWithEmailCommand, Result<UserCredentialDto>>
 {
+    private readonly SignInManager<User> _signInManager = signInManager;
     private readonly UserManager<User> _userManager = userManager;
     private readonly TokenService _tokenService = tokenService;
 
@@ -15,7 +16,8 @@ public class LogInWithEmailCommandHandler(UserManager<User> userManager, TokenSe
         if (user is null)
             return ErrorCode.AuthenticationError;
 
-        if (!await _userManager.CheckPasswordAsync(user, request.Password))
+        SignInResult signInResult = await _signInManager.PasswordSignInAsync(user, request.Password, true, false);
+        if (!signInResult.Succeeded)
             return ErrorCode.AuthenticationError;
 
         UserCredentialDto userCredential = await _tokenService.GenerateAccessTokenAsync(user);
