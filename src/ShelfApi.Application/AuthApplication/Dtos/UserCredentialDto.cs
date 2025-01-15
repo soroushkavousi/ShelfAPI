@@ -2,6 +2,6 @@
 
 public record UserCredentialDto
 {
-    public string AccessToken { get; init; }
-    public Guid RefreshToken { get; init; }
+    public required string AccessToken { get; init; }
+    public required Guid RefreshToken { get; init; }
 }

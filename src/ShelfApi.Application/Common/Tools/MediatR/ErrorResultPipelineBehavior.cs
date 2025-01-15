@@ -9,11 +9,11 @@ public class ErrorResultPipelineBehavior<TRequest, TResponse>(IBaseDataService b
     {
         TResponse response = await next();
 
-        if (response is Result result && result.Error is not null)
-        {
-            ApiError apiError = baseDataService.ApiErrors[result.Error.Code];
-            result.Error.SetDetails(apiError.Title, apiError.Message);
-        }
+        if (response is not Result { Error: not null } result)
+            return response;
+
+        ApiError apiError = baseDataService.ApiErrors[result.Error.Code];
+        result.Error.SetDetails(apiError.Title, apiError.Message);
 
         return response;
     }
