@@ -1,6 +1,6 @@
-﻿using ShelfApi.Application.Common;
+﻿using ShelfApi.Application.Common.Tools;
 
-namespace ShelfApi.Infrastructure.Tools;
+namespace ShelfApi.Infrastructure.Tools.Serializers;
 
 public class Serializer : ISerializer
 {

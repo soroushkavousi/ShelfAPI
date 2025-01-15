@@ -23,10 +23,10 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
             .IsRequired();
 
         builder.HasMany(x => x.Lines)
-             .WithOne()
-             .HasForeignKey(x => x.OrderId)
-             .HasPrincipalKey(x => x.Id)
-             .OnDelete(DeleteBehavior.Cascade);
+            .WithOne()
+            .HasForeignKey(x => x.OrderId)
+            .HasPrincipalKey(x => x.Id)
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder.Property(x => x.ListPrice)
             .IsRequired();

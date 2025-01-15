@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using ShelfApi.Domain.Common;
+using ShelfApi.Domain.Common.Tools;
 
 namespace ShelfApi.Domain.UserAggregate;
 

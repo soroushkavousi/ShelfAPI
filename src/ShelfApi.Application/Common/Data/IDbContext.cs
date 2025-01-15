@@ -1,9 +1,9 @@
-﻿using EFCore.BulkExtensions;
+﻿using System.Diagnostics.CodeAnalysis;
+using EFCore.BulkExtensions;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using System.Diagnostics.CodeAnalysis;
 
-namespace ShelfApi.Application.Common;
+namespace ShelfApi.Application.Common.Data;
 
 public interface IDbContext
 {

@@ -1,6 +1,7 @@
-﻿using ShelfApi.Domain.ProductAggregate;
+﻿using ShelfApi.Application.ProductApplication.Dtos;
+using ShelfApi.Domain.ProductAggregate;
 
-namespace ShelfApi.Application.ProductApplication;
+namespace ShelfApi.Application.ProductApplication.Mappers;
 
 public class ProductMapper : IRegister
 {

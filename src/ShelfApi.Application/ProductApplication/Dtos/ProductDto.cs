@@ -1,4 +1,4 @@
-﻿namespace ShelfApi.Application.ProductApplication;
+﻿namespace ShelfApi.Application.ProductApplication.Dtos;
 
 public record ProductDto
 {

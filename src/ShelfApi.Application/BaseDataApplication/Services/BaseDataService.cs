@@ -2,15 +2,14 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using ShelfApi.Application.BaseDataApplication.Interfaces;
+using ShelfApi.Application.Common.Data;
 using ShelfApi.Domain.BaseDataAggregate;
-using ShelfApi.Domain.Common;
+using ShelfApi.Domain.Common.Tools.Serializer;
 
 namespace ShelfApi.Application.BaseDataApplication.Services;
 
 public class BaseDataService(IScopedTaskRunner scopedTaskRunner) : IBaseDataService
 {
-    private readonly IScopedTaskRunner _scopedTaskRunner = scopedTaskRunner;
-
     public JwtSettings JwtSettings { get; private set; }
     public FinancialSettings FinancialSettings { get; private set; }
     public Dictionary<ErrorCode, ApiError> ApiErrors { get; private set; }
@@ -27,7 +26,7 @@ public class BaseDataService(IScopedTaskRunner scopedTaskRunner) : IBaseDataServ
 
     public async Task LoadProjectSettingsAsync()
     {
-        await _scopedTaskRunner.Run(async (scope) =>
+        await scopedTaskRunner.Run(async scope =>
         {
             IShelfApiDbContext shelfApiDbContext = scope.ServiceProvider.GetRequiredService<IShelfApiDbContext>();
             Dictionary<ProjectSettingId, string> projectSettings = await shelfApiDbContext.ProjectSettings
@@ -40,7 +39,7 @@ public class BaseDataService(IScopedTaskRunner scopedTaskRunner) : IBaseDataServ
 
     public async Task LoadApiErrorsAsync()
     {
-        await _scopedTaskRunner.Run(async (scope) =>
+        await scopedTaskRunner.Run(async scope =>
         {
             IShelfApiDbContext shelfApiDbContext = scope.ServiceProvider.GetRequiredService<IShelfApiDbContext>();
             ApiErrors = await shelfApiDbContext.ApiErrors

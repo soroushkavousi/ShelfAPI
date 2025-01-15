@@ -1,8 +1,10 @@
-﻿namespace ShelfApi.Application.ProductApplication;
+﻿using ShelfApi.Application.ProductApplication.Dtos;
+
+namespace ShelfApi.Application.ProductApplication.Commands.AddProductByAdmin;
 
 public class AddProductByAdminCommand : IRequest<Result<ProductDto>>
 {
-    public string Name { get; set; }
-    public decimal Price { get; set; }
-    public int Quantity { get; set; }
+    public required string Name { get; init; }
+    public required decimal Price { get; init; }
+    public required int Quantity { get; init; }
 }

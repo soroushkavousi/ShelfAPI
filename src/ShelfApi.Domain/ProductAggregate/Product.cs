@@ -1,4 +1,4 @@
-﻿using ShelfApi.Domain.Common;
+﻿using ShelfApi.Domain.Common.Model;
 using ShelfApi.Domain.FinancialAggregate;
 
 namespace ShelfApi.Domain.ProductAggregate;
@@ -7,7 +7,7 @@ public class Product : BaseModel
 {
     private Product() { }
 
-    public Product(string name, Price price, int quantity) : base()
+    public Product(string name, Price price, int quantity)
     {
         Name = name;
         Price = price;

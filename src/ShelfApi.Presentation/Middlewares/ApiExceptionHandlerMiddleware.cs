@@ -1,26 +1,21 @@
-﻿using MediatR;
-using ShelfApi.Application.BaseDataApplication.Interfaces;
-using ShelfApi.Application.Common;
-using ShelfApi.Domain.ErrorAggregate;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Net;
+using MediatR;
+using ShelfApi.Application.BaseDataApplication.Interfaces;
+using ShelfApi.Application.Common.Tools;
+using ShelfApi.Domain.ErrorAggregate;
 
 namespace ShelfApi.Presentation.Middlewares;
 
 public class ApiExceptionHandlerMiddleware(ILogger<ApiExceptionHandlerMiddleware> logger,
     RequestDelegate next, IBaseDataService baseDataService, ISerializer serializer)
 {
-    private readonly ILogger<ApiExceptionHandlerMiddleware> _logger = logger;
-    private readonly RequestDelegate _next = next;
-    private readonly IBaseDataService _baseDataService = baseDataService;
-    private readonly ISerializer _serializer = serializer;
-
     public async Task InvokeAsync(HttpContext httpContext, ISender sender)
     {
-        var sw = Stopwatch.StartNew();
+        Stopwatch sw = Stopwatch.StartNew();
         try
         {
-            await _next(httpContext);
+            await next(httpContext);
         }
         catch (Exception ex)
         {
@@ -30,14 +25,14 @@ public class ApiExceptionHandlerMiddleware(ILogger<ApiExceptionHandlerMiddleware
 
     private async Task MakeResponseInternalServerErrorAsync(Exception ex, HttpContext httpContext)
     {
-        _logger.LogError(ex, "Could not process the request!");
+        logger.LogError(ex, "Could not process the request!");
 
         httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
         httpContext.Response.ContentType = "application/json";
 
-        ApiError apiError = _baseDataService.ApiErrors[ErrorCode.InternalServerError];
+        ApiError apiError = baseDataService.ApiErrors[ErrorCode.InternalServerError];
         Result<object> result = new Error(apiError.Code, apiError.Title, apiError.Message);
-        string responseBody = _serializer.Serialize(result, true);
+        string responseBody = serializer.Serialize(result, true);
         await httpContext.Response.WriteAsync(responseBody);
     }
 }

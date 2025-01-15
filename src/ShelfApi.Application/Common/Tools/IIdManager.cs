@@ -1,4 +1,4 @@
-﻿namespace ShelfApi.Application.Common;
+﻿namespace ShelfApi.Application.Common.Tools;
 
 public interface IIdManager
 {

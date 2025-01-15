@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authorization.Policy;
 
-namespace ShelfApi.Presentation.Tools;
+namespace ShelfApi.Presentation.Tools.Auth;
 
 public class ApiAuthorizationMiddlewareResultHandler : IAuthorizationMiddlewareResultHandler
 {

@@ -3,5 +3,5 @@
 public enum RoleName : byte
 {
     ADMIN,
-    USER,
+    USER
 }

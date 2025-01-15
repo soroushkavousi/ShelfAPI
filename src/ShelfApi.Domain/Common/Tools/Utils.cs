@@ -1,4 +1,4 @@
-﻿namespace ShelfApi.Domain.Common;
+﻿namespace ShelfApi.Domain.Common.Tools;
 
 public static class Utils
 {

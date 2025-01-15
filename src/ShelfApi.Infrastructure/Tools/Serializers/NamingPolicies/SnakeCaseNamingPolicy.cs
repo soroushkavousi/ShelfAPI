@@ -1,13 +1,13 @@
-﻿using Newtonsoft.Json.Serialization;
-using System.Text.Json;
+﻿using System.Text.Json;
+using Newtonsoft.Json.Serialization;
 
-namespace ShelfApi.Infrastructure.Tools;
+namespace ShelfApi.Infrastructure.Tools.Serializers.NamingPolicies;
 
 public class SnakeCaseNamingPolicy : JsonNamingPolicy
 {
     private readonly SnakeCaseNamingStrategy _newtonsoftSnakeCaseNamingStrategy = new();
 
-    public static SnakeCaseNamingPolicy Instance { get; } = new SnakeCaseNamingPolicy();
+    public static SnakeCaseNamingPolicy Instance { get; } = new();
 
     public override string ConvertName(string name)
     {

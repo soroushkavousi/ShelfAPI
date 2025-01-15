@@ -1,7 +1,7 @@
 ﻿using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace ShelfApi.Presentation.Tools;
+namespace ShelfApi.Presentation.Tools.Swagger;
 
 internal class SwaggerDocumentFilter : IDocumentFilter
 {
@@ -9,13 +9,13 @@ internal class SwaggerDocumentFilter : IDocumentFilter
 
     public SwaggerDocumentFilter(IHttpContextAccessor httpContextAccessor)
     {
-        var host = httpContextAccessor.HttpContext.Request.Host.Value;
-        var scheme = httpContextAccessor.HttpContext.Request.Scheme;
+        string host = httpContextAccessor.HttpContext.Request.Host.Value;
+        string scheme = httpContextAccessor.HttpContext.Request.Scheme;
         _swaggerDocHost = $"{scheme}://{host}";
     }
 
     public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
     {
-        swaggerDoc.Servers.Add(new OpenApiServer { Url = _swaggerDocHost });
+        swaggerDoc.Servers.Add(new() { Url = _swaggerDocHost });
     }
 }

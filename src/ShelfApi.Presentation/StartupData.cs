@@ -1,16 +1,15 @@
 ﻿using Bitiano.Shared;
 using Microsoft.EntityFrameworkCore;
 using ShelfApi.Domain.BaseDataAggregate;
-using ShelfApi.Domain.Common;
 using ShelfApi.Domain.Common.Extensions;
+using ShelfApi.Domain.Common.Tools.Serializer;
 using ShelfApi.Infrastructure.Data.ShelfApiDb;
-using ShelfApi.Presentation.Tools;
 
-namespace ShelfApi.Presentation.SettingAggregate;
+namespace ShelfApi.Presentation;
 
 public record StartupData
 {
-    private readonly static ProjectSettingId[] StartupSettingCategories =
+    private static readonly ProjectSettingId[] StartupSettingCategories =
     [
         ProjectSettingId.JWT
     ];
@@ -32,7 +31,7 @@ public record StartupData
     private void LoadFromEnvironmentVariables()
     {
         EnvironmentName = EnvironmentVariables.EnvironmentName.Value.ToEnum<AppEnvironmentName>()
-                ?? AppEnvironmentName.DEVELOPMENT;
+            ?? AppEnvironmentName.DEVELOPMENT;
 
         ShelfApiDbConnectionString = EnvironmentVariables.ConnectionString.Value;
         if (string.IsNullOrWhiteSpace(ShelfApiDbConnectionString))
@@ -60,7 +59,7 @@ public record StartupData
         }
         finally
         {
-            shelfApiDbContext.Dispose();
+            await shelfApiDbContext.DisposeAsync();
         }
     }
 }

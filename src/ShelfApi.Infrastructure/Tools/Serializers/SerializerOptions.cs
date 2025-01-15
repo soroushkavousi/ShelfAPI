@@ -1,10 +1,10 @@
-﻿using ShelfApi.Domain.ErrorAggregate;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.Json.Serialization.Metadata;
+using ShelfApi.Domain.ErrorAggregate;
 
-namespace ShelfApi.Infrastructure.Tools;
+namespace ShelfApi.Infrastructure.Tools.Serializers;
 
 public static class SerializerOptions
 {
@@ -30,13 +30,13 @@ public static class SerializerOptions
         options.Converters.Add(new JsonNumberEnumConverter<ErrorCode>());
         options.Converters.Add(new JsonStringEnumConverter());
 
-        var serverJsonConverters = Assembly.GetExecutingAssembly().GetTypes().Where(type =>
-            type.IsClass
-            && !type.IsAbstract
-            && !type.IsInterface
-            && type.IsLocal()
-            && type.BaseType.IsGenericType
-            && type.BaseType.GetGenericTypeDefinition() == typeof(JsonConverter<>)
+        List<JsonConverter> serverJsonConverters = Assembly.GetExecutingAssembly().GetTypes().Where(type =>
+                type.IsClass
+                && !type.IsAbstract
+                && !type.IsInterface
+                && type.IsLocal()
+                && type.BaseType.IsGenericType
+                && type.BaseType.GetGenericTypeDefinition() == typeof(JsonConverter<>)
             ).Select(type => (JsonConverter)Activator.CreateInstance(type))
             .ToList();
 

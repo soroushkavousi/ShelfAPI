@@ -1,4 +1,4 @@
-﻿using ShelfApi.Domain.Common;
+﻿using ShelfApi.Domain.Common.Model;
 using ShelfApi.Domain.FinancialAggregate;
 using ShelfApi.Domain.UserAggregate;
 
@@ -8,7 +8,7 @@ public class Order : BaseModel
 {
     private Order() { }
 
-    public Order(long userId, decimal taxPercentage, List<OrderLine> orderLines) : base()
+    public Order(long userId, decimal taxPercentage, List<OrderLine> orderLines)
     {
         UserId = userId;
         State = OrderState.CREATED;
