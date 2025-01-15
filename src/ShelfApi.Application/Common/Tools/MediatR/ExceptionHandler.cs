@@ -9,14 +9,12 @@ public class ExceptionHandler<TRequest, TResponse, TException>
     where TException : Exception
     where TResponse : Result, new()
 {
-    private readonly ILogger<ExceptionHandler<TRequest, TResponse, TException>> _logger = logger;
-
     public Task Handle(TRequest request,
         TException exception,
         RequestExceptionHandlerState<TResponse> state,
         CancellationToken cancellationToken)
     {
-        _logger.LogError(exception, "Command failed! request type: {RequestType}", request.GetType().FullName);
+        logger.LogError(exception, "Command failed! request type: {RequestType}", request.GetType().FullName);
 
         Result result = new Result(ErrorCode.InternalServerError);
         TResponse response = (TResponse)result;

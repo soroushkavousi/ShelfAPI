@@ -5,11 +5,9 @@ namespace ShelfApi.Application.BaseDataApplication.Services;
 
 public class BaseDataHostedService(IBaseDataService baseDataService) : IHostedLifecycleService
 {
-    private readonly IBaseDataService _baseDataService = baseDataService;
-
     public async Task StartingAsync(CancellationToken cancellationToken)
     {
-        await _baseDataService.InitializeAsync();
+        await baseDataService.InitializeAsync();
     }
 
     public Task StartAsync(CancellationToken cancellationToken)

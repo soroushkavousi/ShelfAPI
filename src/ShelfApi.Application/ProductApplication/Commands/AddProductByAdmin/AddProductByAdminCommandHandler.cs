@@ -8,8 +8,6 @@ namespace ShelfApi.Application.ProductApplication.Commands.AddProductByAdmin;
 public class AddProductByAdminCommandHandler(IShelfApiDbContext dbContext)
     : IRequestHandler<AddProductByAdminCommand, Result<ProductDto>>
 {
-    private readonly IShelfApiDbContext _dbContext = dbContext;
-
     public async Task<Result<ProductDto>> Handle(AddProductByAdminCommand request, CancellationToken cancellationToken)
     {
         (Error error, Price price) = Price.TryCreate(request.Price);
@@ -18,9 +16,9 @@ public class AddProductByAdminCommandHandler(IShelfApiDbContext dbContext)
 
         Product product = new(request.Name, price, request.Quantity);
 
-        _dbContext.Products.Add(product);
+        dbContext.Products.Add(product);
 
-        await _dbContext.SaveChangesAsync();
+        await dbContext.SaveChangesAsync();
 
         return product.Adapt<ProductDto>();
     }
