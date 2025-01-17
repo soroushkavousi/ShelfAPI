@@ -3,7 +3,11 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/main/VisualStudio.gitignore
 
+# Rider
 .idea/
+
+# Ignore all appsettings files
+appsettings*.json
 
 # Project-specific files
 [Ss]ecrets/
