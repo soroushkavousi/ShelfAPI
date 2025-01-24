@@ -1,4 +1,4 @@
-namespace Bitiano.Shared.Helpers;
+namespace Bitiano.Shared.Tools;
 
 public static class EnvironmentHelper
 {

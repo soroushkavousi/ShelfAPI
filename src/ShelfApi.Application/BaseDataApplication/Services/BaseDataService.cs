@@ -1,10 +1,10 @@
-﻿using DotNetPotion.ScopeServicePack;
+﻿using Bitiano.Shared.Tools.Serializer;
+using DotNetPotion.ScopeServicePack;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using ShelfApi.Application.BaseDataApplication.Interfaces;
 using ShelfApi.Application.Common.Data;
 using ShelfApi.Domain.BaseDataAggregate;
-using ShelfApi.Domain.Common.Tools.Serializer;
 
 namespace ShelfApi.Application.BaseDataApplication.Services;
 
