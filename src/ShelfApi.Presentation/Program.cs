@@ -1,17 +1,14 @@
-using System.Text.Json.Serialization;
-using Microsoft.AspNetCore.Mvc;
 using Serilog;
 using Serilog.Events;
 using Serilog.Exceptions;
 using Serilog.Exceptions.Core;
 using Serilog.Exceptions.EntityFrameworkCore.Destructurers;
 using ShelfApi.Application;
-using ShelfApi.Domain.ErrorAggregate;
+using ShelfApi.Application.Common.Data;
 using ShelfApi.Infrastructure;
 using ShelfApi.Presentation;
-using ShelfApi.Presentation.ActionFilters;
 using ShelfApi.Presentation.Middlewares;
-using ShelfApi.Presentation.Tools.Swagger;
+using ServiceInjector = ShelfApi.Presentation.ServiceInjector;
 
 ConfigureBootstrapSerilog();
 try
@@ -37,7 +34,7 @@ static void ConfigureBootstrapSerilog()
         .WriteTo.Console(LogEventLevel.Warning)
         .Enrich.WithExceptionDetails(new DestructuringOptionsBuilder()
             .WithDefaultDestructurers()
-            .WithDestructurers(new[] { new DbUpdateExceptionDestructurer() }))
+            .WithDestructurers([new DbUpdateExceptionDestructurer()]))
         .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
         .MinimumLevel.Override("Microsoft.EntityFrameworkCore.Query", LogEventLevel.Error)
         .MinimumLevel.Override("Microsoft.EntityFrameworkCore.Update", LogEventLevel.Error)
@@ -47,13 +44,13 @@ static void ConfigureBootstrapSerilog()
 
 static async Task StartAppAsync(string[] args)
 {
-    StartupData startupData = await StartupData.InitializeAsync();
+    StartupData startupData = await ServiceInjector.ReadStartupData();
 
     WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
     ConfigureBuilder(builder, startupData);
 
     WebApplication app = builder.Build();
-    ConfigureApp(app, builder.Configuration);
+    ConfigureApp(app);
 
     app.Run();
 }
@@ -62,38 +59,18 @@ static void ConfigureBuilder(WebApplicationBuilder builder, StartupData startupD
 {
     builder.Host.UseSerilog();
 
-    ConfigureServices(builder.Services, builder.Configuration, startupData);
+    ConfigureServices(builder.Services, startupData);
 }
 
-static void ConfigureServices(IServiceCollection services, IConfiguration configuration, StartupData startupData)
+static void ConfigureServices(IServiceCollection services, StartupData startupData)
 {
-    services.AddControllers(o =>
-        {
-            o.Filters.Add<StatusCodeActionFilter>();
-        })
-        .AddJsonOptions(o =>
-        {
-            o.JsonSerializerOptions.Converters.Add(new JsonNumberEnumConverter<ErrorCode>());
-            o.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-        });
-
-    services.Configure<ApiBehaviorOptions>(options =>
-    {
-        options.SuppressModelStateInvalidFilter = true;
-    });
-
-    services.AddEndpointsApiExplorer();
-    services.AddSwaggerGen(o =>
-    {
-        o.DocumentFilter<SwaggerDocumentFilter>();
-    });
-
-    services.AddPresentation(startupData.JwtSettings);
-    services.AddInfrastructure(startupData.ShelfApiDbConnectionString);
+    services.AddSingleton(startupData);
+    services.AddPresentation(startupData);
+    services.AddInfrastructure(startupData);
     services.AddApplication();
 }
 
-static void ConfigureApp(WebApplication app, IConfiguration configuration)
+static void ConfigureApp(WebApplication app)
 {
     if (app.Environment.IsDevelopment())
     {

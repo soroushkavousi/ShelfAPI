@@ -2,6 +2,6 @@
 
 public enum ProjectSettingId : byte
 {
-    JWT = 1,
-    FINANCIAL = 2
+    StartupData = 1,
+    FinancialSettings = 2
 }

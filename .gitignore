@@ -6,9 +6,6 @@
 # Rider
 .idea/
 
-# Ignore all appsettings files
-appsettings*.json
-
 # Project-specific files
 [Ss]ecrets/
 

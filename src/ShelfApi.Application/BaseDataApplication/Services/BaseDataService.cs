@@ -10,16 +10,16 @@ namespace ShelfApi.Application.BaseDataApplication.Services;
 
 public class BaseDataService(IScopeService scopeService) : IBaseDataService
 {
-    public JwtSettings JwtSettings { get; private set; }
     public FinancialSettings FinancialSettings { get; private set; }
     public Dictionary<ErrorCode, ApiError> ApiErrors { get; private set; }
 
     public async Task InitializeAsync()
     {
-        List<Task> tasks = [];
-
-        tasks.Add(LoadProjectSettingsAsync());
-        tasks.Add(LoadApiErrorsAsync());
+        List<Task> tasks =
+        [
+            LoadProjectSettingsAsync(),
+            LoadApiErrorsAsync()
+        ];
 
         await Task.WhenAll(tasks);
     }
@@ -32,8 +32,7 @@ public class BaseDataService(IScopeService scopeService) : IBaseDataService
             Dictionary<ProjectSettingId, string> projectSettings = await shelfApiDbContext.ProjectSettings
                 .ToDictionaryAsync(x => x.Id, x => x.Data);
 
-            JwtSettings = projectSettings[ProjectSettingId.JWT].FromJson<JwtSettings>();
-            FinancialSettings = projectSettings[ProjectSettingId.FINANCIAL].FromJson<FinancialSettings>();
+            FinancialSettings = projectSettings[ProjectSettingId.FinancialSettings].FromJson<FinancialSettings>();
         });
     }
 
