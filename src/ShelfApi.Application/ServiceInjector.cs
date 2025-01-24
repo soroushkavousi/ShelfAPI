@@ -1,5 +1,5 @@
 ﻿using System.Reflection;
-using DotNetPotion.Services.ScopedTaskRunner;
+using DotNetPotion.ScopeServicePack;
 using MediatR.Pipeline;
 using Microsoft.Extensions.DependencyInjection;
 using ShelfApi.Application.AuthApplication.Services;
@@ -14,7 +14,7 @@ public static class ServiceInjector
     public static void AddApplication(this IServiceCollection services)
     {
         services.AddSingleton<IBaseDataService, BaseDataService>();
-        services.AddScopedTaskRunner();
+        services.AddScopeService();
         services.AddScoped<TokenService>();
         services.AddTransient(typeof(IRequestExceptionHandler<,,>), typeof(ExceptionHandler<,,>));
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ErrorResultPipelineBehavior<,>));

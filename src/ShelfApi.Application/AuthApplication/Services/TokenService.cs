@@ -4,12 +4,12 @@ using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using ShelfApi.Application.AuthApplication.Dtos;
-using ShelfApi.Application.BaseDataApplication.Interfaces;
+using ShelfApi.Application.Common.Data;
 using ShelfApi.Domain.UserAggregate;
 
 namespace ShelfApi.Application.AuthApplication.Services;
 
-public class TokenService(IBaseDataService baseDataService, UserManager<User> userManager)
+public class TokenService(StartupData startupData, UserManager<User> userManager)
 {
     public async Task<UserCredentialDto> GenerateAccessTokenAsync(User user)
     {
@@ -36,14 +36,14 @@ public class TokenService(IBaseDataService baseDataService, UserManager<User> us
 
     private string GenerateAccessToken(List<Claim> claims)
     {
-        SymmetricSecurityKey authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(baseDataService.JwtSettings.Key));
+        SymmetricSecurityKey authSigningKey = new(Encoding.UTF8.GetBytes(startupData.JwtKey));
 
-        JwtSecurityToken jwtToken = new JwtSecurityToken(
-            issuer: baseDataService.JwtSettings.Issuer,
-            audience: baseDataService.JwtSettings.Audience,
+        JwtSecurityToken jwtToken = new(
+            issuer: startupData.JwtIssuer,
+            audience: startupData.JwtAudience,
             claims: claims,
             expires: DateTime.Now.AddHours(24),
-            signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
+            signingCredentials: new(authSigningKey, SecurityAlgorithms.HmacSha256)
         );
 
         return new JwtSecurityTokenHandler().WriteToken(jwtToken);
