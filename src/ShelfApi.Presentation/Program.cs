@@ -80,6 +80,7 @@ static void ConfigureApp(WebApplication app)
 
     app.UseSerilogRequestLogging();
     app.UseApiExceptionHandler();
+    app.UseAuthentication();
     app.UseAuthorization();
     app.MapControllers();
 }

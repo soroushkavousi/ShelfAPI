@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
+using ShelfApi.Application.AuthApplication.ValueObjects;
 using ShelfApi.Application.Common.Data;
 using ShelfApi.Domain.BaseDataAggregate;
 using ShelfApi.Domain.ErrorAggregate;
@@ -121,7 +122,9 @@ public static class ServiceInjector
                 ClockSkew = TimeSpan.Zero,
                 ValidIssuer = startupData.JwtIssuer,
                 ValidAudience = startupData.JwtAudience,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(startupData.JwtKey))
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(startupData.JwtKey)),
+                NameClaimType = ClaimNames.UserId,
+                RoleClaimType = ClaimNames.Roles
             };
         });
     }
