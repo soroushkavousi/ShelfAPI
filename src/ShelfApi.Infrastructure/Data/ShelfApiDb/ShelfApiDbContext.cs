@@ -4,17 +4,17 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using ShelfApi.Application.Common.Data;
 using ShelfApi.Domain.BaseDataAggregate;
+using ShelfApi.Domain.CartDomain;
 using ShelfApi.Domain.Common.Model;
 using ShelfApi.Domain.ErrorAggregate;
 using ShelfApi.Domain.FinancialAggregate;
-using ShelfApi.Domain.OrderAggregate;
 using ShelfApi.Domain.ProductAggregate;
 using ShelfApi.Domain.UserAggregate;
 using ShelfApi.Infrastructure.Common;
 using ShelfApi.Infrastructure.Data.ShelfApiDb.BaseDataConfigurations;
+using ShelfApi.Infrastructure.Data.ShelfApiDb.CartConfiguration;
 using ShelfApi.Infrastructure.Data.ShelfApiDb.ErrorConfigurations;
 using ShelfApi.Infrastructure.Data.ShelfApiDb.FinancialConfigurations.Converters;
-using ShelfApi.Infrastructure.Data.ShelfApiDb.OrderConfigurations;
 using ShelfApi.Infrastructure.Data.ShelfApiDb.ProductConfigurations;
 using ShelfApi.Infrastructure.Data.ShelfApiDb.UserConfigurations;
 
@@ -28,16 +28,15 @@ public class ShelfApiDbContext : IdentityDbContext<User, Role, long>, IShelfApiD
 
     public DbSet<Product> Products { get; set; }
 
-    public DbSet<Order> Orders { get; set; }
-    public DbSet<OrderLine> OrderLines { get; set; }
+    #region Cart
 
-    private ShelfApiDbContext()
-    {
-    }
+    public DbSet<CartItem> CartItems { get; set; }
 
-    public ShelfApiDbContext(DbContextOptions options) : base(options)
-    {
-    }
+    #endregion Cart
+
+    private ShelfApiDbContext() { }
+
+    public ShelfApiDbContext(DbContextOptions options) : base(options) { }
 
     public ShelfApiDbContext(string connectionString)
         : base(CreateOptionsFromConnectionString(connectionString))
@@ -91,12 +90,11 @@ public class ShelfApiDbContext : IdentityDbContext<User, Role, long>, IShelfApiD
 
         #endregion Product
 
-        #region Order
+        #region Cart
 
-        builder.ApplyConfiguration(new OrderConfiguration());
-        builder.ApplyConfiguration(new OrderLineConfiguration());
+        builder.ApplyConfiguration(new CartItemConfiguration());
 
-        #endregion Order
+        #endregion Cart
     }
 
     public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess,

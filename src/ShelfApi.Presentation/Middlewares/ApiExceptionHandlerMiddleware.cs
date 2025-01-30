@@ -1,14 +1,14 @@
 ﻿using System.Diagnostics;
 using System.Net;
+using Bitiano.Shared.Tools.Serializer;
 using MediatR;
 using ShelfApi.Application.BaseDataApplication.Interfaces;
-using ShelfApi.Application.Common.Tools;
 using ShelfApi.Domain.ErrorAggregate;
 
 namespace ShelfApi.Presentation.Middlewares;
 
 public class ApiExceptionHandlerMiddleware(ILogger<ApiExceptionHandlerMiddleware> logger,
-    RequestDelegate next, IBaseDataService baseDataService, ISerializer serializer)
+    RequestDelegate next, IBaseDataService baseDataService)
 {
     public async Task InvokeAsync(HttpContext httpContext, ISender sender)
     {
@@ -32,7 +32,7 @@ public class ApiExceptionHandlerMiddleware(ILogger<ApiExceptionHandlerMiddleware
 
         ApiError apiError = baseDataService.ApiErrors[ErrorCode.InternalServerError];
         Result<object> result = new Error(apiError.Code, apiError.Title, apiError.Message);
-        string responseBody = serializer.Serialize(result, true);
+        string responseBody = result.ToJson(true);
         await httpContext.Response.WriteAsync(responseBody);
     }
 }

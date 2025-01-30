@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using ShelfApi.Application.AuthApplication.Dtos;
+using ShelfApi.Application.AuthApplication.ValueObjects;
 using ShelfApi.Application.Common.Data;
 using ShelfApi.Domain.UserAggregate;
 
@@ -15,20 +16,19 @@ public class TokenService(StartupData startupData, UserManager<User> userManager
     {
         List<Claim> authClaims =
         [
-            new(ClaimTypes.NameIdentifier, user.Id.ToString()),
-            new(ClaimTypes.Name, user.UserName)
+            new(ClaimNames.UserId, user.Id.ToString())
         ];
 
         IList<string> userRoles = await userManager.GetRolesAsync(user);
-        authClaims.AddRange(userRoles.Select(x => new Claim(ClaimTypes.Role, x)));
+        authClaims.AddRange(userRoles.Select(x => new Claim(ClaimNames.Roles, x)));
 
         string accessToken = GenerateAccessToken(authClaims);
-        Guid refereshToken = Guid.NewGuid();
+        Guid refreshToken = Guid.NewGuid();
 
-        UserCredentialDto userCredential = new UserCredentialDto
+        UserCredentialDto userCredential = new()
         {
             AccessToken = accessToken,
-            RefreshToken = refereshToken
+            RefreshToken = refreshToken
         };
 
         return userCredential;

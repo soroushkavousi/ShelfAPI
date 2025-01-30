@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using System.Text.Json.Serialization;
+using Bitiano.Shared.Tools.Serializer;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -7,9 +8,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
+using ShelfApi.Application.AuthApplication.ValueObjects;
 using ShelfApi.Application.Common.Data;
 using ShelfApi.Domain.BaseDataAggregate;
-using ShelfApi.Domain.Common.Tools.Serializer;
 using ShelfApi.Domain.ErrorAggregate;
 using ShelfApi.Domain.UserAggregate;
 using ShelfApi.Infrastructure.Data.ShelfApiDb;
@@ -121,7 +122,9 @@ public static class ServiceInjector
                 ClockSkew = TimeSpan.Zero,
                 ValidIssuer = startupData.JwtIssuer,
                 ValidAudience = startupData.JwtAudience,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(startupData.JwtKey))
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(startupData.JwtKey)),
+                NameClaimType = ClaimNames.UserId,
+                RoleClaimType = ClaimNames.Roles
             };
         });
     }
