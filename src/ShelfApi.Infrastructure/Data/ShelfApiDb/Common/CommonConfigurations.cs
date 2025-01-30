@@ -1,11 +1,23 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using ShelfApi.Domain.Common.Model;
 using ShelfApi.Infrastructure.Common;
 
-namespace ShelfApi.Infrastructure.Extensions;
+namespace ShelfApi.Infrastructure.Data.ShelfApiDb.Common;
 
 public static class SqlConfigurationExtensions
 {
+    public static void ConfigureBaseModel<TProperty>(
+        this EntityTypeBuilder<TProperty> propertyBuilder)
+        where TProperty : BaseModel
+    {
+        propertyBuilder.Property(x => x.CreatedAt)
+            .ConfigureCreatedAt();
+
+        propertyBuilder.Property(x => x.ModifiedAt)
+            .ConfigureModifiedAt();
+    }
+
     public static PropertyBuilder ConfigureCreatedAt(this PropertyBuilder propertyBuilder)
         => propertyBuilder
             .IsRequired()

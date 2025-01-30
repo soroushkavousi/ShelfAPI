@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ShelfApi.Domain.BaseDataAggregate;
-using ShelfApi.Domain.OrderAggregate;
+using ShelfApi.Domain.CartDomain;
 using ShelfApi.Domain.ProductAggregate;
 using ShelfApi.Domain.UserAggregate;
 
@@ -9,16 +9,15 @@ namespace ShelfApi.Application.Common.Data;
 
 public interface IShelfApiDbContext : IDbContext
 {
-    DbSet<ProjectSetting> ProjectSettings { get; set; }
+    DbSet<ProjectSetting> ProjectSettings { get; }
 
-    DbSet<IdentityUserRole<long>> UserRoles { get; set; }
-    DbSet<Role> Roles { get; set; }
-    DbSet<User> Users { get; set; }
+    DbSet<IdentityUserRole<long>> UserRoles { get; }
+    DbSet<Role> Roles { get; }
+    DbSet<User> Users { get; }
 
-    DbSet<ApiError> ApiErrors { get; set; }
+    DbSet<ApiError> ApiErrors { get; }
 
-    DbSet<Product> Products { get; set; }
+    DbSet<Product> Products { get; }
 
-    DbSet<Order> Orders { get; set; }
-    DbSet<OrderLine> OrderLines { get; set; }
+    DbSet<CartItem> CartItems { get; }
 }

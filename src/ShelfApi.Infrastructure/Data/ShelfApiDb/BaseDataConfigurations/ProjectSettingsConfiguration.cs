@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using ShelfApi.Domain.BaseDataAggregate;
-using ShelfApi.Infrastructure.Extensions;
+using ShelfApi.Infrastructure.Data.ShelfApiDb.Common;
 
 namespace ShelfApi.Infrastructure.Data.ShelfApiDb.BaseDataConfigurations;
 
@@ -18,10 +18,6 @@ public class ProjectSettingsConfiguration : IEntityTypeConfiguration<ProjectSett
             .HasDefaultValue("{}")
             .IsRequired();
 
-        builder.Property(x => x.CreatedAt)
-            .ConfigureCreatedAt();
-
-        builder.Property(x => x.ModifiedAt)
-            .ConfigureModifiedAt();
+        builder.ConfigureBaseModel();
     }
 }

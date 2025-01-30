@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using DotNetPotion.ScopeServicePack;
+using DotNetPotion.SemaphorePoolPack;
 using MediatR.Pipeline;
 using Microsoft.Extensions.DependencyInjection;
 using ShelfApi.Application.AuthApplication.Services;
@@ -19,6 +20,7 @@ public static class ServiceInjector
         services.AddTransient(typeof(IRequestExceptionHandler<,,>), typeof(ExceptionHandler<,,>));
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ErrorResultPipelineBehavior<,>));
         services.AddMediatR(cfg => { cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()); });
+        services.AddSemaphorePool();
 
         TypeAdapterConfig.GlobalSettings.Scan(Assembly.GetExecutingAssembly());
 
