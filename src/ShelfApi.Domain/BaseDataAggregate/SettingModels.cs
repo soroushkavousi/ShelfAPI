@@ -1,5 +1,6 @@
 ﻿namespace ShelfApi.Domain.BaseDataAggregate;
 
-public record JwtSettings(string Key, string Issuer, string Audience);
-
-public record FinancialSettings(decimal TaxPercentage);
+public record FinancialSettings
+{
+    public decimal TaxPercentage { get; init; }
+}

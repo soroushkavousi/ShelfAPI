@@ -16,6 +16,7 @@ public static class Extensions
         {
             ReferenceHandler = ReferenceHandler.IgnoreCycles,
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            PropertyNameCaseInsensitive = true,
             Converters = { new JsonStringEnumConverter() }
         };
 
