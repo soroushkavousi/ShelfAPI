@@ -6,6 +6,7 @@ using ShelfApi.Application.Common.Data;
 using ShelfApi.Application.Common.Tools;
 using ShelfApi.Infrastructure.Data.ShelfApiDb;
 using ShelfApi.Infrastructure.Tools;
+using ZiggyCreatures.Caching.Fusion;
 
 namespace ShelfApi.Infrastructure;
 
@@ -15,6 +16,8 @@ public static class ServiceInjector
     {
         services.AddSingleton<IIdManager, IdManager>();
         AddShelfApiDbContext(services, startupData);
+        services.AddFusionCache()
+            .WithDefaultEntryOptions(new FusionCacheEntryOptions());
     }
 
     private static void AddShelfApiDbContext(this IServiceCollection services, StartupData startupData)
