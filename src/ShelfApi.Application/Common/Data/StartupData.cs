@@ -14,4 +14,6 @@ public record StartupData
     public string JwtKey { get; init; }
     public string JwtIssuer { get; init; }
     public string JwtAudience { get; init; }
+    public string RedisConfiguration { get; init; }
+    public string RedisInstanceName { get; init; }
 }

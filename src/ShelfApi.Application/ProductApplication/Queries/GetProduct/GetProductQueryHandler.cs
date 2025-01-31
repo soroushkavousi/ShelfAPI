@@ -13,7 +13,9 @@ public class GetProductQueryHandler(IShelfApiDbContext dbContext, IFusionCache c
         ProductDto product = await cache.GetOrSetAsync(
             $"product:{request.Id}",
             _ => GetProductFromDatabaseAsync(request.Id, cancellationToken),
-            options => options.SetDuration(TimeSpan.FromMinutes(2))
+            options => options
+                .SetDuration(TimeSpan.FromSeconds(2))
+                .SetDistributedCacheDuration(TimeSpan.FromHours(1))
         );
 
         if (product is null)
