@@ -1,18 +1,16 @@
-﻿using System.Diagnostics;
-using System.Net;
+﻿using System.Net;
 using Bitiano.Shared.Tools.Serializer;
 using MediatR;
-using ShelfApi.Application.BaseDataApplication.Interfaces;
+using ShelfApi.Application.ErrorApplication.Queries.GetApiError;
 using ShelfApi.Domain.ErrorAggregate;
 
 namespace ShelfApi.Presentation.Middlewares;
 
 public class ApiExceptionHandlerMiddleware(ILogger<ApiExceptionHandlerMiddleware> logger,
-    RequestDelegate next, IBaseDataService baseDataService)
+    RequestDelegate next, IMediator mediator)
 {
     public async Task InvokeAsync(HttpContext httpContext, ISender sender)
     {
-        Stopwatch sw = Stopwatch.StartNew();
         try
         {
             await next(httpContext);
@@ -30,17 +28,17 @@ public class ApiExceptionHandlerMiddleware(ILogger<ApiExceptionHandlerMiddleware
         httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
         httpContext.Response.ContentType = "application/json";
 
-        ApiError apiError = baseDataService.ApiErrors[ErrorCode.InternalServerError];
+        ApiError apiError = await mediator.Send(new GetApiErrorQuery { ErrorCode = ErrorCode.InternalServerError });
         Result<object> result = new Error(apiError.Code, apiError.Title, apiError.Message);
         string responseBody = result.ToJson(true);
         await httpContext.Response.WriteAsync(responseBody);
     }
 }
 
-public static class IApplicationBuilderApiExceptionHandlerMiddleware
+public static class ApplicationBuilderApiExceptionHandlerMiddleware
 {
-    public static IApplicationBuilder UseApiExceptionHandler(this IApplicationBuilder builder)
+    public static void UseApiExceptionHandler(this IApplicationBuilder builder)
     {
-        return builder.UseMiddleware<ApiExceptionHandlerMiddleware>();
+        builder.UseMiddleware<ApiExceptionHandlerMiddleware>();
     }
 }

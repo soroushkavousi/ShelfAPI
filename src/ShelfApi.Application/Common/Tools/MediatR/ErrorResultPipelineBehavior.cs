@@ -1,8 +1,8 @@
-﻿using ShelfApi.Application.BaseDataApplication.Interfaces;
+﻿using ShelfApi.Application.ErrorApplication.Queries.GetApiError;
 
 namespace ShelfApi.Application.Common.Tools.MediatR;
 
-public class ErrorResultPipelineBehavior<TRequest, TResponse>(IBaseDataService baseDataService)
+public class ErrorResultPipelineBehavior<TRequest, TResponse>(IMediator mediator)
     : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
 {
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
@@ -12,7 +12,7 @@ public class ErrorResultPipelineBehavior<TRequest, TResponse>(IBaseDataService b
         if (response is not Result { Error: not null } result)
             return response;
 
-        ApiError apiError = baseDataService.ApiErrors[result.Error.Code];
+        ApiError apiError = await mediator.Send(new GetApiErrorQuery { ErrorCode = result.Error.Code });
         result.Error.SetDetails(apiError.Title, apiError.Message);
 
         return response;
