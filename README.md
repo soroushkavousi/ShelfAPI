@@ -11,17 +11,15 @@
 - **JWT**
 - **Role Based Authorization**, has admin and user routes
 - **Serilog** for logging with **Seq** sink
-- **Mapster** for mapping Models to DTOs
 - Entity Framework Core for **PostgreSQL**
     - Used ValueConverter and Pre-defined conversions
 - Using **Startup Data**
-    - Load **environment variables**, such as connection string
-    - Load **service registeration settings** from **database**, such as JWT settings
-- Utilizing **Base Data Service**
-    - Retrieve **project settings** stored as JSON values from a dedicated database table
-    - Fetch **caching data from various tables**
+    - Project only needs database connection string to get startup data from database
+- Utilizing **FusionCache** (**Hybrid Cache**)
+    - Retrieve **project settings** from hybrid cache
+    - Cache items in both distributed cache and memory cache
 - **OwnsOne** in EF Core for owning **value objects** such as Price in Product
 - **Error Handling** with **Result Pattern**
     - has implicit operator, and deconstruct
     - used in try-create pattern value objects
-- Has **Product, Order, OrderLine**
+- Has **Product, Cart, and Payment** models

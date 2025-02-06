@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using ShelfApi.Domain.BaseDataAggregate;
 using ShelfApi.Domain.CartDomain;
 using ShelfApi.Domain.ProductAggregate;
+using ShelfApi.Domain.SettingDomain;
 using ShelfApi.Domain.UserAggregate;
 
 namespace ShelfApi.Application.Common.Data;
