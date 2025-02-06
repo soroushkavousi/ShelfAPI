@@ -1,12 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ShelfApi.Application.BaseDataApplication.Interfaces;
 using ShelfApi.Application.Common.Data;
 using ShelfApi.Application.FinancialApplication.Dtos;
+using ShelfApi.Application.FinancialApplication.Queries.GetFinancialSettings;
+using ShelfApi.Domain.BaseDataAggregate;
 
 namespace ShelfApi.Application.FinancialApplication.Queries.GetCartPaymentPreview;
 
-public class GetCartPaymentPreviewQueryHandler(IShelfApiDbContext dbContext,
-    IBaseDataService baseDataService)
+public class GetCartPaymentPreviewQueryHandler(IShelfApiDbContext dbContext, IMediator mediator)
     : IRequestHandler<GetCartPaymentPreviewQuery, Result<PaymentPreviewDto>>
 {
     public async Task<Result<PaymentPreviewDto>> Handle(GetCartPaymentPreviewQuery request, CancellationToken cancellationToken)
@@ -24,8 +24,8 @@ public class GetCartPaymentPreviewQueryHandler(IShelfApiDbContext dbContext,
             })
             .ToArrayAsync(cancellationToken);
 
-        PaymentPreviewDto paymentPreview = new(paymentPreviewItems,
-            baseDataService.FinancialSettings.TaxPercentage);
+        FinancialSettings financialSettings = await mediator.Send(new GetFinancialSettingsQuery());
+        PaymentPreviewDto paymentPreview = new(paymentPreviewItems, financialSettings.TaxPercentage);
 
         return paymentPreview;
     }
