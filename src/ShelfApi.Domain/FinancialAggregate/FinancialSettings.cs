@@ -1,4 +1,4 @@
-﻿namespace ShelfApi.Domain.BaseDataAggregate;
+namespace ShelfApi.Domain.FinancialAggregate;
 
 public record FinancialSettings
 {

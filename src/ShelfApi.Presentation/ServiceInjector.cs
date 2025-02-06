@@ -10,7 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using ShelfApi.Application.AuthApplication.ValueObjects;
 using ShelfApi.Application.Common.Data;
-using ShelfApi.Domain.BaseDataAggregate;
+using ShelfApi.Application.SettingApplication;
 using ShelfApi.Domain.ErrorAggregate;
 using ShelfApi.Domain.UserAggregate;
 using ShelfApi.Infrastructure.Data.ShelfApiDb;
@@ -29,8 +29,8 @@ public static class ServiceInjector
         try
         {
             string startupDataJson = await shelfApiDbContext.ProjectSettings
-                .Where(x => x.Id == ProjectSettingId.StartupData)
-                .Select(x => x.Data)
+                .Where(x => x.Key == ProjectSettingKeys.StartupData)
+                .Select(x => x.Value)
                 .FirstOrDefaultAsync();
 
             if (string.IsNullOrWhiteSpace(startupDataJson))

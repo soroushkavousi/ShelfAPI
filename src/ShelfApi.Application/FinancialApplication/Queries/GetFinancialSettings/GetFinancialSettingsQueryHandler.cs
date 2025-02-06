@@ -1,8 +1,9 @@
 ﻿using Bitiano.Shared.Tools.Serializer;
 using Microsoft.EntityFrameworkCore;
 using ShelfApi.Application.Common.Data;
-using ShelfApi.Domain.BaseDataAggregate;
+using ShelfApi.Application.SettingApplication;
 using ShelfApi.Domain.Common.Exceptions;
+using ShelfApi.Domain.FinancialAggregate;
 using ZiggyCreatures.Caching.Fusion;
 
 namespace ShelfApi.Application.FinancialApplication.Queries.GetFinancialSettings;
@@ -29,8 +30,8 @@ public class GetFinancialSettingsQueryHandler(IShelfApiDbContext shelfApiDbConte
     public async Task<FinancialSettings> GetFinancialSettingsFromDatabaseAsync(CancellationToken cancellationToken)
     {
         string financialSettingsJson = await shelfApiDbContext.ProjectSettings
-            .Where(x => x.Id == ProjectSettingId.FinancialSettings)
-            .Select(x => x.Data)
+            .Where(x => x.Key == ProjectSettingKeys.FinancialSettings)
+            .Select(x => x.Value)
             .FirstOrDefaultAsync(cancellationToken);
 
         return string.IsNullOrWhiteSpace(financialSettingsJson)

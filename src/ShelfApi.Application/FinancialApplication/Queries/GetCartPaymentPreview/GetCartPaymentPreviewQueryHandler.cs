@@ -2,7 +2,7 @@
 using ShelfApi.Application.Common.Data;
 using ShelfApi.Application.FinancialApplication.Dtos;
 using ShelfApi.Application.FinancialApplication.Queries.GetFinancialSettings;
-using ShelfApi.Domain.BaseDataAggregate;
+using ShelfApi.Domain.FinancialAggregate;
 
 namespace ShelfApi.Application.FinancialApplication.Queries.GetCartPaymentPreview;
 
