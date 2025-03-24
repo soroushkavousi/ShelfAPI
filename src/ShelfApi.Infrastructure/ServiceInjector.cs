@@ -38,8 +38,8 @@ public static class ServiceInjector
             .WithDistributedCache(
                 new RedisCache(new RedisCacheOptions
                 {
-                    Configuration = startupData.RedisConfiguration,
-                    InstanceName = startupData.RedisInstanceName
+                    Configuration = startupData.Redis.Configuration,
+                    InstanceName = startupData.Redis.InstanceName
                 }));
     }
 
