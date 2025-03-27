@@ -15,12 +15,20 @@ public record StartupData
         {
             Configuration = "localhost:6379",
             InstanceName = "tmp"
+        },
+        Elasticsearch = new()
+        {
+            Url = "https://localhost:9200",
+            ApiKey = "the-api-key",
+            FingerPrint = "the-finger-print",
+            RequestTimeout = 20
         }
     };
 
     public string DbConnectionString { get; set; }
     public JwtStartupData Jwt { get; init; }
     public RedisStartupData Redis { get; init; }
+    public ElasticsearchStartupData Elasticsearch { get; init; }
 }
 
 public record JwtStartupData
@@ -34,4 +42,12 @@ public record RedisStartupData
 {
     public string Configuration { get; init; }
     public string InstanceName { get; init; }
+}
+
+public record ElasticsearchStartupData
+{
+    public string Url { get; init; }
+    public string ApiKey { get; init; }
+    public string FingerPrint { get; init; }
+    public int RequestTimeout { get; init; }
 }

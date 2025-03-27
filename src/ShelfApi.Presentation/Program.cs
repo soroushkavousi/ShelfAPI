@@ -30,16 +30,14 @@ static void ConfigureBootstrapSerilog()
 {
     Log.Logger = new LoggerConfiguration()
         .Enrich.WithProperty("Application", "ShelfApi")
-        .WriteTo.Seq("http://localhost:5341")
-        .WriteTo.Console(LogEventLevel.Warning)
         .Enrich.WithExceptionDetails(new DestructuringOptionsBuilder()
             .WithDefaultDestructurers()
             .WithDestructurers([new DbUpdateExceptionDestructurer()]))
-        .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
-        .MinimumLevel.Override("Microsoft.EntityFrameworkCore.Query", LogEventLevel.Error)
-        .MinimumLevel.Override("Microsoft.EntityFrameworkCore.Update", LogEventLevel.Error)
-        .MinimumLevel.Override("Microsoft.EntityFrameworkCore.Model.Validation", LogEventLevel.Error)
-        .CreateLogger();
+        .Enrich.FromLogContext()
+        .WriteTo.Console()
+        .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+        .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Information)
+        .CreateBootstrapLogger();
 }
 
 static async Task StartAppAsync(string[] args)
