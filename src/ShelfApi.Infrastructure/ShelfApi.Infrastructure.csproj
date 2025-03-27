@@ -7,6 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Elastic.Serilog.Sinks" Version="8.12.3"/>
         <PackageReference Include="IdGen" Version="3.0.7"/>
         <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.6"/>
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.6"/>
@@ -25,7 +26,6 @@
         <PackageReference Include="Serilog.AspNetCore" Version="8.0.1"/>
         <PackageReference Include="Serilog.Exceptions.EntityFrameworkCore" Version="8.4.0"/>
         <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0"/>
-        <PackageReference Include="Serilog.Sinks.Seq" Version="8.0.0"/>
         <PackageReference Include="SimpleBase" Version="4.0.0"/>
         <PackageReference Include="ZiggyCreatures.FusionCache.Serialization.SystemTextJson" Version="2.0.0"/>
     </ItemGroup>

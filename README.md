@@ -10,7 +10,7 @@
 - **ASP.NET Core Identity**
 - **JWT Authentication**
 - **Role-Based Authorization** (Includes admin and user routes)
-- **Serilog Logging with Seq Sink**
+- **Serilog Logging with Elasticsearch Sink**
 - **Entity Framework Core with PostgreSQL**
 - **Value Converters and Predefined Conversions**
 - **FusionCache (Hybrid Caching)**

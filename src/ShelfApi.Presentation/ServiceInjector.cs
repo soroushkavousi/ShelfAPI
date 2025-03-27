@@ -120,9 +120,9 @@ public static class ServiceInjector
                 ValidateLifetime = true,
                 ValidateIssuerSigningKey = true,
                 ClockSkew = TimeSpan.Zero,
-                ValidIssuer = startupData.JwtIssuer,
-                ValidAudience = startupData.JwtAudience,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(startupData.JwtKey)),
+                ValidIssuer = startupData.Jwt.Issuer,
+                ValidAudience = startupData.Jwt.Audience,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(startupData.Jwt.Key)),
                 NameClaimType = ClaimNames.UserId,
                 RoleClaimType = ClaimNames.Roles
             };

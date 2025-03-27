@@ -36,11 +36,11 @@ public class TokenService(StartupData startupData, UserManager<User> userManager
 
     private string GenerateAccessToken(List<Claim> claims)
     {
-        SymmetricSecurityKey authSigningKey = new(Encoding.UTF8.GetBytes(startupData.JwtKey));
+        SymmetricSecurityKey authSigningKey = new(Encoding.UTF8.GetBytes(startupData.Jwt.Key));
 
         JwtSecurityToken jwtToken = new(
-            issuer: startupData.JwtIssuer,
-            audience: startupData.JwtAudience,
+            issuer: startupData.Jwt.Issuer,
+            audience: startupData.Jwt.Audience,
             claims: claims,
             expires: DateTime.Now.AddHours(24),
             signingCredentials: new(authSigningKey, SecurityAlgorithms.HmacSha256)
