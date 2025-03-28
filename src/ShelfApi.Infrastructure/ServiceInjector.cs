@@ -53,6 +53,16 @@ public static class ServiceInjector
                         ExportMaxConcurrency = 10
                     };
                 };
+                opts.TextFormatting.IncludeProcess = true;
+                opts.TextFormatting.IncludeHost = false;
+                opts.TextFormatting.IncludeUser = false;
+                opts.TextFormatting.IncludeActivityData = false;
+                opts.TextFormatting.MapCustom = (ecsDoc, logEvent) =>
+                {
+                    ecsDoc.Agent = null;
+                    ecsDoc.Service = null;
+                    return ecsDoc;
+                };
             }, transport =>
             {
                 transport.Authentication(new ApiKey(startupData.Elasticsearch.ApiKey));
