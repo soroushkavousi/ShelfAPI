@@ -71,4 +71,10 @@ public record Price
         Price price = Create(Math.Round(p1.Value / p2.Value));
         return price;
     }
+
+    public static implicit operator Price(long price) => Create(price);
+    public static implicit operator Price(decimal price) => Create(price);
+    public static implicit operator Price(double price) => Create((decimal)price);
+    public static implicit operator Price(int price) => Create(price);
+    public static implicit operator Price(float price) => Create((decimal)price);
 }
