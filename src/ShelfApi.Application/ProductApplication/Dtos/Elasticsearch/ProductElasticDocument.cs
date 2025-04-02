@@ -1,6 +1,6 @@
 using ShelfApi.Domain.ProductAggregate;
 
-namespace ShelfApi.Application.ProductApplication.Dtos;
+namespace ShelfApi.Application.ProductApplication.Dtos.Elasticsearch;
 
 public record ProductElasticDocument
 {

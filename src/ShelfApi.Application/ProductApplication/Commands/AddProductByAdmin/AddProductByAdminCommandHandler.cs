@@ -1,6 +1,7 @@
 ﻿using Bitiano.Shared.Services.Elasticsearch;
 using ShelfApi.Application.Common.Data;
 using ShelfApi.Application.ProductApplication.Dtos;
+using ShelfApi.Application.ProductApplication.Dtos.Elasticsearch;
 using ShelfApi.Domain.FinancialAggregate;
 using ShelfApi.Domain.ProductAggregate;
 

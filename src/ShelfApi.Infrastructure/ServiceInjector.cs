@@ -16,7 +16,7 @@ using Serilog.Exceptions.Core;
 using Serilog.Exceptions.EntityFrameworkCore.Destructurers;
 using ShelfApi.Application.Common.Data;
 using ShelfApi.Application.Common.Tools;
-using ShelfApi.Application.ProductApplication.Dtos;
+using ShelfApi.Application.ProductApplication.Dtos.Elasticsearch;
 using ShelfApi.Infrastructure.Data.ShelfApiDb;
 using ShelfApi.Infrastructure.Tools;
 using ZiggyCreatures.Caching.Fusion;

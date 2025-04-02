@@ -1,5 +1,5 @@
 ﻿using Bitiano.Shared.Tools.Serializer;
-using ShelfApi.Application.ProductApplication.Dtos;
+using ShelfApi.Application.ProductApplication.Dtos.Elasticsearch;
 
 namespace ShelfApi.Application.Common.Data;
 
