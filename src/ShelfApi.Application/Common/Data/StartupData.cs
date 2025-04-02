@@ -1,4 +1,7 @@
-﻿namespace ShelfApi.Application.Common.Data;
+﻿using Bitiano.Shared.Tools.Serializer;
+using ShelfApi.Application.ProductApplication.Dtos.Elasticsearch;
+
+namespace ShelfApi.Application.Common.Data;
 
 public record StartupData
 {
@@ -21,7 +24,11 @@ public record StartupData
             Url = "https://localhost:9200",
             ApiKey = "the-api-key",
             FingerPrint = "the-finger-print",
-            RequestTimeout = 20
+            RequestTimeout = 20,
+            DefaultMappings = new()
+            {
+                [nameof(ProductElasticDocument).ToCamelCase()] = "products"
+            }
         }
     };
 
@@ -50,4 +57,5 @@ public record ElasticsearchStartupData
     public string ApiKey { get; init; }
     public string FingerPrint { get; init; }
     public int RequestTimeout { get; init; }
+    public Dictionary<string, string> DefaultMappings { get; init; }
 }

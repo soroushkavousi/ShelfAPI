@@ -1,4 +1,6 @@
 ﻿using System.Diagnostics;
+using Bitiano.Shared.Services.Elasticsearch;
+using Bitiano.Shared.Tools.Serializer;
 using DotNetPotion.AppEnvironmentPack;
 using Elastic.Ingest.Elasticsearch;
 using Elastic.Serilog.Sinks;
@@ -14,6 +16,7 @@ using Serilog.Exceptions.Core;
 using Serilog.Exceptions.EntityFrameworkCore.Destructurers;
 using ShelfApi.Application.Common.Data;
 using ShelfApi.Application.Common.Tools;
+using ShelfApi.Application.ProductApplication.Dtos.Elasticsearch;
 using ShelfApi.Infrastructure.Data.ShelfApiDb;
 using ShelfApi.Infrastructure.Tools;
 using ZiggyCreatures.Caching.Fusion;
@@ -28,6 +31,7 @@ public static class ServiceInjector
         services.AddSerilog(startupData);
         services.AddShelfApiDbContext(startupData);
         services.AddFusionCache(startupData);
+        services.AddElasticsearch(startupData);
 
         services.AddSingleton<IIdManager, IdManager>();
     }
@@ -120,5 +124,22 @@ public static class ServiceInjector
                     Configuration = startupData.Redis.Configuration,
                     InstanceName = startupData.Redis.InstanceName
                 }));
+    }
+
+    private static void AddElasticsearch(this IServiceCollection services, StartupData startupData)
+    {
+        ElasticsearchSettings elasticsearchSettings = new()
+        {
+            Url = startupData.Elasticsearch.Url,
+            ApiKey = startupData.Elasticsearch.ApiKey,
+            FingerPrint = startupData.Elasticsearch.FingerPrint,
+            RequestTimeout = startupData.Elasticsearch.RequestTimeout,
+            DefaultMappings =
+            {
+                [typeof(ProductElasticDocument)] = m =>
+                    m.IndexName(startupData.Elasticsearch.DefaultMappings[nameof(ProductElasticDocument).ToCamelCase()])
+            }
+        };
+        services.AddElasticsearch(elasticsearchSettings);
     }
 }

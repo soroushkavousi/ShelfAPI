@@ -2,13 +2,13 @@
 
 public abstract class BaseModel
 {
-    public BaseModel()
+    protected BaseModel()
     {
         CreatedAt = DateTime.UtcNow;
     }
 
-    public DateTime CreatedAt { get; }
-    public DateTime? ModifiedAt { get; private set; }
+    public DateTime CreatedAt { get; protected init; }
+    public DateTime? ModifiedAt { get; protected set; }
 
     public void SetModifiedAt(DateTime modifiedAt)
     {
