@@ -7,7 +7,7 @@ using ShelfApi.Domain.ErrorAggregate;
 namespace ShelfApi.Presentation.Middlewares;
 
 public class ApiExceptionHandlerMiddleware(ILogger<ApiExceptionHandlerMiddleware> logger,
-    RequestDelegate next, IMediator mediator)
+    RequestDelegate next)
 {
     public async Task InvokeAsync(HttpContext httpContext, ISender sender)
     {
@@ -28,6 +28,7 @@ public class ApiExceptionHandlerMiddleware(ILogger<ApiExceptionHandlerMiddleware
         httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
         httpContext.Response.ContentType = "application/json";
 
+        IMediator mediator = httpContext.RequestServices.GetRequiredService<IMediator>();
         ApiError apiError = await mediator.Send(new GetApiErrorQuery { ErrorCode = ErrorCode.InternalServerError });
         Result<object> result = new Error(apiError.Code, apiError.Title, apiError.Message);
         string responseBody = result.ToJson(true);
