@@ -12,7 +12,8 @@
 - **Role-Based Authorization** (Includes admin and user routes)
 - **Serilog Logging with Elasticsearch Sink**
 - **Entity Framework Core with PostgreSQL**
-- **Value Converters and Predefined Conversions**
+  - **Value Converters and Predefined Conversions**
+- Utilizes **Elasticsearch** as a **read database**
 - **FusionCache (Hybrid Caching)**
   - Retrieves project settings using a hybrid cache mechanism.
   - Stores cached items in both distributed cache and memory cache.
