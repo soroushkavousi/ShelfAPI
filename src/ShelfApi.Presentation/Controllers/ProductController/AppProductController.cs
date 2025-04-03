@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using ShelfApi.Application.ProductApplication.Dtos;
+using ShelfApi.Application.ProductApplication.Models.Views.UserViews;
 using ShelfApi.Application.ProductApplication.Queries.GetProduct;
 using ShelfApi.Application.ProductApplication.Queries.ListProducts;
 using ShelfApi.Presentation.Controllers.Common;
@@ -10,20 +10,26 @@ namespace ShelfApi.Presentation.Controllers.ProductController;
 [Route("app/products")]
 public class AppProductController(ISender sender) : AppBaseController(sender)
 {
-    [ProducesResponseType(typeof(Result<List<ProductDto>>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(Result<ProductUserView[]>), StatusCodes.Status200OK)]
     [HttpGet]
-    public async Task<ActionResult<Result<List<ProductDto>>>> ListProductsAsync()
+    public async Task<ActionResult<Result<ProductUserView[]>>> ListProductsAsync(string name,
+        decimal? minPrice, decimal? maxPrice)
     {
-        Result<List<ProductDto>> result = await _sender.Send(new ListProductsQuery());
+        Result<ProductUserView[]> result = await _sender.Send(new ListProductsQuery
+        {
+            Name = name,
+            MinPrice = minPrice,
+            MaxPrice = maxPrice
+        });
 
         return result;
     }
-    
-    [ProducesResponseType(typeof(Result<ProductDto>), StatusCodes.Status200OK)]
+
+    [ProducesResponseType(typeof(Result<ProductUserView>), StatusCodes.Status200OK)]
     [HttpGet("{id:long}")]
-    public async Task<ActionResult<Result<ProductDto>>> GetProductAsync(long id)
+    public async Task<ActionResult<Result<ProductUserView>>> GetProductAsync(long id)
     {
-        Result<ProductDto> result = await _sender.Send(new GetProductQuery
+        Result<ProductUserView> result = await _sender.Send(new GetProductQuery
         {
             Id = id
         });

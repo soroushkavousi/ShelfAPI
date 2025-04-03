@@ -55,8 +55,6 @@ static async Task StartAppAsync(string[] args)
 
 static void ConfigureBuilder(WebApplicationBuilder builder, StartupData startupData)
 {
-    builder.Host.UseSerilog();
-
     ConfigureServices(builder.Services, startupData);
 }
 

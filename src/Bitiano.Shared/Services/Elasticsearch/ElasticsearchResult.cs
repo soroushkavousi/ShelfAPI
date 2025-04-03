@@ -2,7 +2,7 @@ using Bitiano.Shared.ValueObjects;
 
 namespace Bitiano.Shared.Services.Elasticsearch;
 
-public record ElasticsearchResult<TData> : BaseResult<TData, ElasticsearchErrorCode>
+public record ElasticsearchResult<TData> : BaseResult<TData, ElasticsearchErrorCode?>
 {
     public ElasticsearchResult(TData data) : base(data) { }
 

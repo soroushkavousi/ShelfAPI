@@ -1,11 +1,13 @@
 using Elastic.Clients.Elasticsearch;
+using Elastic.Clients.Elasticsearch.QueryDsl;
 using Elastic.Transport.Products.Elasticsearch;
 using Microsoft.Extensions.Logging;
 
 namespace Bitiano.Shared.Services.Elasticsearch;
 
 public class ElasticsearchService<TDocument>(ILogger<ElasticsearchService<TDocument>> logger,
-    ElasticsearchClient client) : IElasticsearchService<TDocument> where TDocument : class
+    ElasticsearchClient client, ElasticsearchSettings settings)
+    : IElasticsearchService<TDocument> where TDocument : class
 {
     public async Task<ElasticsearchResult<bool>> AddOrUpdateAsync(TDocument document)
     {
@@ -15,6 +17,28 @@ public class ElasticsearchService<TDocument>(ILogger<ElasticsearchService<TDocum
             successFunction: response => true,
             document);
     }
+
+    public async Task<ElasticsearchResult<TDocument[]>> SearchAsync(Action<QueryDescriptor<TDocument>> searchQuery,
+        int pageSize = 10, int pageNumber = 1)
+    {
+        string indexName = settings.IndexNames[typeof(TDocument)];
+
+        int from = CalculatePageFromOffset(pageNumber, pageSize);
+
+        return await ExecuteRequestAsync(
+            requestFunction: async () =>
+                await client.SearchAsync<TDocument>(x => x
+                    .Index(indexName)
+                    .From(from)
+                    .Size(pageSize)
+                    .Query(searchQuery)
+                ),
+            successFunction: response => response.Documents.ToArray(),
+            pageSize, pageNumber);
+    }
+
+    private static int CalculatePageFromOffset(int pageNumber, int pageSize)
+        => (pageNumber - 1) * pageSize;
 
     private async Task<ElasticsearchResult<TData>> ExecuteRequestAsync<TResponse, TData>(
         Func<Task<TResponse>> requestFunction,

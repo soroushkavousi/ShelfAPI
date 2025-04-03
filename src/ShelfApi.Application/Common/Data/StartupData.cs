@@ -1,5 +1,5 @@
 ﻿using Bitiano.Shared.Tools.Serializer;
-using ShelfApi.Application.ProductApplication.Dtos.Elasticsearch;
+using ShelfApi.Application.ProductApplication.Models.Dtos.Elasticsearch;
 
 namespace ShelfApi.Application.Common.Data;
 
@@ -25,7 +25,8 @@ public record StartupData
             ApiKey = "the-api-key",
             FingerPrint = "the-finger-print",
             RequestTimeout = 20,
-            DefaultMappings = new()
+            DebugMode = true,
+            IndexNames = new()
             {
                 [nameof(ProductElasticDocument).ToCamelCase()] = "products"
             }
@@ -53,9 +54,17 @@ public record RedisStartupData
 
 public record ElasticsearchStartupData
 {
+    private readonly Dictionary<string, string> _indexNames;
+
     public string Url { get; init; }
     public string ApiKey { get; init; }
     public string FingerPrint { get; init; }
     public int RequestTimeout { get; init; }
-    public Dictionary<string, string> DefaultMappings { get; init; }
+    public bool DebugMode { get; init; }
+
+    public Dictionary<string, string> IndexNames
+    {
+        get => _indexNames;
+        init => _indexNames = new(value, StringComparer.OrdinalIgnoreCase);
+    }
 }

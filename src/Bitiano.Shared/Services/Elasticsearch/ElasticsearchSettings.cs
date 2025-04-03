@@ -1,6 +1,3 @@
-using System.Text.Json.Serialization;
-using Elastic.Clients.Elasticsearch;
-
 namespace Bitiano.Shared.Services.Elasticsearch;
 
 public class ElasticsearchSettings
@@ -9,7 +6,6 @@ public class ElasticsearchSettings
     public string ApiKey { get; init; }
     public string FingerPrint { get; init; }
     public int RequestTimeout { get; init; }
-
-    [JsonIgnore]
-    public Dictionary<Type, Action<ClrTypeMappingDescriptor>> DefaultMappings { get; init; } = new();
+    public bool DebugMode { get; init; }
+    public Dictionary<Type, string> IndexNames { get; init; }
 }

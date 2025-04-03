@@ -1,6 +1,5 @@
 ﻿using System.Diagnostics;
 using Bitiano.Shared.Services.Elasticsearch;
-using Bitiano.Shared.Tools.Serializer;
 using DotNetPotion.AppEnvironmentPack;
 using Elastic.Ingest.Elasticsearch;
 using Elastic.Serilog.Sinks;
@@ -16,7 +15,7 @@ using Serilog.Exceptions.Core;
 using Serilog.Exceptions.EntityFrameworkCore.Destructurers;
 using ShelfApi.Application.Common.Data;
 using ShelfApi.Application.Common.Tools;
-using ShelfApi.Application.ProductApplication.Dtos.Elasticsearch;
+using ShelfApi.Application.ProductApplication.Models.Dtos.Elasticsearch;
 using ShelfApi.Infrastructure.Data.ShelfApiDb;
 using ShelfApi.Infrastructure.Tools;
 using ZiggyCreatures.Caching.Fusion;
@@ -45,7 +44,7 @@ public static class ServiceInjector
                 .WithDestructurers([new DbUpdateExceptionDestructurer()]))
             .Enrich.FromLogContext()
             .ReadFrom.Services(services)
-            .WriteTo.Console(LogEventLevel.Warning)
+            .WriteTo.Console(AppEnvironment.IsDevelopment ? LogEventLevel.Information : LogEventLevel.Warning)
             .WriteTo.Elasticsearch([new(startupData.Elasticsearch.Url)], opts =>
             {
                 opts.DataStream = new("logs", nameof(ShelfApi), AppEnvironment.EnvironmentName);
@@ -134,12 +133,13 @@ public static class ServiceInjector
             ApiKey = startupData.Elasticsearch.ApiKey,
             FingerPrint = startupData.Elasticsearch.FingerPrint,
             RequestTimeout = startupData.Elasticsearch.RequestTimeout,
-            DefaultMappings =
+            DebugMode = startupData.Elasticsearch.DebugMode,
+            IndexNames = new()
             {
-                [typeof(ProductElasticDocument)] = m =>
-                    m.IndexName(startupData.Elasticsearch.DefaultMappings[nameof(ProductElasticDocument).ToCamelCase()])
+                [typeof(ProductElasticDocument)] = startupData.Elasticsearch.IndexNames[nameof(ProductElasticDocument)]
             }
         };
+
         services.AddElasticsearch(elasticsearchSettings);
     }
 }
