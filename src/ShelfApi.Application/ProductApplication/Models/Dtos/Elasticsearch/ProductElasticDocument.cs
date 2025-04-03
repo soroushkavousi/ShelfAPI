@@ -1,6 +1,7 @@
+using ShelfApi.Application.ProductApplication.Models.Views.UserViews;
 using ShelfApi.Domain.ProductAggregate;
 
-namespace ShelfApi.Application.ProductApplication.Dtos.Elasticsearch;
+namespace ShelfApi.Application.ProductApplication.Models.Dtos.Elasticsearch;
 
 public record ProductElasticDocument
 {
@@ -24,8 +25,18 @@ public static class ProductElasticDocumentExtensions
         ModifiedAt = product.ModifiedAt
     };
 
-    public static Product ToDomain(this ProductElasticDocument productElasticDocument) =>
+    public static Product ToDomainModel(this ProductElasticDocument productElasticDocument) =>
         new(productElasticDocument.Id, productElasticDocument.Name,
             productElasticDocument.Price, productElasticDocument.Quantity,
             productElasticDocument.CreatedAt, productElasticDocument.ModifiedAt);
+
+    public static ProductUserView ToUserView(this ProductElasticDocument productElasticDocument) => new()
+    {
+        Id = productElasticDocument.Id,
+        Name = productElasticDocument.Name,
+        Price = productElasticDocument.Price,
+        Quantity = productElasticDocument.Quantity,
+        CreatedAt = productElasticDocument.CreatedAt,
+        ModifiedAt = productElasticDocument.ModifiedAt
+    };
 }

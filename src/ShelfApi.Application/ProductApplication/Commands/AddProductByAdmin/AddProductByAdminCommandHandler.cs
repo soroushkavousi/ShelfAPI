@@ -1,7 +1,7 @@
 ﻿using Bitiano.Shared.Services.Elasticsearch;
 using ShelfApi.Application.Common.Data;
-using ShelfApi.Application.ProductApplication.Dtos;
-using ShelfApi.Application.ProductApplication.Dtos.Elasticsearch;
+using ShelfApi.Application.ProductApplication.Models.Dtos.Elasticsearch;
+using ShelfApi.Application.ProductApplication.Models.Views.UserViews;
 using ShelfApi.Domain.FinancialAggregate;
 using ShelfApi.Domain.ProductAggregate;
 
@@ -9,9 +9,9 @@ namespace ShelfApi.Application.ProductApplication.Commands.AddProductByAdmin;
 
 public class AddProductByAdminCommandHandler(IShelfApiDbContext dbContext,
     IElasticsearchService<ProductElasticDocument> productElasticsearchService)
-    : IRequestHandler<AddProductByAdminCommand, Result<ProductDto>>
+    : IRequestHandler<AddProductByAdminCommand, Result<ProductUserView>>
 {
-    public async Task<Result<ProductDto>> Handle(AddProductByAdminCommand request, CancellationToken cancellationToken)
+    public async Task<Result<ProductUserView>> Handle(AddProductByAdminCommand request, CancellationToken cancellationToken)
     {
         (Error error, Price price) = Price.TryCreate(request.Price);
         if (error is not null)
@@ -25,6 +25,6 @@ public class AddProductByAdminCommandHandler(IShelfApiDbContext dbContext,
 
         await productElasticsearchService.AddOrUpdateAsync(product.ToElasticDocument());
 
-        return product.Adapt<ProductDto>();
+        return product.Adapt<ProductUserView>();
     }
 }

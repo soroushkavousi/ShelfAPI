@@ -1,16 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ShelfApi.Application.Common.Data;
-using ShelfApi.Application.ProductApplication.Dtos;
+using ShelfApi.Application.ProductApplication.Models.Views.UserViews;
 using ZiggyCreatures.Caching.Fusion;
 
 namespace ShelfApi.Application.ProductApplication.Queries.GetProduct;
 
 public class GetProductQueryHandler(IShelfApiDbContext dbContext, IFusionCache cache)
-    : IRequestHandler<GetProductQuery, Result<ProductDto>>
+    : IRequestHandler<GetProductQuery, Result<ProductUserView>>
 {
-    public async Task<Result<ProductDto>> Handle(GetProductQuery request, CancellationToken cancellationToken)
+    public async Task<Result<ProductUserView>> Handle(GetProductQuery request, CancellationToken cancellationToken)
     {
-        ProductDto product = await cache.GetOrSetAsync(
+        ProductUserView product = await cache.GetOrSetAsync(
             $"product:{request.Id}",
             _ => GetProductFromDatabaseAsync(request.Id, cancellationToken),
             options => options
@@ -24,12 +24,12 @@ public class GetProductQueryHandler(IShelfApiDbContext dbContext, IFusionCache c
         return product;
     }
 
-    public async Task<ProductDto> GetProductFromDatabaseAsync(long id, CancellationToken cancellationToken)
+    public async Task<ProductUserView> GetProductFromDatabaseAsync(long id, CancellationToken cancellationToken)
     {
-        ProductDto product = await dbContext.Products
+        ProductUserView product = await dbContext.Products
             .Where(x => x.Id == id)
             .AsNoTracking()
-            .ProjectToType<ProductDto>()
+            .ProjectToType<ProductUserView>()
             .FirstOrDefaultAsync(cancellationToken);
 
         return product;

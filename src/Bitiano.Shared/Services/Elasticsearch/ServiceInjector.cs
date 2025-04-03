@@ -15,13 +15,21 @@ public static class ServiceInjector
             .CertificateFingerprint(settings.FingerPrint)
             .RequestTimeout(TimeSpan.FromSeconds(settings.RequestTimeout));
 
-        foreach ((Type type, Action<ClrTypeMappingDescriptor> mapping) in settings.DefaultMappings)
+        if (settings.DebugMode)
+            clientSettings.EnableDebugMode(x =>
+            {
+                Console.WriteLine($"[{DateTime.Now.ToLongTimeString()}]" +
+                    $" Elasticsearch debug information: \n{x.DebugInformation}");
+            });
+
+        foreach ((Type type, string indexName) in settings.IndexNames)
         {
-            clientSettings.DefaultMappingFor(type, mapping);
+            clientSettings.DefaultMappingFor(type, x => x.IndexName(indexName));
         }
 
         ElasticsearchClient client = new(clientSettings);
         services.AddSingleton(client);
+        services.AddSingleton(settings);
         services.AddScoped(typeof(IElasticsearchService<>), typeof(ElasticsearchService<>));
     }
 }
