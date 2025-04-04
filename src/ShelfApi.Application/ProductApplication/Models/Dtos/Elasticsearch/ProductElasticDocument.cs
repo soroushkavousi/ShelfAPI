@@ -11,6 +11,7 @@ public record ProductElasticDocument
     public int Quantity { get; init; }
     public DateTime CreatedAt { get; init; }
     public DateTime? ModifiedAt { get; init; }
+    public bool IsDeleted { get; init; }
 }
 
 public static class ProductElasticDocumentExtensions
@@ -22,13 +23,15 @@ public static class ProductElasticDocumentExtensions
         Price = product.Price.Value,
         Quantity = product.Quantity,
         CreatedAt = product.CreatedAt,
-        ModifiedAt = product.ModifiedAt
+        ModifiedAt = product.ModifiedAt,
+        IsDeleted = product.IsDeleted
     };
 
     public static Product ToDomainModel(this ProductElasticDocument productElasticDocument) =>
         new(productElasticDocument.Id, productElasticDocument.Name,
             productElasticDocument.Price, productElasticDocument.Quantity,
-            productElasticDocument.CreatedAt, productElasticDocument.ModifiedAt);
+            productElasticDocument.CreatedAt, productElasticDocument.ModifiedAt,
+            productElasticDocument.IsDeleted, true);
 
     public static ProductUserView ToUserView(this ProductElasticDocument productElasticDocument) => new()
     {

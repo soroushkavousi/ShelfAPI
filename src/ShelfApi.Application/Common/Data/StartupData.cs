@@ -60,6 +60,7 @@ public record ElasticsearchStartupData
     public string ApiKey { get; init; }
     public string FingerPrint { get; init; }
     public int RequestTimeout { get; init; }
+    public int BulkChunkSize { get; init; }
     public bool DebugMode { get; init; }
 
     public Dictionary<string, string> IndexNames

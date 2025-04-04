@@ -23,5 +23,11 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
 
         builder.Property(x => x.ModifiedAt)
             .ConfigureModifiedAt();
+
+        builder.Property(x => x.IsDeleted);
+
+        builder.Property(x => x.IsElasticsearchSynced);
+
+        builder.HasQueryFilter(x => !x.IsDeleted);
     }
 }
