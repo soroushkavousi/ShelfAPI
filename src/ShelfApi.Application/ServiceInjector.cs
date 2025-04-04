@@ -5,6 +5,7 @@ using MediatR.Pipeline;
 using Microsoft.Extensions.DependencyInjection;
 using ShelfApi.Application.AuthApplication.Services;
 using ShelfApi.Application.Common.Tools.MediatR;
+using ShelfApi.Application.ProductApplication.Services;
 
 namespace ShelfApi.Application;
 
@@ -26,5 +27,6 @@ public static class ServiceInjector
 
     private static void AddHostedServices(IServiceCollection services)
     {
+        services.AddHostedService<SyncProductElasticDocumentBackgroundService>();
     }
 }

@@ -8,4 +8,6 @@ public interface IElasticsearchService<TDocument> where TDocument : class
 
     Task<ElasticsearchResult<TDocument[]>> SearchAsync(Action<QueryDescriptor<TDocument>> searchQuery,
         int pageSize = 10, int pageNumber = 1);
+
+    Task<ElasticsearchResult<bool>> BulkAddOrUpdateAsync(IEnumerable<TDocument> documents);
 }

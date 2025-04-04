@@ -133,6 +133,7 @@ public static class ServiceInjector
             ApiKey = startupData.Elasticsearch.ApiKey,
             FingerPrint = startupData.Elasticsearch.FingerPrint,
             RequestTimeout = startupData.Elasticsearch.RequestTimeout,
+            BulkChunkSize = startupData.Elasticsearch.BulkChunkSize,
             DebugMode = startupData.Elasticsearch.DebugMode,
             IndexNames = new()
             {
