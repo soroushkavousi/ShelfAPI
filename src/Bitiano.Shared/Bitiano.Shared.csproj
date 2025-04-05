@@ -8,7 +8,7 @@
 
     <ItemGroup>
         <PackageReference Include="Ardalis.GuardClauses" Version="4.5.0"/>
-        <PackageReference Include="DotNetPotion" Version="2.0.0"/>
+        <PackageReference Include="DotNetPotion" Version="2.0.1"/>
         <PackageReference Include="Elastic.Clients.Elasticsearch" Version="8.17.3"/>
         <PackageReference Include="MediatR" Version="12.3.0"/>
         <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="8.0.0"/>

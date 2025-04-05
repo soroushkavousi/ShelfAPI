@@ -1,14 +1,13 @@
-﻿using Bitiano.Shared.Services.Elasticsearch;
+﻿using DotNetPotion.ScopeServicePack;
 using ShelfApi.Application.Common.Data;
-using ShelfApi.Application.ProductApplication.Models.Dtos.Elasticsearch;
+using ShelfApi.Application.ProductApplication.Events;
 using ShelfApi.Application.ProductApplication.Models.Views.UserViews;
 using ShelfApi.Domain.FinancialAggregate;
 using ShelfApi.Domain.ProductAggregate;
 
 namespace ShelfApi.Application.ProductApplication.Commands.AddProductByAdmin;
 
-public class AddProductByAdminCommandHandler(IShelfApiDbContext dbContext,
-    IElasticsearchService<ProductElasticDocument> productElasticsearchService)
+public class AddProductByAdminCommandHandler(IShelfApiDbContext dbContext, IScopeService scopeService)
     : IRequestHandler<AddProductByAdminCommand, Result<ProductUserView>>
 {
     public async Task<Result<ProductUserView>> Handle(AddProductByAdminCommand request, CancellationToken cancellationToken)
@@ -23,7 +22,7 @@ public class AddProductByAdminCommandHandler(IShelfApiDbContext dbContext,
 
         await dbContext.SaveChangesAsync();
 
-        await productElasticsearchService.AddOrUpdateAsync(product.ToElasticDocument());
+        scopeService.FireAndForget(product.ToCreatedEvent());
 
         return product.Adapt<ProductUserView>();
     }
