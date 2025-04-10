@@ -74,6 +74,7 @@ static void ConfigureApp(WebApplication app)
         app.UseSwaggerUI();
     }
 
+    app.UseHttpsRedirection();
     app.UseSerilogRequestLogging();
     app.UseApiExceptionHandler();
     app.UseAuthentication();
