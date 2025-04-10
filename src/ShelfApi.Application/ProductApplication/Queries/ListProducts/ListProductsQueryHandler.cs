@@ -1,13 +1,29 @@
 ﻿using Bitiano.Shared.Services.Elasticsearch;
+using Microsoft.EntityFrameworkCore;
+using ShelfApi.Application.Common.Data;
 using ShelfApi.Application.ProductApplication.Models.Dtos.Elasticsearch;
 using ShelfApi.Application.ProductApplication.Models.Views.UserViews;
+using ShelfApi.Domain.ProductAggregate;
 
 namespace ShelfApi.Application.ProductApplication.Queries.ListProducts;
 
-public class ListProductsQueryHandler(IElasticsearchService<ProductElasticDocument> productElasticsearchService)
-    : IRequestHandler<ListProductsQuery, Result<ProductUserView[]>>
+public class ListProductsQueryHandler(IElasticsearchService<ProductElasticDocument> productElasticsearchService,
+    IShelfApiDbContext dbContext) : IRequestHandler<ListProductsQuery, Result<ProductUserView[]>>
 {
     public async Task<Result<ProductUserView[]>> Handle(ListProductsQuery request, CancellationToken cancellationToken)
+    {
+        bool hasFilters = !string.IsNullOrWhiteSpace(request.Name) ||
+            request.MinPrice.HasValue ||
+            request.MaxPrice.HasValue;
+
+        if (hasFilters)
+            return await GetProductsFromElasticsearchAsync(request, cancellationToken);
+
+        return await GetProductsFromDatabaseAsync(cancellationToken);
+    }
+
+    private async Task<Result<ProductUserView[]>> GetProductsFromElasticsearchAsync(
+        ListProductsQuery request, CancellationToken cancellationToken)
     {
         ElasticsearchResult<ProductElasticDocument[]> searchResult = await productElasticsearchService.SearchAsync(q => q
             .Bool(b =>
@@ -43,5 +59,17 @@ public class ListProductsQueryHandler(IElasticsearchService<ProductElasticDocume
         ProductUserView[] products = productDocuments.Select(x => x.ToUserView()).ToArray();
 
         return products;
+    }
+
+    private async Task<Result<ProductUserView[]>> GetProductsFromDatabaseAsync(CancellationToken cancellationToken)
+    {
+        Console.WriteLine("GetProductsFromDatabaseAsync");
+        Product[] products = await dbContext.Products
+            .AsNoTracking()
+            .ToArrayAsync(cancellationToken);
+
+        ProductUserView[] productViews = products.Select(x => x.ToUserView()).ToArray();
+
+        return productViews;
     }
 }
