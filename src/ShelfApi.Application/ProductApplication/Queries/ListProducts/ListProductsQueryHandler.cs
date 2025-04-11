@@ -1,5 +1,6 @@
 ﻿using Bitiano.Shared.Services.Elasticsearch;
 using Bitiano.Shared.ValueObjects;
+using Elastic.Clients.Elasticsearch;
 using Microsoft.EntityFrameworkCore;
 using ShelfApi.Application.Common.Data;
 using ShelfApi.Application.ProductApplication.Models.Dtos.Elasticsearch;
@@ -50,8 +51,10 @@ public class ListProductsQueryHandler(IElasticsearchService<ProductElasticDocume
                     )));
                 }
             }),
-            request.PageSize,
-            request.PageNumber
+            sort => sort
+                .Field(f => f.CreatedAt, f => f.Order(request.SortDescending ? SortOrder.Desc : SortOrder.Asc)),
+            request.PageNumber,
+            request.PageSize
         );
 
         if (searchResult.HasError)
@@ -67,7 +70,13 @@ public class ListProductsQueryHandler(IElasticsearchService<ProductElasticDocume
     {
         Pagination pagination = new(request.PageNumber, request.PageSize);
 
-        Product[] products = await dbContext.Products
+        IQueryable<Product> query = dbContext.Products;
+
+        query = request.SortDescending
+            ? query.OrderByDescending(x => x.CreatedAt)
+            : query.OrderBy(x => x.CreatedAt);
+
+        Product[] products = await query
             .Skip(pagination.From)
             .Take(pagination.PageSize)
             .AsNoTracking()

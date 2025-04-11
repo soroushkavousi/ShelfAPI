@@ -9,4 +9,5 @@ public record ListProductsQuery : IRequest<Result<ProductUserView[]>>
     public decimal? MaxPrice { get; init; }
     public required int PageNumber { get; init; }
     public required int PageSize { get; init; }
+    public bool SortDescending { get; init; } = true;
 }
