@@ -52,7 +52,7 @@ public class ElasticsearchService<TDocument>(ILogger<ElasticsearchService<TDocum
     }
 
     public async Task<ElasticsearchResult<TDocument[]>> SearchAsync(Action<QueryDescriptor<TDocument>> searchQuery,
-        int pageSize = 10, int pageNumber = 1)
+        Action<SortOptionsDescriptor<TDocument>> sort, int pageNumber = 1, int pageSize = 10)
     {
         string indexName = settings.IndexNames[typeof(TDocument)];
 
@@ -65,9 +65,10 @@ public class ElasticsearchService<TDocument>(ILogger<ElasticsearchService<TDocum
                     .From(from)
                     .Size(pageSize)
                     .Query(searchQuery)
+                    .Sort(sort)
                 ),
             successFunction: response => response.Documents.ToArray(),
-            pageSize, pageNumber);
+            pageNumber, pageSize);
     }
 
     private static int CalculatePageFromOffset(int pageNumber, int pageSize)

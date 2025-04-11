@@ -2,9 +2,12 @@
 
 namespace ShelfApi.Application.ProductApplication.Queries.ListProducts;
 
-public class ListProductsQuery : IRequest<Result<ProductUserView[]>>
+public record ListProductsQuery : IRequest<Result<ProductUserView[]>>
 {
-    public required string Name { get; init; }
-    public required decimal? MinPrice { get; init; }
-    public required decimal? MaxPrice { get; init; }
+    public string Name { get; init; }
+    public decimal? MinPrice { get; init; }
+    public decimal? MaxPrice { get; init; }
+    public required int PageNumber { get; init; }
+    public required int PageSize { get; init; }
+    public bool SortDescending { get; init; } = true;
 }

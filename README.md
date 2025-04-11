@@ -25,3 +25,4 @@
   - Supports implicit operators and deconstruction.
   - Utilized in the Try-Create pattern for value objects.
 - **Includes Product, Cart, and Payment Models**
+- **Supports Pagination and Sorting for both Elasticsearch and PostgreSQL queries**

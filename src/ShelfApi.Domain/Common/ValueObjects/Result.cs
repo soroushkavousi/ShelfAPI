@@ -12,26 +12,17 @@ public record Result : BaseResult<Error>
     public Result(ErrorCode errorCode) : this(new Error(errorCode)) { }
 }
 
-public record Result<TData> : Result
+public record Result<TData> : BaseResult<TData, Error>
 {
-    public Result(TData data)
-    {
-        if (EqualityComparer<TData>.Default.Equals(data, default))
-            throw new InvalidOperationException();
-
-        Data = data;
-    }
-
+    public Result(TData data) : base(data) { }
+    public Result(TData data, Pagination pagination) : base(data, pagination) { }
     public Result(Error error) : base(error) { }
-
-    public Result(ErrorCode errorCode) : base(errorCode) { }
-
-    public TData Data { get; init; }
+    public Result(ErrorCode errorCode) : base(new Error(errorCode)) { }
 
     public static implicit operator Result<TData>(TData data) => new(data);
     public static implicit operator Result<TData>(ErrorCode errorCode) => new(errorCode);
     public static implicit operator Result<TData>(Error error) => new(error);
 
-    public void Deconstruct(out Error error, out TData data)
-        => (error, data) = (Error, Data);
+    public static implicit operator Result<TData>((TData data, Pagination pagination) page) =>
+        new(page.data, page.pagination);
 }
