@@ -1,4 +1,5 @@
-﻿using ShelfApi.Application.ErrorApplication.Queries.GetApiError;
+﻿using Bitiano.Shared.ValueObjects;
+using ShelfApi.Application.ErrorApplication.Queries.GetApiError;
 
 namespace ShelfApi.Application.Common.Tools.MediatR;
 
@@ -9,7 +10,7 @@ public class ErrorResultPipelineBehavior<TRequest, TResponse>(IMediator mediator
     {
         TResponse response = await next();
 
-        if (response is not Result { Error: not null } result)
+        if (response is not BaseResult<Error> { Error: not null } result)
             return response;
 
         ApiError apiError = await mediator.Send(new GetApiErrorQuery { ErrorCode = result.Error.Code });

@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using Bitiano.Shared.ValueObjects;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using ShelfApi.Domain.ErrorAggregate;
@@ -9,7 +10,7 @@ public class StatusCodeActionFilter : IAsyncResultFilter
 {
     public async Task OnResultExecutionAsync(ResultExecutingContext context, ResultExecutionDelegate next)
     {
-        if (context.Result is ObjectResult { Value: Result result } objectResult)
+        if (context.Result is ObjectResult { Value: BaseResult<Error> result } objectResult)
         {
             if (result.HasError)
             {

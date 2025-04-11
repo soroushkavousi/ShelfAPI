@@ -1,4 +1,5 @@
 ﻿using Bitiano.Shared.Services.Elasticsearch;
+using Bitiano.Shared.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using ShelfApi.Application.Common.Data;
 using ShelfApi.Application.ProductApplication.Models.Dtos.Elasticsearch;
@@ -19,14 +20,14 @@ public class ListProductsQueryHandler(IElasticsearchService<ProductElasticDocume
         if (hasFilters)
             return await GetProductsFromElasticsearchAsync(request, cancellationToken);
 
-        return await GetProductsFromDatabaseAsync(cancellationToken);
+        return await GetProductsFromDatabaseAsync(request, cancellationToken);
     }
 
     private async Task<Result<ProductUserView[]>> GetProductsFromElasticsearchAsync(
         ListProductsQuery request, CancellationToken cancellationToken)
     {
-        ElasticsearchResult<ProductElasticDocument[]> searchResult = await productElasticsearchService.SearchAsync(q => q
-            .Bool(b =>
+        ElasticsearchResult<ProductElasticDocument[]> searchResult = await productElasticsearchService.SearchAsync(
+            q => q.Bool(b =>
             {
                 if (!string.IsNullOrWhiteSpace(request.Name))
                 {
@@ -48,28 +49,31 @@ public class ListProductsQueryHandler(IElasticsearchService<ProductElasticDocume
                         .Lte((double?)request.MaxPrice)
                     )));
                 }
-            })
+            }),
+            request.PageSize,
+            request.PageNumber
         );
 
         if (searchResult.HasError)
             return ErrorCode.InternalServerError;
 
         ProductElasticDocument[] productDocuments = searchResult.Data;
-
-        ProductUserView[] products = productDocuments.Select(x => x.ToUserView()).ToArray();
-
-        return products;
+        ProductUserView[] productUserViews = productDocuments.Select(x => x.ToUserView()).ToArray();
+        return new(productUserViews, new(request.PageNumber, request.PageSize));
     }
 
-    private async Task<Result<ProductUserView[]>> GetProductsFromDatabaseAsync(CancellationToken cancellationToken)
+    private async Task<Result<ProductUserView[]>> GetProductsFromDatabaseAsync(
+        ListProductsQuery request, CancellationToken cancellationToken)
     {
-        Console.WriteLine("GetProductsFromDatabaseAsync");
+        Pagination pagination = new(request.PageNumber, request.PageSize);
+
         Product[] products = await dbContext.Products
+            .Skip(pagination.From)
+            .Take(pagination.PageSize)
             .AsNoTracking()
             .ToArrayAsync(cancellationToken);
 
-        ProductUserView[] productViews = products.Select(x => x.ToUserView()).ToArray();
-
-        return productViews;
+        ProductUserView[] productUserViews = products.Select(x => x.ToUserView()).ToArray();
+        return new(productUserViews, pagination);
     }
 }
