@@ -22,7 +22,7 @@ public class AddProductByAdminCommandHandler(IShelfApiDbContext dbContext, IScop
 
         await dbContext.SaveChangesAsync();
 
-        scopeService.FireAndForget(product.ToCreatedEvent());
+        scopeService.FireAndForget(new ProductCreatedEvent { Product = product.ToEventDto() });
 
         return product.Adapt<ProductUserView>();
     }

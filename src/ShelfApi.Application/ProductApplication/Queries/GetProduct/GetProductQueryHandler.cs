@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ShelfApi.Application.Common.Data;
+using ShelfApi.Application.ProductApplication.Models.Dtos;
 using ShelfApi.Application.ProductApplication.Models.Views.UserViews;
 using ZiggyCreatures.Caching.Fusion;
 
@@ -11,7 +12,7 @@ public class GetProductQueryHandler(IShelfApiDbContext dbContext, IFusionCache c
     public async Task<Result<ProductUserView>> Handle(GetProductQuery request, CancellationToken cancellationToken)
     {
         ProductUserView product = await cache.GetOrSetAsync(
-            $"product:{request.Id}",
+            ProductCacheKeys.GetProductKey(request.Id),
             _ => GetProductFromDatabaseAsync(request.Id, cancellationToken),
             options => options
                 .SetDuration(TimeSpan.FromSeconds(2))
@@ -27,7 +28,7 @@ public class GetProductQueryHandler(IShelfApiDbContext dbContext, IFusionCache c
     public async Task<ProductUserView> GetProductFromDatabaseAsync(long id, CancellationToken cancellationToken)
     {
         ProductUserView product = await dbContext.Products
-            .Where(x => x.Id == id)
+            .Where(x => x.Id == id && !x.IsDeleted)
             .AsNoTracking()
             .ProjectToType<ProductUserView>()
             .FirstOrDefaultAsync(cancellationToken);

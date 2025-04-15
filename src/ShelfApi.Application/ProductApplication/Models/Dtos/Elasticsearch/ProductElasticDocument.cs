@@ -17,15 +17,15 @@ public record ProductElasticDocument
 
 public static class ProductElasticDocumentExtensions
 {
-    public static ProductElasticDocument ToElasticDocument(this ProductCreatedEvent productCreatedEvent) => new()
+    public static ProductElasticDocument ToElasticDocument(this ProductEventDto productEventDto) => new()
     {
-        Id = productCreatedEvent.Id,
-        Name = productCreatedEvent.Name,
-        Price = productCreatedEvent.Price,
-        Quantity = productCreatedEvent.Quantity,
-        CreatedAt = productCreatedEvent.CreatedAt,
-        ModifiedAt = null,
-        IsDeleted = false
+        Id = productEventDto.Id,
+        Name = productEventDto.Name,
+        Price = productEventDto.Price,
+        Quantity = productEventDto.Quantity,
+        CreatedAt = productEventDto.CreatedAt,
+        ModifiedAt = productEventDto.ModifiedAt,
+        IsDeleted = productEventDto.IsDeleted
     };
 
     public static ProductElasticDocument ToElasticDocument(this Product product) => new()
