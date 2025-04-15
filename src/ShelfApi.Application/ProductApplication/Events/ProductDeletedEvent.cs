@@ -1,6 +1,6 @@
 namespace ShelfApi.Application.ProductApplication.Events;
 
-public class ProductCreatedEvent : INotification
+public class ProductDeletedEvent : INotification
 {
     public ProductEventDto Product { get; init; }
 }

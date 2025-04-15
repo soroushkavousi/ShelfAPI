@@ -30,6 +30,8 @@ public class ListProductsQueryHandler(IElasticsearchService<ProductElasticDocume
         ElasticsearchResult<ProductElasticDocument[]> searchResult = await productElasticsearchService.SearchAsync(
             q => q.Bool(b =>
             {
+                b.Filter(b => b.Term(t => t.Field(f => f.IsDeleted).Value(false)));
+
                 if (!string.IsNullOrWhiteSpace(request.Name))
                 {
                     b.Must(m => m.Match(mq => mq.Field(f => f.Name).Query(request.Name)));
@@ -70,7 +72,8 @@ public class ListProductsQueryHandler(IElasticsearchService<ProductElasticDocume
     {
         Pagination pagination = new(request.PageNumber, request.PageSize);
 
-        IQueryable<Product> query = dbContext.Products;
+        IQueryable<Product> query = dbContext.Products
+            .Where(x => !x.IsDeleted);
 
         query = request.SortDescending
             ? query.OrderByDescending(x => x.CreatedAt)
