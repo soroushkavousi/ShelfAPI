@@ -2,7 +2,7 @@
 
 namespace ShelfApi.Domain.SettingDomain;
 
-public class ProjectSetting : BaseModel
+public class ProjectSetting : DomainModel
 {
     private ProjectSetting() { }
 

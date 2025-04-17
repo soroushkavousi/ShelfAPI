@@ -3,7 +3,7 @@ using ShelfApi.Domain.FinancialAggregate;
 
 namespace ShelfApi.Domain.ProductAggregate;
 
-public class Product : BaseModel
+public class Product : DomainModel
 {
     private Product() { }
 
@@ -29,6 +29,8 @@ public class Product : BaseModel
     public string Name { get; private set; }
     public Price Price { get; private set; }
     public int Quantity { get; private set; }
+    public DateTime CreatedAt { get; }
+    public DateTime? ModifiedAt { get; private set; }
     public bool IsDeleted { get; private set; }
     public bool IsElasticsearchSynced { get; private set; }
 

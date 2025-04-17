@@ -3,7 +3,7 @@ using ShelfApi.Domain.Common.Model;
 
 namespace ShelfApi.Domain.ErrorAggregate;
 
-public class ApiError : BaseModel
+public class ApiError : DomainModel
 {
     public ApiError(ErrorCode code, string title, string message)
     {

@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using ShelfApi.Domain.SettingDomain;
-using ShelfApi.Infrastructure.Data.ShelfApiDb.Common;
 
 namespace ShelfApi.Infrastructure.Data.ShelfApiDb.SettingConfigurations;
 
@@ -14,7 +13,5 @@ public class ProjectSettingsConfiguration : IEntityTypeConfiguration<ProjectSett
         builder.Property(x => x.Value)
             .HasDefaultValue("{}")
             .IsRequired();
-
-        builder.ConfigureBaseModel();
     }
 }
