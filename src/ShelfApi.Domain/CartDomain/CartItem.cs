@@ -4,7 +4,7 @@ using ShelfApi.Domain.UserAggregate;
 
 namespace ShelfApi.Domain.CartDomain;
 
-public class CartItem : BaseModel
+public class CartItem : DomainModel
 {
     private CartItem() { }
 
@@ -13,6 +13,7 @@ public class CartItem : BaseModel
         UserId = userId;
         ProductId = productId;
         Quantity = quantity;
+        CreatedAt = DateTime.UtcNow;
     }
 
     public long Id { get; }
@@ -25,8 +26,12 @@ public class CartItem : BaseModel
 
     public int Quantity { get; private set; }
 
+    public DateTime CreatedAt { get; }
+    public DateTime? ModifiedAt { get; private set; }
+
     public void IncreaseQuantity(int quantity = 1)
     {
         Quantity += quantity;
+        ModifiedAt = DateTime.UtcNow;
     }
 }

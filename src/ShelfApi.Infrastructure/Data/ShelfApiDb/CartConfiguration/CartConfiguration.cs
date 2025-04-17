@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using ShelfApi.Domain.CartDomain;
-using ShelfApi.Infrastructure.Data.ShelfApiDb.Common;
 
 namespace ShelfApi.Infrastructure.Data.ShelfApiDb.CartConfiguration;
 
@@ -24,7 +23,7 @@ public class CartItemConfiguration : IEntityTypeConfiguration<CartItem>
             .OnDelete(DeleteBehavior.Cascade);
 
         builder.Property(x => x.Quantity);
-
-        builder.ConfigureBaseModel();
+        builder.Property(x => x.CreatedAt);
+        builder.Property(x => x.ModifiedAt);
     }
 }

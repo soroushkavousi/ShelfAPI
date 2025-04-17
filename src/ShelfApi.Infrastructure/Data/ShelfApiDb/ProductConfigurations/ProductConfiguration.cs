@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using ShelfApi.Domain.ProductAggregate;
-using ShelfApi.Infrastructure.Data.ShelfApiDb.Common;
 
 namespace ShelfApi.Infrastructure.Data.ShelfApiDb.ProductConfigurations;
 
@@ -17,15 +16,9 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
             .IsRequired();
 
         builder.Property(x => x.Quantity);
-
-        builder.Property(x => x.CreatedAt)
-            .ConfigureCreatedAt();
-
-        builder.Property(x => x.ModifiedAt)
-            .ConfigureModifiedAt();
-
+        builder.Property(x => x.CreatedAt);
+        builder.Property(x => x.ModifiedAt);
         builder.Property(x => x.IsDeleted);
-
         builder.Property(x => x.IsElasticsearchSynced);
 
         builder.HasQueryFilter(x => !x.IsDeleted);

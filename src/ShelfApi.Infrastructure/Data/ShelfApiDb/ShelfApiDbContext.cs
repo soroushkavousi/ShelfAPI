@@ -1,10 +1,9 @@
 ﻿using EFCore.BulkExtensions;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 using ShelfApi.Application.Common.Data;
 using ShelfApi.Domain.CartDomain;
-using ShelfApi.Domain.Common.Model;
 using ShelfApi.Domain.ErrorAggregate;
 using ShelfApi.Domain.FinancialAggregate;
 using ShelfApi.Domain.ProductAggregate;
@@ -64,11 +63,11 @@ public class ShelfApiDbContext : IdentityDbContext<User, Role, long>, IShelfApiD
 
         builder.ApplyConfiguration(new UserConfiguration());
         builder.ApplyConfiguration(new RoleConfiguration());
-        builder.ApplyConfiguration(new RoleClaimConfiguration());
         builder.ApplyConfiguration(new UserRoleConfiguration());
-        builder.ApplyConfiguration(new UserClaimConfiguration());
-        builder.ApplyConfiguration(new UserLoginConfiguration());
-        builder.ApplyConfiguration(new UserTokenConfiguration());
+        builder.Ignore<IdentityUserToken<long>>();
+        builder.Ignore<IdentityUserLogin<long>>();
+        builder.Ignore<IdentityRoleClaim<long>>();
+        builder.Ignore<IdentityUserClaim<long>>();
 
         #endregion User
 
@@ -100,20 +99,7 @@ public class ShelfApiDbContext : IdentityDbContext<User, Role, long>, IShelfApiD
     public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess,
         CancellationToken cancellationToken = default)
     {
-        SetModifiedAt();
         return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
-    }
-
-    private void SetModifiedAt()
-    {
-        List<EntityEntry> EditedEntities = ChangeTracker.Entries()
-            .Where(e => e.State == EntityState.Modified)
-            .ToList();
-
-        EditedEntities.ForEach(e =>
-        {
-            e.Property(nameof(BaseModel.ModifiedAt)).CurrentValue = DateTime.UtcNow;
-        });
     }
 
     public Task BulkInsertAsync<T>(IEnumerable<T> entities, BulkConfig bulkConfig = null, Action<decimal> progress = null, Type type = null, CancellationToken cancellationToken = default) where T : class

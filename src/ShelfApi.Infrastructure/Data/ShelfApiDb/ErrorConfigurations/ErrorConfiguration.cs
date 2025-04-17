@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using ShelfApi.Domain.ErrorAggregate;
-using ShelfApi.Infrastructure.Data.ShelfApiDb.Common;
 
 namespace ShelfApi.Infrastructure.Data.ShelfApiDb.ErrorConfigurations;
 
@@ -19,11 +18,5 @@ public class ApiErrorConfiguration : IEntityTypeConfiguration<ApiError>
 
         builder.Property(x => x.Message)
             .IsRequired();
-
-        builder.Property(x => x.CreatedAt)
-            .ConfigureCreatedAt();
-
-        builder.Property(x => x.ModifiedAt)
-            .ConfigureModifiedAt();
     }
 }
