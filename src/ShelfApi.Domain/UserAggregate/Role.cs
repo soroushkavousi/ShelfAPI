@@ -12,10 +12,5 @@ public class Role : IdentityRole<long>
         NormalizedName = name.ToString().ToUpper();
 
         ConcurrencyStamp = Utils.GenerateNewConcurrencyStamp();
-
-        CreatedAt = DateTime.UtcNow;
     }
-
-    public DateTime CreatedAt { get; }
-    public DateTime? ModifiedAt { get; }
 }

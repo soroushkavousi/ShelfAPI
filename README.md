@@ -4,6 +4,7 @@
 
 ## Features
 
+- Has **User, Role, Product, Cart, Payment, ProjectSetting, and Error** Models
 - **Clean Architecture**
 - **Domain-Driven Design (DDD)**
 - **CQRS with MediatR**
@@ -14,9 +15,12 @@
 - **Entity Framework Core with PostgreSQL**
   - **Value Converters and Predefined Conversions**
 - Leverages **Elasticsearch** as a **read database for complex search queries**
+- **Supports Pagination and Sorting for both Elasticsearch and PostgreSQL queries**
 - **FusionCache (Hybrid Caching)**
-  - Retrieves project settings using a hybrid cache mechanism.
-  - Stores cached items in both distributed cache and memory cache.
+  - Stores cached items in both distributed cache (Redis) and memory cache.
+  - Retrieves project settings using a hybrid cache mechanism. 
+- Uses lightweight **extension methods** for **mapping between domain models, DTOs, and views**
+  - Avoids external mapping libraries for better control and performance
 - **Startup Data Support**
   - The project only requires a database connection string to retrieve startup data from the database.
 - **OwnsOne in EF Core**
@@ -24,5 +28,4 @@
 - **Error Handling with the Result Pattern**
   - Supports implicit operators and deconstruction.
   - Utilized in the Try-Create pattern for value objects.
-- **Includes Product, Cart, and Payment Models**
-- **Supports Pagination and Sorting for both Elasticsearch and PostgreSQL queries**
+
