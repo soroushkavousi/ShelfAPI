@@ -24,6 +24,6 @@ public class AddProductByAdminCommandHandler(IShelfApiDbContext dbContext, IScop
 
         scopeService.FireAndForget(new ProductCreatedEvent { Product = product.ToEventDto() });
 
-        return product.Adapt<ProductUserView>();
+        return product.ToUserView();
     }
 }

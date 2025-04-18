@@ -20,8 +20,6 @@ public static class ServiceInjector
         services.AddMediatR(cfg => { cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()); });
         services.AddSemaphorePool();
 
-        TypeAdapterConfig.GlobalSettings.Scan(Assembly.GetExecutingAssembly());
-
         AddHostedServices(services);
     }
 

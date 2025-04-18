@@ -30,6 +30,6 @@ public class UpdateProductByAdminCommandHandler(IShelfApiDbContext dbContext, IS
 
         scopeService.FireAndForget(new ProductUpdatedEvent { Product = product.ToEventDto() });
 
-        return product.Adapt<ProductUserView>();
+        return product.ToUserView();
     }
 }
