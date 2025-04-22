@@ -1,5 +1,6 @@
 ﻿using ShelfApi.Domain.Common.Model;
 using ShelfApi.Domain.FinancialAggregate;
+using ShelfApi.Domain.ProductAggregate.Events;
 
 namespace ShelfApi.Domain.ProductAggregate;
 
@@ -12,13 +13,17 @@ public class Product : DomainModel
         Name = name;
         Price = price;
         Quantity = quantity;
+        CreatedAt = DateTime.UtcNow;
+        RaiseDomainEvent(new ProductCreatedDomainEvent(this));
     }
 
     public Product(long id, string name, Price price, int quantity, DateTime createdAt, DateTime? modifiedAt,
         bool isDeleted, bool isElasticsearchSynced)
-        : this(name, price, quantity)
     {
         Id = id;
+        Name = name;
+        Price = price;
+        Quantity = quantity;
         CreatedAt = createdAt;
         ModifiedAt = modifiedAt;
         IsDeleted = isDeleted;
@@ -41,6 +46,7 @@ public class Product : DomainModel
         Quantity = quantity;
         ModifiedAt = DateTime.UtcNow;
         IsElasticsearchSynced = false;
+        RaiseDomainEvent(new ProductUpdatedDomainEvent(this));
     }
 
     public void Delete()
@@ -48,5 +54,6 @@ public class Product : DomainModel
         IsDeleted = true;
         IsElasticsearchSynced = false;
         ModifiedAt = DateTime.UtcNow;
+        RaiseDomainEvent(new ProductDeletedDomainEvent(this));
     }
 }

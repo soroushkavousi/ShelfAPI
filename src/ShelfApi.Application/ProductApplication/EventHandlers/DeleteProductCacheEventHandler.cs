@@ -1,32 +1,33 @@
-using ShelfApi.Application.ProductApplication.Events;
 using ShelfApi.Application.ProductApplication.Models.Dtos;
+using ShelfApi.Domain.ProductAggregate;
+using ShelfApi.Domain.ProductAggregate.Events;
 using ZiggyCreatures.Caching.Fusion;
 
 namespace ShelfApi.Application.ProductApplication.EventHandlers;
 
 public class DeleteProductCacheEventHandler(
     IFusionCache cache)
-    : INotificationHandler<ProductCreatedEvent>,
-        INotificationHandler<ProductUpdatedEvent>,
-        INotificationHandler<ProductDeletedEvent>
+    : INotificationHandler<ProductCreatedDomainEvent>,
+        INotificationHandler<ProductUpdatedDomainEvent>,
+        INotificationHandler<ProductDeletedDomainEvent>
 {
-    public async Task Handle(ProductCreatedEvent @event, CancellationToken cancellationToken)
+    public async Task Handle(ProductCreatedDomainEvent domainEvent, CancellationToken cancellationToken)
     {
-        await RemoveProductFromCacheAsync(@event.Product, cancellationToken);
+        await RemoveProductFromCacheAsync(domainEvent.Product, cancellationToken);
     }
 
-    public async Task Handle(ProductUpdatedEvent @event, CancellationToken cancellationToken)
+    public async Task Handle(ProductUpdatedDomainEvent domainEvent, CancellationToken cancellationToken)
     {
-        await RemoveProductFromCacheAsync(@event.Product, cancellationToken);
+        await RemoveProductFromCacheAsync(domainEvent.Product, cancellationToken);
     }
 
-    public async Task Handle(ProductDeletedEvent @event, CancellationToken cancellationToken)
+    public async Task Handle(ProductDeletedDomainEvent domainEvent, CancellationToken cancellationToken)
     {
-        await RemoveProductFromCacheAsync(@event.Product, cancellationToken);
+        await RemoveProductFromCacheAsync(domainEvent.Product, cancellationToken);
     }
 
-    private async Task RemoveProductFromCacheAsync(ProductEventDto productEventDto, CancellationToken cancellationToken)
+    private async Task RemoveProductFromCacheAsync(Product product, CancellationToken cancellationToken)
     {
-        await cache.RemoveAsync(ProductCacheKeys.GetProductKey(productEventDto.Id));
+        await cache.RemoveAsync(ProductCacheKeys.GetProductKey(product.Id));
     }
 }

@@ -10,6 +10,7 @@ using ShelfApi.Domain.ProductAggregate;
 using ShelfApi.Domain.SettingDomain;
 using ShelfApi.Domain.UserAggregate;
 using ShelfApi.Infrastructure.Common;
+using ShelfApi.Infrastructure.Common.Interceptors;
 using ShelfApi.Infrastructure.Data.ShelfApiDb.CartConfiguration;
 using ShelfApi.Infrastructure.Data.ShelfApiDb.ErrorConfigurations;
 using ShelfApi.Infrastructure.Data.ShelfApiDb.FinancialConfigurations.Converters;
@@ -21,6 +22,8 @@ namespace ShelfApi.Infrastructure.Data.ShelfApiDb;
 
 public class ShelfApiDbContext : IdentityDbContext<User, Role, long>, IShelfApiDbContext
 {
+    private static readonly DomainEventInterceptor _domainEventInterceptor = new();
+
     public DbSet<ProjectSetting> ProjectSettings { get; set; }
 
     public DbSet<ApiError> ApiErrors { get; set; }
@@ -96,11 +99,8 @@ public class ShelfApiDbContext : IdentityDbContext<User, Role, long>, IShelfApiD
         #endregion Cart
     }
 
-    public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess,
-        CancellationToken cancellationToken = default)
-    {
-        return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
-    }
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        => optionsBuilder.AddInterceptors(_domainEventInterceptor);
 
     public Task BulkInsertAsync<T>(IEnumerable<T> entities, BulkConfig bulkConfig = null, Action<decimal> progress = null, Type type = null, CancellationToken cancellationToken = default) where T : class
         => DbContextBulkExtensions.BulkInsertAsync(this, entities, bulkConfig, progress, type, cancellationToken);

@@ -1,4 +1,3 @@
-using ShelfApi.Application.ProductApplication.Events;
 using ShelfApi.Application.ProductApplication.Models.Views.UserViews;
 using ShelfApi.Domain.ProductAggregate;
 
@@ -17,17 +16,6 @@ public record ProductElasticDocument
 
 public static class ProductElasticDocumentExtensions
 {
-    public static ProductElasticDocument ToElasticDocument(this ProductEventDto productEventDto) => new()
-    {
-        Id = productEventDto.Id,
-        Name = productEventDto.Name,
-        Price = productEventDto.Price,
-        Quantity = productEventDto.Quantity,
-        CreatedAt = productEventDto.CreatedAt,
-        ModifiedAt = productEventDto.ModifiedAt,
-        IsDeleted = productEventDto.IsDeleted
-    };
-
     public static ProductElasticDocument ToElasticDocument(this Product product) => new()
     {
         Id = product.Id,
