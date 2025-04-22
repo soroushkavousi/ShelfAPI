@@ -1,14 +1,12 @@
-using DotNetPotion.ScopeServicePack;
 using Microsoft.EntityFrameworkCore;
 using ShelfApi.Application.Common.Data;
-using ShelfApi.Application.ProductApplication.Events;
 using ShelfApi.Application.ProductApplication.Models.Views.UserViews;
 using ShelfApi.Domain.FinancialAggregate;
 using ShelfApi.Domain.ProductAggregate;
 
 namespace ShelfApi.Application.ProductApplication.Commands.UpdateProductByAdmin;
 
-public class UpdateProductByAdminCommandHandler(IShelfApiDbContext dbContext, IScopeService scopeService)
+public class UpdateProductByAdminCommandHandler(IShelfApiDbContext dbContext)
     : IRequestHandler<UpdateProductByAdminCommand, Result<ProductUserView>>
 {
     public async Task<Result<ProductUserView>> Handle(UpdateProductByAdminCommand request, CancellationToken cancellationToken)
@@ -27,8 +25,6 @@ public class UpdateProductByAdminCommandHandler(IShelfApiDbContext dbContext, IS
         product.Update(request.Name, price, request.Quantity);
 
         await dbContext.SaveChangesAsync(cancellationToken);
-
-        scopeService.FireAndForget(new ProductUpdatedEvent { Product = product.ToEventDto() });
 
         return product.ToUserView();
     }

@@ -1,7 +1,6 @@
 using DotNetPotion.ScopeServicePack;
 using Microsoft.EntityFrameworkCore;
 using ShelfApi.Application.Common.Data;
-using ShelfApi.Application.ProductApplication.Events;
 using ShelfApi.Domain.ProductAggregate;
 
 namespace ShelfApi.Application.ProductApplication.Commands.DeleteProductByAdmin;
@@ -21,8 +20,6 @@ public class DeleteProductByAdminCommandHandler(IShelfApiDbContext dbContext, IS
         product.Delete();
 
         await dbContext.SaveChangesAsync(cancellationToken);
-
-        scopeService.FireAndForget(new ProductDeletedEvent { Product = product.ToEventDto() });
 
         return true;
     }
