@@ -46,6 +46,7 @@ public class SyncProductElasticDocumentBackgroundService(ILogger<SyncProductElas
             long[] chunkIds = chunk.Select(x => x.Id).ToArray();
 
             await shelfApiDbContext.Products
+                .IgnoreQueryFilters()
                 .Where(x => chunkIds.Contains(x.Id))
                 .ExecuteUpdateAsync(setter => setter.SetProperty(x => x.IsElasticsearchSynced, true));
         }
