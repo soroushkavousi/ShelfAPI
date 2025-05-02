@@ -1,0 +1,29 @@
+{
+  "RoslynExtensionsOptions": {
+    "enableAnalyzersSupport": true,
+    "enableImportCompletion": true,
+    "enableEditorConfigSupport": true
+  },
+  "FormattingOptions": {
+    "enableEditorConfigSupport": true
+  },
+  "RenameOptions": {
+    "RenameInComments": true,
+    "RenameOverloads": true,
+    "RenameInStrings": true
+  },
+  "FileOptions": {
+    "systemExcludeSearchPatterns": [
+      "**/node_modules/**/*",
+      "**/bin/**/*",
+      "**/obj/**/*"
+    ],
+    "excludeSearchPatterns": []
+  },
+  "MsBuild": {
+    "LoadProjectsOnDemand": true
+  },
+  "Cake": {
+    "enabled": false
+  }
+} 

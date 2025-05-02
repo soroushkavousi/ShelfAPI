@@ -1,0 +1,39 @@
+{
+  "omnisharp.enableRoslynAnalyzers": true,
+  "omnisharp.enableEditorConfigSupport": true,
+  "csharp.semanticHighlighting.enabled": true,
+  "editor.semanticHighlighting.enabled": true,
+  "dotnet.server.useOmnisharp": true,
+  "omnisharp.enableAsyncCompletion": true,
+  "omnisharp.useModernNet": true,
+  "omnisharp.path": "latest",
+  "omnisharp.maxProjectResults": 1000,
+  "csharp.suppressBuildAssetsNotification": true,
+  
+  // Force all reference searches to appear in the search panel
+  "editor.gotoLocation.multipleReferences": "goto",
+  "editor.gotoLocation.multipleImplementations": "goto",
+  "editor.gotoLocation.multipleDeclarations": "goto",
+  "editor.gotoLocation.multipleTypeDefinitions": "goto",
+  "editor.gotoLocation.multipleDefinitions": "goto",
+  
+  // Disable peek view completely
+  "editor.peekWidgetDefaultFocus": "tree",
+  "editor.definitionLinkOpensInPeek": false,
+  "editor.hover.sticky": false,
+  
+  // Place references in the references view
+  "search.mode": "view",
+  "references.preferredLocation": "view",
+  
+  // Disable peek features
+  "editor.peekWidgetDefaultFocus": "editor",
+  "editor.referenceInfos.preferredLocation": "view",
+  
+  // Override the find references command
+  "editor.action.referenceSearch.trigger": "gotoAndPeek",
+  "dotnet.inlayHints.enableInlayHintsForParameters": true,
+  "dotnet.completion.showCompletionItemsFromUnimportedNamespaces": true,
+  "dotnet.codeLens.enableReferencesCodeLens": true,
+  "dotnet.formatting.organizeImportsOnFormat": true
+} 
