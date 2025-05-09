@@ -1,5 +1,6 @@
 using ShelfApi.Application.ProductApplication.Models.Views.UserViews;
 using ShelfApi.Domain.ProductAggregate;
+using ShelfApi.Domain.ProductAggregate.Events;
 
 namespace ShelfApi.Application.ProductApplication.Models.Dtos.Elasticsearch;
 
@@ -25,6 +26,17 @@ public static class ProductElasticDocumentExtensions
         CreatedAt = product.CreatedAt,
         ModifiedAt = product.ModifiedAt,
         IsDeleted = product.IsDeleted
+    };
+
+    public static ProductElasticDocument ToElasticDocument(this ProductDomainEvent domainEvent) => new()
+    {
+        Id = domainEvent.Id,
+        Name = domainEvent.Name,
+        Price = domainEvent.Price,
+        Quantity = domainEvent.Quantity,
+        CreatedAt = domainEvent.CreatedAt,
+        ModifiedAt = domainEvent.ModifiedAt,
+        IsDeleted = domainEvent.IsDeleted
     };
 
     public static Product ToDomainModel(this ProductElasticDocument productElasticDocument) =>

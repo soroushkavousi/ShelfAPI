@@ -1,5 +1,7 @@
-using ShelfApi.Domain.Common.Interfaces;
-
 namespace ShelfApi.Domain.ProductAggregate.Events;
 
-public record ProductDeletedDomainEvent(Product Product) : IDomainEvent;
+public record ProductDeletedDomainEvent : ProductDomainEvent
+{
+    private ProductDeletedDomainEvent() { }
+    public ProductDeletedDomainEvent(Product product) : base(product) { }
+}

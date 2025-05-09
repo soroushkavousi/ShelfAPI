@@ -1,4 +1,4 @@
-﻿namespace ShelfApi.Infrastructure.Common;
+﻿namespace ShelfApi.Infrastructure.Models;
 
 public static class Constants
 {

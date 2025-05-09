@@ -9,19 +9,26 @@ using ShelfApi.Domain.FinancialAggregate;
 using ShelfApi.Domain.ProductAggregate;
 using ShelfApi.Domain.SettingDomain;
 using ShelfApi.Domain.UserAggregate;
-using ShelfApi.Infrastructure.Common;
-using ShelfApi.Infrastructure.Common.Interceptors;
 using ShelfApi.Infrastructure.Data.ShelfApiDb.CartConfiguration;
 using ShelfApi.Infrastructure.Data.ShelfApiDb.ErrorConfigurations;
 using ShelfApi.Infrastructure.Data.ShelfApiDb.FinancialConfigurations.Converters;
 using ShelfApi.Infrastructure.Data.ShelfApiDb.ProductConfigurations;
 using ShelfApi.Infrastructure.Data.ShelfApiDb.SettingConfigurations;
 using ShelfApi.Infrastructure.Data.ShelfApiDb.UserConfigurations;
+using ShelfApi.Infrastructure.Interceptors;
+using ShelfApi.Infrastructure.Models;
 
 namespace ShelfApi.Infrastructure.Data.ShelfApiDb;
 
-public class ShelfApiDbContext : IdentityDbContext<User, Role, long>, IShelfApiDbContext
+public interface ITransactionMarker
 {
+    bool OutboxTransactionStarted { get; set; }
+}
+
+public class ShelfApiDbContext : IdentityDbContext<User, Role, long>, IShelfApiDbContext, ITransactionMarker
+{
+    public bool OutboxTransactionStarted { get; set; }
+    
     private static readonly DomainEventInterceptor _domainEventInterceptor = new();
 
     public DbSet<ProjectSetting> ProjectSettings { get; set; }
@@ -35,6 +42,8 @@ public class ShelfApiDbContext : IdentityDbContext<User, Role, long>, IShelfApiD
     public DbSet<CartItem> CartItems { get; set; }
 
     #endregion Cart
+
+    public DbSet<DomainEventOutboxMessage> DomainEventOutboxMessages { get; set; }
 
     private ShelfApiDbContext() { }
 
@@ -97,6 +106,8 @@ public class ShelfApiDbContext : IdentityDbContext<User, Role, long>, IShelfApiD
         builder.ApplyConfiguration(new CartItemConfiguration());
 
         #endregion Cart
+
+        builder.ApplyConfiguration(new DomainEventOutboxMessageConfiguration());
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

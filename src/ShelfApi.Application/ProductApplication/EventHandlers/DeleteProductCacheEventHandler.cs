@@ -1,33 +1,33 @@
-using ShelfApi.Application.ProductApplication.Models.Dtos;
-using ShelfApi.Domain.ProductAggregate;
-using ShelfApi.Domain.ProductAggregate.Events;
-using ZiggyCreatures.Caching.Fusion;
+// using MassTransit;
+// using ShelfApi.Application.ProductApplication.Models.Dtos;
+// using ShelfApi.Domain.ProductAggregate.Events;
+// using ZiggyCreatures.Caching.Fusion;
+//
+// namespace ShelfApi.Application.ProductApplication.EventHandlers;
+//
+// public class DeleteProductCacheEventHandler(IFusionCache cache)
+//     : IConsumer<ProductCreatedDomainEvent>,
+//         IConsumer<ProductUpdatedDomainEvent>,
+//         IConsumer<ProductDeletedDomainEvent>
+// {
+//     public async Task Consume(ConsumeContext<ProductCreatedDomainEvent> context)
+//     {
+//         await RemoveProductFromCacheAsync(context.Message.Product.Id, context.CancellationToken);
+//     }
+//
+//     public async Task Consume(ConsumeContext<ProductUpdatedDomainEvent> context)
+//     {
+//         await RemoveProductFromCacheAsync(context.Message.Product.Id, context.CancellationToken);
+//     }
+//
+//     public async Task Consume(ConsumeContext<ProductDeletedDomainEvent> context)
+//     {
+//         await RemoveProductFromCacheAsync(context.Message.Product.Id, context.CancellationToken);
+//     }
+//
+//     private async Task RemoveProductFromCacheAsync(long productId, CancellationToken cancellationToken)
+//     {
+//         await cache.RemoveAsync(ProductCacheKeys.GetProductKey(productId));
+//     }
+// }
 
-namespace ShelfApi.Application.ProductApplication.EventHandlers;
-
-public class DeleteProductCacheEventHandler(
-    IFusionCache cache)
-    : INotificationHandler<ProductCreatedDomainEvent>,
-        INotificationHandler<ProductUpdatedDomainEvent>,
-        INotificationHandler<ProductDeletedDomainEvent>
-{
-    public async Task Handle(ProductCreatedDomainEvent domainEvent, CancellationToken cancellationToken)
-    {
-        await RemoveProductFromCacheAsync(domainEvent.Product, cancellationToken);
-    }
-
-    public async Task Handle(ProductUpdatedDomainEvent domainEvent, CancellationToken cancellationToken)
-    {
-        await RemoveProductFromCacheAsync(domainEvent.Product, cancellationToken);
-    }
-
-    public async Task Handle(ProductDeletedDomainEvent domainEvent, CancellationToken cancellationToken)
-    {
-        await RemoveProductFromCacheAsync(domainEvent.Product, cancellationToken);
-    }
-
-    private async Task RemoveProductFromCacheAsync(Product product, CancellationToken cancellationToken)
-    {
-        await cache.RemoveAsync(ProductCacheKeys.GetProductKey(product.Id));
-    }
-}
