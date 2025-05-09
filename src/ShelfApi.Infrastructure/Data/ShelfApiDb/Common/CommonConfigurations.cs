@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using ShelfApi.Infrastructure.Common;
+using ShelfApi.Infrastructure.Models;
 
 namespace ShelfApi.Infrastructure.Data.ShelfApiDb.Common;
 
