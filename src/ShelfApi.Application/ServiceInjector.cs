@@ -4,6 +4,7 @@ using DotNetPotion.SemaphorePoolPack;
 using MediatR.Pipeline;
 using Microsoft.Extensions.DependencyInjection;
 using ShelfApi.Application.AuthApplication.Services;
+using ShelfApi.Application.Common.Services;
 using ShelfApi.Application.Common.Tools.MediatR;
 using ShelfApi.Application.ProductApplication.Services;
 
@@ -26,5 +27,6 @@ public static class ServiceInjector
     private static void AddHostedServices(IServiceCollection services)
     {
         services.AddHostedService<SyncProductElasticDocumentBackgroundService>();
+        services.AddHostedService<DomainEventOutboxProcessorBackgroundService>();
     }
 }
