@@ -16,6 +16,10 @@
   - **Value Converters and Predefined Conversions**
 - Leverages **Elasticsearch** as a **read database for complex search queries**
 - **Supports Pagination and Sorting for both Elasticsearch and PostgreSQL queries**
+- **Domain Events with Outbox Pattern**
+  - Reliable event processing with transactional consistency
+  - Publish with MediatR in a background service
+  - Automatic retries for failed events
 - **FusionCache (Hybrid Caching)**
   - Stores cached items in both distributed cache (Redis) and memory cache.
   - Retrieves project settings using a hybrid cache mechanism. 
