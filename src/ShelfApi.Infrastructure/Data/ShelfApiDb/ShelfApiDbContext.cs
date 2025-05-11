@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using ShelfApi.Application.Common.Data;
+using ShelfApi.Application.Common.Models;
 using ShelfApi.Domain.CartDomain;
 using ShelfApi.Domain.ErrorAggregate;
 using ShelfApi.Domain.FinancialAggregate;

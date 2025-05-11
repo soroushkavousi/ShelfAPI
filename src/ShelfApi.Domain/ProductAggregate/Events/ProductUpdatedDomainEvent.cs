@@ -2,6 +2,6 @@ namespace ShelfApi.Domain.ProductAggregate.Events;
 
 public record ProductUpdatedDomainEvent : ProductDomainEvent
 {
-    private ProductUpdatedDomainEvent() { }
+    public ProductUpdatedDomainEvent() { }
     public ProductUpdatedDomainEvent(Product product) : base(product) { }
 }

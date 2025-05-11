@@ -2,9 +2,9 @@ using Bitiano.Shared.Tools.Serializer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.EntityFrameworkCore.Storage;
+using ShelfApi.Application.Common.Models;
 using ShelfApi.Domain.Common.Interfaces;
 using ShelfApi.Domain.Common.Model;
-using ShelfApi.Infrastructure.Models;
 
 namespace ShelfApi.Infrastructure.Interceptors;
 
@@ -114,9 +114,7 @@ public class DomainEventInterceptor : SaveChangesInterceptor
             {
                 domainEvent.ResetId();
                 DomainEventOutboxMessage domainEventOutboxMessage = new(domainEvent.GetType().Name, domainEvent.ToJson());
-                Console.WriteLine($"ChangeTracker 1: {dbContext.ChangeTracker.DebugView.ShortView}");
                 outbox.Add(domainEventOutboxMessage);
-                Console.WriteLine($"ChangeTracker 2: {dbContext.ChangeTracker.DebugView.ShortView}");
             }
         }
 

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using ShelfApi.Application.Common.Models;
 using ShelfApi.Domain.CartDomain;
 using ShelfApi.Domain.ProductAggregate;
 using ShelfApi.Domain.SettingDomain;
@@ -20,4 +21,6 @@ public interface IShelfApiDbContext : IDbContext
     DbSet<Product> Products { get; }
 
     DbSet<CartItem> CartItems { get; }
+
+    DbSet<DomainEventOutboxMessage> DomainEventOutboxMessages { get; }
 }

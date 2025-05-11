@@ -41,6 +41,9 @@ public static class Extensions
     public static T FromJson<T>(this string json)
         => json == null ? default : JsonSerializer.Deserialize<T>(json, _defaultOptions);
 
+    public static object FromJson(this string json, Type type)
+        => json == null ? null : JsonSerializer.Deserialize(json, type, _defaultOptions);
+
     public static string ToCamelCase(this string name)
         => JsonNamingPolicy.CamelCase.ConvertName(name);
 }
