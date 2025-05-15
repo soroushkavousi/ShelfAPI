@@ -2,7 +2,7 @@ using ShelfApi.Domain.Common.Interfaces;
 
 namespace ShelfApi.Domain.ProductAggregate.Events;
 
-public abstract record ProductDomainEvent : IDomainEvent
+public abstract record ProductDomainEvent : IDomainEvent, IIntegrationEvent
 {
     private readonly Product _product;
 
