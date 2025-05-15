@@ -33,4 +33,5 @@
 - **Error Handling with the Result Pattern**
   - Supports implicit operators and deconstruction.
   - Utilized in the Try-Create pattern for value objects.
-
+- Uses **Docker** for infrastructure 
+  - docker-compose files exist in the docker directory

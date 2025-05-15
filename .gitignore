@@ -3,6 +3,12 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/main/VisualStudio.gitignore
 
+# docker data
+docker/**
+!docker/**/
+!docker/**/docker-compose.yml
+!docker/**/.env
+
 # Rider
 .idea/
 
