@@ -1,9 +1,11 @@
 ﻿using System.Diagnostics;
+using System.Reflection;
 using Bitiano.Shared.Services.Elasticsearch;
 using DotNetPotion.AppEnvironmentPack;
 using Elastic.Ingest.Elasticsearch;
 using Elastic.Serilog.Sinks;
 using Elastic.Transport;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.StackExchangeRedis;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,6 +33,7 @@ public static class ServiceInjector
         services.AddShelfApiDbContext(startupData);
         services.AddFusionCache(startupData);
         services.AddElasticsearch(startupData);
+        services.AddMassTransit();
 
         services.AddSingleton<IIdManager, IdManager>();
     }
@@ -144,5 +147,24 @@ public static class ServiceInjector
         };
 
         services.AddElasticsearch(elasticsearchSettings);
+    }
+
+    private static void AddMassTransit(this IServiceCollection services)
+    {
+        services.AddMassTransit(configure =>
+        {
+            configure.UsingInMemory((context, cfg) =>
+            {
+                cfg.ConfigureEndpoints(context);
+            });
+
+            string[] targetProjectNames = [nameof(Application), nameof(Infrastructure)];
+            Assembly[] consumerAssemblies = AppDomain.CurrentDomain.GetAssemblies()
+                .Where(x => x.FullName != null && x.FullName.StartsWith(nameof(ShelfApi))
+                    && targetProjectNames.Any(p => x.FullName.Contains(p)))
+                .ToArray();
+
+            configure.AddConsumers(consumerAssemblies);
+        });
     }
 }

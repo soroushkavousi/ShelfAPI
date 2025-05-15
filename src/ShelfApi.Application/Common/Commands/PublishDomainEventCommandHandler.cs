@@ -1,4 +1,5 @@
 using Bitiano.Shared.Tools.Serializer;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using ShelfApi.Application.Common.Data;
@@ -8,7 +9,8 @@ using ShelfApi.Domain.Common.Interfaces;
 namespace ShelfApi.Application.Common.Commands;
 
 public class PublishDomainEventCommandHandler(ILogger<PublishDomainEventCommandHandler> logger,
-    IMediator mediator, IShelfApiDbContext dbContext) : IRequestHandler<PublishDomainEventCommand, bool>
+    IMediator mediator, IShelfApiDbContext dbContext, IPublishEndpoint publishEndpoint)
+    : IRequestHandler<PublishDomainEventCommand, bool>
 {
     private static readonly Dictionary<string, Type> _domainEventTypes = InitializeDomainEventTypes();
 
@@ -41,6 +43,13 @@ public class PublishDomainEventCommandHandler(ILogger<PublishDomainEventCommandH
             }
 
             await mediator.Publish(domainEvent, cancellationToken);
+
+            if (domainEvent is IIntegrationEvent)
+            {
+                await publishEndpoint.Publish(domainEvent, domainEvent.GetType(), cancellationToken);
+                logger.LogInformation("Published integration event {EventType} with ID {MessageId} to message bus",
+                    request.OutboxMessage.EventType, request.OutboxMessage.Id);
+            }
 
             await dbContext.DomainEventOutboxMessages
                 .Where(m => m.Id == request.OutboxMessage.Id)
