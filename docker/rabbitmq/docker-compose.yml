@@ -1,0 +1,29 @@
+version: '3.9'
+
+services:
+  rabbitmq:
+    image: rabbitmq:4.1-management
+    container_name: rabbitmq
+    hostname: rabbitmq
+    ports:
+      - "5673:5672" # AMQP port
+      - "15673:15672" # Management UI port
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+      - RABBITMQ_LOGS=-
+    volumes:
+      - ./data:/var/lib/rabbitmq
+      - ./logs:/var/log/rabbitmq
+    restart: always
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD", "rabbitmqctl", "status"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+networks:
+  app-network:
+    driver: bridge

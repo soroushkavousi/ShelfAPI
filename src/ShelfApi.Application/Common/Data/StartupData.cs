@@ -30,6 +30,14 @@ public record StartupData
             {
                 [nameof(ProductElasticDocument).ToCamelCase()] = "products"
             }
+        },
+        RabbitMq = new()
+        {
+            Host = "localhost",
+            Port = 5672,
+            VirtualHost = "/",
+            Username = "guest",
+            Password = "guest"
         }
     };
 
@@ -37,6 +45,7 @@ public record StartupData
     public JwtStartupData Jwt { get; init; }
     public RedisStartupData Redis { get; init; }
     public ElasticsearchStartupData Elasticsearch { get; init; }
+    public RabbitMqStartupData RabbitMq { get; init; }
 }
 
 public record JwtStartupData
@@ -68,4 +77,13 @@ public record ElasticsearchStartupData
         get => _indexNames;
         init => _indexNames = new(value, StringComparer.OrdinalIgnoreCase);
     }
+}
+
+public record RabbitMqStartupData
+{
+    public string Host { get; init; }
+    public ushort Port { get; init; }
+    public string VirtualHost { get; init; }
+    public string Username { get; init; }
+    public string Password { get; init; }
 }

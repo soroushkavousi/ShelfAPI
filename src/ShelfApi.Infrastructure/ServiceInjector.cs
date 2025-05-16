@@ -33,7 +33,7 @@ public static class ServiceInjector
         services.AddShelfApiDbContext(startupData);
         services.AddFusionCache(startupData);
         services.AddElasticsearch(startupData);
-        services.AddMassTransit();
+        services.AddMassTransit(startupData);
 
         services.AddSingleton<IIdManager, IdManager>();
     }
@@ -149,12 +149,19 @@ public static class ServiceInjector
         services.AddElasticsearch(elasticsearchSettings);
     }
 
-    private static void AddMassTransit(this IServiceCollection services)
+    private static void AddMassTransit(this IServiceCollection services, StartupData startupData)
     {
         services.AddMassTransit(configure =>
         {
-            configure.UsingInMemory((context, cfg) =>
+            configure.UsingRabbitMq((context, cfg) =>
             {
+                cfg.Host(startupData.RabbitMq.Host, startupData.RabbitMq.Port,
+                    startupData.RabbitMq.VirtualHost, h =>
+                    {
+                        h.Username(startupData.RabbitMq.Username);
+                        h.Password(startupData.RabbitMq.Password);
+                    });
+
                 cfg.ConfigureEndpoints(context);
             });
 

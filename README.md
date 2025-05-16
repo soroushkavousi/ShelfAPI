@@ -20,7 +20,7 @@
   - Reliable event processing with transactional consistency
   - Publish with MediatR in a background service
   - Automatic retries for failed events
-- Uses in-memory **MassTransit** to publish **integration events**
+- Uses **RabbitMQ** with **MassTransit** to publish **integration events**
 - **FusionCache (Hybrid Caching)**
   - Stores cached items in both distributed cache (Redis) and memory cache.
   - Retrieves project settings using a hybrid cache mechanism. 
