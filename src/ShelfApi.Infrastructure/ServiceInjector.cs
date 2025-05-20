@@ -29,6 +29,12 @@ public static class ServiceInjector
 {
     public static void AddInfrastructure(this IServiceCollection services, StartupData startupData)
     {
+        services.AddIdGenerator(options =>
+        {
+            options.GeneratorId = startupData.InstanceId;
+            options.EpochStart = startupData.IdGenerator.EpochStart;
+        });
+
         services.AddSerilog(startupData);
         services.AddShelfApiDbContext(startupData);
         services.AddFusionCache(startupData);

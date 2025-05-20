@@ -9,4 +9,10 @@ public static class EnvironmentVariables
         key: "SHELF_API_CONNECTION_STRING",
         defaultValue: null
     );
+
+    public static int InstanceId { get; } = EnvironmentHelper.ReadIntVariable
+    (
+        key: "SHELF_API_INSTANCE_ID",
+        defaultValue: 1
+    );
 }

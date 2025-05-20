@@ -19,4 +19,10 @@ public static class EnvironmentHelper
         value = defaultValue;
         return value;
     }
+
+    public static int ReadIntVariable(string key, int defaultValue = 0)
+    {
+        string value = ReadVariable(key, defaultValue.ToString());
+        return int.Parse(value);
+    }
 }
