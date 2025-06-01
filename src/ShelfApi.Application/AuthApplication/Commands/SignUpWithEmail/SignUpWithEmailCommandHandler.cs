@@ -1,12 +1,13 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using ShelfApi.Application.Common.Services;
 using ShelfApi.Domain.Common.Exceptions;
 using ShelfApi.Domain.UserAggregate;
 
 namespace ShelfApi.Application.AuthApplication.Commands.SignUpWithEmail;
 
-public class SignUpWithEmailCommandHandler(UserManager<User> userManager)
-    : IRequestHandler<SignUpWithEmailCommand, Result<bool>>
+public class SignUpWithEmailCommandHandler(UserManager<User> userManager,
+    IIdGenerator idGenerator) : IRequestHandler<SignUpWithEmailCommand, Result<bool>>
 {
     public async Task<Result<bool>> Handle(SignUpWithEmailCommand request, CancellationToken cancellationToken)
     {
@@ -16,7 +17,7 @@ public class SignUpWithEmailCommandHandler(UserManager<User> userManager)
         if (await userManager.Users.AnyAsync(u => u.NormalizedUserName == request.Username.ToUpper(), cancellationToken: cancellationToken))
             return new Error(ErrorCode.ItemAlreadyExists, ErrorField.Username);
 
-        User user = new User(false, request.Username, request.EmailAddress);
+        User user = new(idGenerator.GenerateId(), false, request.Username, request.EmailAddress);
 
         IdentityResult result = await userManager.CreateAsync(user, request.Password);
         if (!result.Succeeded)

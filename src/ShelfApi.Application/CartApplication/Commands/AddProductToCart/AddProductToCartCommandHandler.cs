@@ -2,11 +2,13 @@
 using Microsoft.EntityFrameworkCore;
 using ShelfApi.Application.Common.Constants;
 using ShelfApi.Application.Common.Data;
+using ShelfApi.Application.Common.Services;
 using ShelfApi.Domain.CartDomain;
 
 namespace ShelfApi.Application.CartApplication.Commands.AddProductToCart;
 
-public class AddProductToCartCommandHandler(IShelfApiDbContext dbContext, ISemaphorePool semaphorePool)
+public class AddProductToCartCommandHandler(IShelfApiDbContext dbContext,
+    IIdGenerator idGenerator, ISemaphorePool semaphorePool)
     : IRequestHandler<AddProductToCartCommand, Result<bool>>
 {
     public async Task<Result<bool>> Handle(AddProductToCartCommand request, CancellationToken cancellationToken)
@@ -25,7 +27,7 @@ public class AddProductToCartCommandHandler(IShelfApiDbContext dbContext, ISemap
                 return true;
             }
 
-            CartItem cartItem = new(request.UserId, request.ProductId);
+            CartItem cartItem = new(idGenerator.GenerateId(), request.UserId, request.ProductId);
             dbContext.CartItems.Add(cartItem);
             await dbContext.SaveChangesAsync();
 

@@ -3,14 +3,16 @@ using ShelfApi.Domain.Common.Tools;
 
 namespace ShelfApi.Domain.UserAggregate;
 
-public class User : IdentityUser<long>
+public sealed class User : IdentityUser<long>
 {
     public const string AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789._-";
 
     private User() { }
 
-    public User(bool isAdmin, string username, string emailAddress)
+    public User(long id, bool isAdmin, string username, string emailAddress)
     {
+        Id = id;
+
         IsAdmin = isAdmin;
 
         UserName = username;

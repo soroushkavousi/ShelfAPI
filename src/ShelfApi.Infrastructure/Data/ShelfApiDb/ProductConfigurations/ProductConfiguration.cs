@@ -10,6 +10,9 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
     {
         builder.HasKey(x => x.Id);
 
+        builder.Property(x => x.Id)
+            .ValueGeneratedNever();
+
         builder.Property(x => x.Name);
 
         builder.Property(x => x.Price)

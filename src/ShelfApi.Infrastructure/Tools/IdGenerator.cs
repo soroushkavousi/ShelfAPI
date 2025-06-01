@@ -27,7 +27,7 @@ public class IdGenerator : IIdGenerator
         _generator = new(generatorId, idGeneratorOptions);
     }
 
-    public long GenerateNewId() => _generator.CreateId();
+    public long GenerateId() => _generator.CreateId();
 }
 
 public static class IdGeneratorExtensions

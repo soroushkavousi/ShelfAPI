@@ -8,8 +8,9 @@ public class CartItem : DomainModel
 {
     private CartItem() { }
 
-    public CartItem(long userId, long productId, int quantity = 1)
+    public CartItem(long id, long userId, long productId, int quantity = 1)
     {
+        Id = id;
         UserId = userId;
         ProductId = productId;
         Quantity = quantity;

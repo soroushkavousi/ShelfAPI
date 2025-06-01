@@ -10,6 +10,9 @@ public class CartItemConfiguration : IEntityTypeConfiguration<CartItem>
     {
         builder.HasKey(x => x.Id);
 
+        builder.Property(x => x.Id)
+            .ValueGeneratedNever();
+
         builder.HasOne(x => x.User)
             .WithMany()
             .HasForeignKey(x => x.UserId)
