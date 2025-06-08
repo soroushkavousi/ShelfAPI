@@ -16,7 +16,6 @@ using Serilog.Exceptions;
 using Serilog.Exceptions.Core;
 using Serilog.Exceptions.EntityFrameworkCore.Destructurers;
 using ShelfApi.Application.Common.Data;
-using ShelfApi.Application.Common.Tools;
 using ShelfApi.Application.ProductApplication.Models.Dtos.Elasticsearch;
 using ShelfApi.Infrastructure.Data.ShelfApiDb;
 using ShelfApi.Infrastructure.Tools;
@@ -40,8 +39,6 @@ public static class ServiceInjector
         services.AddFusionCache(startupData);
         services.AddElasticsearch(startupData);
         services.AddMassTransit(startupData);
-
-        services.AddSingleton<IIdManager, IdManager>();
     }
 
     public static void AddSerilog(this IServiceCollection services, StartupData startupData)

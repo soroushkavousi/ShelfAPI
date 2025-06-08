@@ -18,9 +18,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="AuthApplication\Commands\Admin\"/>
-        <Folder Include="AuthApplication\Commands\Internal\"/>
-        <Folder Include="AuthApplication\Commands\User\"/>
         <Folder Include="ProductApplication\Models\Dtos\"/>
         <Folder Include="UserApplication\"/>
     </ItemGroup>
