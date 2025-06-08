@@ -30,6 +30,12 @@
   - The project only requires a database connection string to retrieve startup data from the database.
 - **OwnsOne in EF Core**
   - Used for owning value objects, such as `Price` in `Product`.
+- **Application-Side ID Generation**
+  - Implements IdGen library for generating IDs at the application side
+  - Database-independent ID generation
+  - Combines timestamp (42 bits), generator ID (10 bits), and sequence (11 bits)
+  - Enables ID generation before database persistence
+  - Reduces database round trips and improves performance
 - **Error Handling with the Result Pattern**
   - Supports implicit operators and deconstruction.
   - Utilized in the Try-Create pattern for value objects.
