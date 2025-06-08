@@ -3,12 +3,14 @@ using ShelfApi.Domain.Common.Tools;
 
 namespace ShelfApi.Domain.UserAggregate;
 
-public class Role : IdentityRole<long>
+public sealed class Role : IdentityRole<long>
 {
     private Role() { }
 
-    public Role(RoleName name) : base(name.ToString())
+    public Role(short id, RoleName name) : base(name.ToString())
     {
+        Id = id;
+
         NormalizedName = name.ToString().ToUpper();
 
         ConcurrencyStamp = Utils.GenerateNewConcurrencyStamp();

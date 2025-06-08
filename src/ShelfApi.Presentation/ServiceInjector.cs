@@ -41,6 +41,8 @@ public static class ServiceInjector
 
             StartupData startupData = startupDataJson.FromJson<StartupData>();
             startupData.DbConnectionString = EnvironmentVariables.ConnectionString;
+            startupData.InstanceId = EnvironmentVariables.InstanceId;
+
             return startupData;
         }
         catch (Exception ex)

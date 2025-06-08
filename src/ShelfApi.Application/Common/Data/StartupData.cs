@@ -8,6 +8,11 @@ public record StartupData
     public static readonly StartupData Default = new()
     {
         DbConnectionString = "Host=localhost;Port=5432;Database=shelf;Username=postgres;Password=postgres",
+        InstanceId = 1,
+        IdGenerator = new()
+        {
+            EpochStart = new(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)
+        },
         Jwt = new()
         {
             Key = "a-random-key-hj4E@vE724fdZrli.SB2#4yeJfD55v24ErK2XkdIBSa1f7asf14V",
@@ -42,10 +47,17 @@ public record StartupData
     };
 
     public string DbConnectionString { get; set; }
+    public int InstanceId { get; set; }
+    public IdGeneratorStartupData IdGenerator { get; init; }
     public JwtStartupData Jwt { get; init; }
     public RedisStartupData Redis { get; init; }
     public ElasticsearchStartupData Elasticsearch { get; init; }
     public RabbitMqStartupData RabbitMq { get; init; }
+}
+
+public record IdGeneratorStartupData
+{
+    public DateTime EpochStart { get; init; }
 }
 
 public record JwtStartupData

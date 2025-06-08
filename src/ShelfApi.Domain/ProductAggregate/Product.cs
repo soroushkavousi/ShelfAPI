@@ -8,8 +8,9 @@ public class Product : DomainModel
 {
     private Product() { }
 
-    public Product(string name, Price price, int quantity)
+    public Product(long id, string name, Price price, int quantity)
     {
+        Id = id;
         Name = name;
         Price = price;
         Quantity = quantity;
