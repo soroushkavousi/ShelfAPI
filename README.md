@@ -13,7 +13,6 @@
 - **Role-Based Authorization** (Includes admin and user routes)
 - **Serilog Logging with Elasticsearch Sink**
 - **Entity Framework Core with PostgreSQL**
-  - **Value Converters and Predefined Conversions**
 - Leverages **Elasticsearch** as a **read database for complex search queries**
 - **Supports Pagination and Sorting for both Elasticsearch and PostgreSQL queries**
 - **Domain Events with Outbox Pattern**
@@ -26,10 +25,9 @@
   - Retrieves project settings using a hybrid cache mechanism. 
 - Uses lightweight **extension methods** for **mapping between domain models, DTOs, and views**
   - Avoids external mapping libraries for better control and performance
+- **Use EF Core Value Converters and Predefined Conversions to support value-objects**
 - **Startup Data Support**
   - The project only requires a database connection string to retrieve startup data from the database.
-- **OwnsOne in EF Core**
-  - Used for owning value objects, such as `Price` in `Product`.
 - **Application-Side ID Generation**
   - Implements IdGen library for generating IDs at the application side
   - Database-independent ID generation
