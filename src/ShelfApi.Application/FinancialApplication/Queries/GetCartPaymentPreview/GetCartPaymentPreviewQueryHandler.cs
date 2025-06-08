@@ -14,14 +14,7 @@ public class GetCartPaymentPreviewQueryHandler(IShelfApiDbContext dbContext, IMe
         PaymentPreviewItemDto[] paymentPreviewItems = await dbContext.CartItems
             .Include(x => x.Product)
             .Where(x => x.UserId == request.UserId)
-            .Select(x => new PaymentPreviewItemDto
-            {
-                ProductId = x.ProductId,
-                Name = x.Product.Name,
-                UnitPrice = x.Product.Price.Value,
-                Quantity = x.Quantity,
-                TotalPrice = x.Product.Price.Value * x.Quantity
-            })
+            .Select(PaymentPreviewItemDto.FromCartItemExpr)
             .ToArrayAsync(cancellationToken);
 
         FinancialSettings financialSettings = await mediator.Send(new GetFinancialSettingsQuery());

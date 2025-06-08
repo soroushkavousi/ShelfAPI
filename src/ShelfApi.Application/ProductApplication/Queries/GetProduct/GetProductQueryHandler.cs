@@ -30,7 +30,7 @@ public class GetProductQueryHandler(IShelfApiDbContext dbContext, IFusionCache c
         ProductUserView product = await dbContext.Products
             .Where(x => x.Id == id && !x.IsDeleted)
             .AsNoTracking()
-            .Select(x => x.ToUserView())
+            .Select(ProductUserView.FromProductExpr)
             .FirstOrDefaultAsync(cancellationToken);
 
         return product;

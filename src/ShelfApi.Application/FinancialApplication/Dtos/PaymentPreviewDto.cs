@@ -1,3 +1,6 @@
+using System.Linq.Expressions;
+using ShelfApi.Domain.CartDomain;
+
 namespace ShelfApi.Application.FinancialApplication.Dtos;
 
 public record PaymentPreviewDto
@@ -27,4 +30,14 @@ public record PaymentPreviewItemDto
     public required decimal UnitPrice { get; init; }
     public required int Quantity { get; init; }
     public required decimal TotalPrice { get; init; }
+
+    public static Expression<Func<CartItem, PaymentPreviewItemDto>> FromCartItemExpr =>
+        cartItem => new()
+        {
+            ProductId = cartItem.ProductId,
+            Name = cartItem.Product.Name,
+            UnitPrice = cartItem.Product.Price.Value,
+            Quantity = cartItem.Quantity,
+            TotalPrice = cartItem.Product.Price.Value * cartItem.Quantity
+        };
 }
