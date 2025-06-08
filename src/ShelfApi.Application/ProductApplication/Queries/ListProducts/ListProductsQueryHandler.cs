@@ -79,13 +79,13 @@ public class ListProductsQueryHandler(IElasticsearchService<ProductElasticDocume
             ? query.OrderByDescending(x => x.CreatedAt)
             : query.OrderBy(x => x.CreatedAt);
 
-        Product[] products = await query
+        ProductUserView[] productUserViews = await query
             .Skip(pagination.From)
             .Take(pagination.PageSize)
             .AsNoTracking()
+            .Select(ProductUserView.FromProductExpr)
             .ToArrayAsync(cancellationToken);
 
-        ProductUserView[] productUserViews = products.Select(x => x.ToUserView()).ToArray();
         return new(productUserViews, pagination);
     }
 }

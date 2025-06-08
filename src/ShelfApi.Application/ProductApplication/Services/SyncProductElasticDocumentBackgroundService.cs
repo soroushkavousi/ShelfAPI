@@ -5,7 +5,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ShelfApi.Application.Common.Data;
 using ShelfApi.Application.ProductApplication.Models.Dtos.Elasticsearch;
-using ShelfApi.Domain.ProductAggregate;
 
 namespace ShelfApi.Application.ProductApplication.Services;
 
@@ -22,14 +21,11 @@ public class SyncProductElasticDocumentBackgroundService(ILogger<SyncProductElas
             .GetRequiredService<IElasticsearchService<ProductElasticDocument>>();
 
         DateTime searchEndCreatedAt = DateTime.UtcNow.AddMinutes(-1);
-        Product[] unsyncedProducts = await shelfApiDbContext.Products
+        ProductElasticDocument[] productElasticDocuments = await shelfApiDbContext.Products
             .IgnoreQueryFilters()
             .Where(x => !x.IsElasticsearchSynced && x.CreatedAt <= searchEndCreatedAt)
+            .Select(ProductElasticDocument.FromProductExpr)
             .ToArrayAsync();
-
-        ProductElasticDocument[] productElasticDocuments = unsyncedProducts
-            .Select(x => x.ToElasticDocument())
-            .ToArray();
 
         foreach (ProductElasticDocument[] chunk in productElasticDocuments.Chunk(_chunkSize))
         {
