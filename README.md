@@ -1,6 +1,10 @@
-# Shelf Api (E-Commerce sample of ASP.NET Core Web API)
+# Shelf Api
 
 [![.NET Version](https://img.shields.io/badge/.net_version-v8.0-4CAF50?logo=.net)](https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-8/overview)
+
+ShelfAPI is my playground for applying advanced tools and practices within an e-commerce .NET Web API. 
+
+It demonstrates how to design production-ready services using DDD, CQRS, messaging, caching, and other modern architectural patterns.
 
 ## Features
 
