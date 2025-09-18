@@ -1,5 +1,4 @@
 ﻿using Bitiano.Shared.Services.Elasticsearch;
-using Bitiano.Shared.ValueObjects;
 using Elastic.Clients.Elasticsearch;
 using Microsoft.EntityFrameworkCore;
 using ShelfApi.Application.Common.Data;

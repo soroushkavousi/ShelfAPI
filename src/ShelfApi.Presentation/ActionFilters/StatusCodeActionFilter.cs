@@ -1,8 +1,6 @@
 ﻿using System.Net;
-using Bitiano.Shared.ValueObjects;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using ShelfApi.Domain.ErrorAggregate;
 
 namespace ShelfApi.Presentation.ActionFilters;
 

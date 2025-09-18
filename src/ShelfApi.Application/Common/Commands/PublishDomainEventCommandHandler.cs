@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using ShelfApi.Application.Common.Data;
 using ShelfApi.Application.Common.Models;
-using ShelfApi.Domain.Common.Interfaces;
+using ShelfApi.Shared.Common.Interfaces;
 
 namespace ShelfApi.Application.Common.Commands;
 

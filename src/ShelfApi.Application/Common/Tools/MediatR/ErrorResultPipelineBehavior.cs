@@ -1,5 +1,4 @@
-﻿using Bitiano.Shared.ValueObjects;
-using ShelfApi.Application.ErrorApplication.Queries.GetApiError;
+﻿using ShelfApi.Application.ErrorApplication.Queries.GetApiError;
 
 namespace ShelfApi.Application.Common.Tools.MediatR;
 

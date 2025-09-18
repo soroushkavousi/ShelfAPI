@@ -3,8 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.EntityFrameworkCore.Storage;
 using ShelfApi.Application.Common.Models;
-using ShelfApi.Domain.Common.Interfaces;
-using ShelfApi.Domain.Common.Model;
+using ShelfApi.Shared.Common.Interfaces;
+using ShelfApi.Shared.Common.ValueObjects;
 
 namespace ShelfApi.Infrastructure.Interceptors;
 

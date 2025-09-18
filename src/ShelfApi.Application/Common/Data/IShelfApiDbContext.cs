@@ -1,20 +1,15 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using ShelfApi.Application.Common.Models;
 using ShelfApi.Domain.CartDomain;
 using ShelfApi.Domain.ProductAggregate;
 using ShelfApi.Domain.SettingDomain;
-using ShelfApi.Domain.UserAggregate;
+using ShelfApi.Shared.Common.Interfaces;
 
 namespace ShelfApi.Application.Common.Data;
 
 public interface IShelfApiDbContext : IDbContext
 {
     DbSet<ProjectSetting> ProjectSettings { get; }
-
-    DbSet<IdentityUserRole<long>> UserRoles { get; }
-    DbSet<Role> Roles { get; }
-    DbSet<User> Users { get; }
 
     DbSet<ApiError> ApiErrors { get; }
 

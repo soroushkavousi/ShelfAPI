@@ -6,6 +6,7 @@ using Serilog.Exceptions.EntityFrameworkCore.Destructurers;
 using ShelfApi.Application;
 using ShelfApi.Application.Common.Data;
 using ShelfApi.Infrastructure;
+using ShelfApi.Modules.Identity.Infrastructure;
 using ShelfApi.Presentation;
 using ShelfApi.Presentation.Middlewares;
 using ServiceInjector = ShelfApi.Presentation.ServiceInjector;
@@ -64,6 +65,13 @@ static void ConfigureServices(IServiceCollection services, StartupData startupDa
     services.AddPresentation(startupData);
     services.AddInfrastructure(startupData);
     services.AddApplication();
+
+    services.AddIdentityModule(tokenServiceOptions =>
+    {
+        tokenServiceOptions.JwtKey = startupData.Jwt.Key;
+        tokenServiceOptions.JwtIssuer = startupData.Jwt.Issuer;
+        tokenServiceOptions.JwtAudience = startupData.Jwt.Audience;
+    });
 }
 
 static void ConfigureApp(WebApplication app)

@@ -1,7 +1,6 @@
-﻿using ShelfApi.Domain.Common.Exceptions;
-using ShelfApi.Domain.Common.Extensions;
-using ShelfApi.Domain.Common.ValueObjects;
-using ShelfApi.Domain.ErrorAggregate;
+﻿using ShelfApi.Domain.Common.Extensions;
+using ShelfApi.Shared.Common.Exceptions;
+using ShelfApi.Shared.Common.ValueObjects;
 
 namespace ShelfApi.Domain.FinancialAggregate;
 

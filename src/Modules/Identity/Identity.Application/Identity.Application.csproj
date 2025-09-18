@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>disable</Nullable>
+        <RootNamespace>ShelfApi.Modules.Identity.Application</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Folder Include="QueryHandlers\"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="MediatR" Version="12.3.0"/>
+        <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.6"/>
+        <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="7.1.2"/>
+        <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.1.2"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\..\Shared\ShelfApi.Shared.Common\ShelfApi.Shared.Common.csproj"/>
+        <ProjectReference Include="..\Identity.Contracts\Identity.Contracts.csproj"/>
+        <ProjectReference Include="..\Identity.Domain\Identity.Domain.csproj"/>
+    </ItemGroup>
+
+</Project>

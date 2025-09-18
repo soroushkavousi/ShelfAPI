@@ -2,8 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using ShelfApi.Application.Common.Data;
 using ShelfApi.Application.SettingApplication;
-using ShelfApi.Domain.Common.Exceptions;
 using ShelfApi.Domain.FinancialAggregate;
+using ShelfApi.Shared.Common.Exceptions;
 using ZiggyCreatures.Caching.Fusion;
 
 namespace ShelfApi.Application.FinancialApplication.Queries.GetFinancialSettings;

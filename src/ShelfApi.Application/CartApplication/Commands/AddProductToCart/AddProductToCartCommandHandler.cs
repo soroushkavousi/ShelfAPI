@@ -2,8 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using ShelfApi.Application.Common.Constants;
 using ShelfApi.Application.Common.Data;
-using ShelfApi.Application.Common.Services;
 using ShelfApi.Domain.CartDomain;
+using ShelfApi.Shared.Common.Interfaces;
 
 namespace ShelfApi.Application.CartApplication.Commands.AddProductToCart;
 

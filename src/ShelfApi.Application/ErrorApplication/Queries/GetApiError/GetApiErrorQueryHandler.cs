@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ShelfApi.Application.Common.Data;
-using ShelfApi.Domain.Common.Exceptions;
+using ShelfApi.Shared.Common.Exceptions;
 using ZiggyCreatures.Caching.Fusion;
 
 namespace ShelfApi.Application.ErrorApplication.Queries.GetApiError;

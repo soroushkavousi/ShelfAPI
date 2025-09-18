@@ -1,4 +1,4 @@
-﻿using ShelfApi.Domain.Common.Model;
+﻿using ShelfApi.Shared.Common.ValueObjects;
 
 namespace ShelfApi.Domain.SettingDomain;
 

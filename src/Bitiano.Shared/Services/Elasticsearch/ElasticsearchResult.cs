@@ -1,4 +1,4 @@
-using Bitiano.Shared.ValueObjects;
+using ShelfApi.Shared.Common.ValueObjects;
 
 namespace Bitiano.Shared.Services.Elasticsearch;
 

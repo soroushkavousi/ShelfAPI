@@ -1,8 +1,8 @@
 ﻿using ShelfApi.Application.Common.Data;
-using ShelfApi.Application.Common.Services;
 using ShelfApi.Application.ProductApplication.Models.Views.UserViews;
 using ShelfApi.Domain.FinancialAggregate;
 using ShelfApi.Domain.ProductAggregate;
+using ShelfApi.Shared.Common.Interfaces;
 
 namespace ShelfApi.Application.ProductApplication.Commands.AddProductByAdmin;
 

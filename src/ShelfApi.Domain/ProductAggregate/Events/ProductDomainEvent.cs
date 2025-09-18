@@ -1,4 +1,4 @@
-using ShelfApi.Domain.Common.Interfaces;
+using ShelfApi.Shared.Common.Interfaces;
 
 namespace ShelfApi.Domain.ProductAggregate.Events;
 

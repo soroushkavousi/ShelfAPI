@@ -15,4 +15,12 @@
         <PackageReference Include="System.Text.Json" Version="9.0.3"/>
     </ItemGroup>
 
+    <ItemGroup>
+        <Folder Include="ValueObjects\"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Shared\ShelfApi.Shared.Common\ShelfApi.Shared.Common.csproj"/>
+    </ItemGroup>
+
 </Project>

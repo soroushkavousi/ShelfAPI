@@ -1,7 +1,7 @@
 using IdGen;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using ShelfApi.Application.Common.Services;
+using ShelfApi.Shared.Common.Interfaces;
 using IdGeneratorOptions = ShelfApi.Application.Common.Services.IdGeneratorOptions;
 
 namespace ShelfApi.Infrastructure.Tools;

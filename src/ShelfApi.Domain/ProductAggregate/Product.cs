@@ -1,6 +1,6 @@
-﻿using ShelfApi.Domain.Common.Model;
-using ShelfApi.Domain.FinancialAggregate;
+﻿using ShelfApi.Domain.FinancialAggregate;
 using ShelfApi.Domain.ProductAggregate.Events;
+using ShelfApi.Shared.Common.ValueObjects;
 
 namespace ShelfApi.Domain.ProductAggregate;
 

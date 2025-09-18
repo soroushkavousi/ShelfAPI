@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>disable</Nullable>
+        <RootNamespace>ShelfApi.Modules.Identity.Infrastructure</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\..\Shared\ShelfApi.Shared.Common\ShelfApi.Shared.Common.csproj"/>
+        <ProjectReference Include="..\Identity.Application\Identity.Application.csproj"/>
+        <ProjectReference Include="..\Identity.Domain\Identity.Domain.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.6"/>
+        <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="8.0.6"/>
+    </ItemGroup>
+
+</Project>

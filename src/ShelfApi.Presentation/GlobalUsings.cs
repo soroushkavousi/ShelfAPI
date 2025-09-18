@@ -1,1 +1,1 @@
-﻿global using ShelfApi.Domain.Common.ValueObjects;
+﻿global using ShelfApi.Shared.Common.ValueObjects;

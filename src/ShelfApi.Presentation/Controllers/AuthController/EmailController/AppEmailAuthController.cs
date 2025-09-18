@@ -1,9 +1,8 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ShelfApi.Application.AuthApplication.Commands.LogInWithEmail;
-using ShelfApi.Application.AuthApplication.Commands.SignUpWithEmail;
-using ShelfApi.Application.AuthApplication.Dtos;
+using ShelfApi.Modules.Identity.Contracts.Commands;
+using ShelfApi.Modules.Identity.Contracts.Dtos;
 using ShelfApi.Presentation.Controllers.AuthController.EmailController.Inputs;
 using ShelfApi.Presentation.Controllers.Common;
 using ShelfApi.Presentation.Tools;

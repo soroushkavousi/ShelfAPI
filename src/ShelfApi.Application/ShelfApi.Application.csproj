@@ -19,7 +19,6 @@
 
     <ItemGroup>
         <Folder Include="ProductApplication\Models\Dtos\"/>
-        <Folder Include="UserApplication\"/>
     </ItemGroup>
 
     <ItemGroup>

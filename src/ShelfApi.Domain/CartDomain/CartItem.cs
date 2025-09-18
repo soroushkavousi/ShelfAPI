@@ -1,6 +1,6 @@
-using ShelfApi.Domain.Common.Model;
 using ShelfApi.Domain.ProductAggregate;
-using ShelfApi.Domain.UserAggregate;
+using ShelfApi.Modules.Identity.Domain;
+using ShelfApi.Shared.Common.ValueObjects;
 
 namespace ShelfApi.Domain.CartDomain;
 

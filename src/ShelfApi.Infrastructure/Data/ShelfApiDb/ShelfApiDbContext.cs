@@ -1,5 +1,4 @@
 ﻿using EFCore.BulkExtensions;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using ShelfApi.Application.Common.Data;
@@ -9,19 +8,20 @@ using ShelfApi.Domain.ErrorAggregate;
 using ShelfApi.Domain.FinancialAggregate;
 using ShelfApi.Domain.ProductAggregate;
 using ShelfApi.Domain.SettingDomain;
-using ShelfApi.Domain.UserAggregate;
 using ShelfApi.Infrastructure.Data.ShelfApiDb.CartConfiguration;
 using ShelfApi.Infrastructure.Data.ShelfApiDb.ErrorConfigurations;
 using ShelfApi.Infrastructure.Data.ShelfApiDb.FinancialConfigurations.Converters;
 using ShelfApi.Infrastructure.Data.ShelfApiDb.ProductConfigurations;
 using ShelfApi.Infrastructure.Data.ShelfApiDb.SettingConfigurations;
-using ShelfApi.Infrastructure.Data.ShelfApiDb.UserConfigurations;
 using ShelfApi.Infrastructure.Interceptors;
 using ShelfApi.Infrastructure.Models;
+using ShelfApi.Modules.Identity.Domain;
+using ShelfApi.Modules.Identity.Infrastructure;
 
 namespace ShelfApi.Infrastructure.Data.ShelfApiDb;
 
-public class ShelfApiDbContext : IdentityDbContext<User, Role, long>, IShelfApiDbContext
+public class ShelfApiDbContext : IdentityDbContext<User, Role, long>, IShelfApiDbContext,
+    IIdentityDbContext
 {
     private static readonly DomainEventInterceptor _domainEventInterceptor = new();
 
@@ -67,17 +67,7 @@ public class ShelfApiDbContext : IdentityDbContext<User, Role, long>, IShelfApiD
 
         builder.ApplyConfiguration(new DomainEventOutboxMessageConfiguration());
 
-        #region User
-
-        builder.ApplyConfiguration(new UserConfiguration());
-        builder.ApplyConfiguration(new RoleConfiguration());
-        builder.ApplyConfiguration(new UserRoleConfiguration());
-        builder.Ignore<IdentityUserToken<long>>();
-        builder.Ignore<IdentityUserLogin<long>>();
-        builder.Ignore<IdentityRoleClaim<long>>();
-        builder.Ignore<IdentityUserClaim<long>>();
-
-        #endregion User
+        builder.AddIdentityDbConfigurations();
 
         #region Error
 

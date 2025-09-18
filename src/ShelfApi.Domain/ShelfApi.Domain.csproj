@@ -13,6 +13,8 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Bitiano.Shared\Bitiano.Shared.csproj"/>
+        <ProjectReference Include="..\Modules\Identity\Identity.Domain\Identity.Domain.csproj"/>
+        <ProjectReference Include="..\Shared\ShelfApi.Shared.Common\ShelfApi.Shared.Common.csproj"/>
     </ItemGroup>
 
 </Project>
