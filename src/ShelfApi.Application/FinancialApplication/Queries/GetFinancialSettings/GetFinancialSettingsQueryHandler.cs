@@ -1,9 +1,9 @@
-﻿using Bitiano.Shared.Tools.Serializer;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using ShelfApi.Application.Common.Data;
 using ShelfApi.Application.SettingApplication;
 using ShelfApi.Domain.FinancialAggregate;
 using ShelfApi.Shared.Common.Exceptions;
+using ShelfApi.Shared.Common.Tools.Serializer;
 using ZiggyCreatures.Caching.Fusion;
 
 namespace ShelfApi.Application.FinancialApplication.Queries.GetFinancialSettings;

@@ -1,10 +1,10 @@
-using Bitiano.Shared.Tools.Serializer;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using ShelfApi.Application.Common.Data;
 using ShelfApi.Application.Common.Models;
 using ShelfApi.Shared.Common.Interfaces;
+using ShelfApi.Shared.Common.Tools.Serializer;
 
 namespace ShelfApi.Application.Common.Commands;
 

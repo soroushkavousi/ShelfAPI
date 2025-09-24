@@ -1,9 +1,9 @@
-using Bitiano.Shared.Tools.Serializer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.EntityFrameworkCore.Storage;
 using ShelfApi.Application.Common.Models;
 using ShelfApi.Shared.Common.Interfaces;
+using ShelfApi.Shared.Common.Tools.Serializer;
 using ShelfApi.Shared.Common.ValueObjects;
 
 namespace ShelfApi.Infrastructure.Interceptors;

@@ -5,37 +5,38 @@ using ShelfApi.Application.Common.Data;
 using ShelfApi.Application.Common.Models;
 using ShelfApi.Domain.CartDomain;
 using ShelfApi.Domain.ErrorAggregate;
-using ShelfApi.Domain.FinancialAggregate;
-using ShelfApi.Domain.ProductAggregate;
 using ShelfApi.Domain.SettingDomain;
 using ShelfApi.Infrastructure.Data.ShelfApiDb.CartConfiguration;
 using ShelfApi.Infrastructure.Data.ShelfApiDb.ErrorConfigurations;
 using ShelfApi.Infrastructure.Data.ShelfApiDb.FinancialConfigurations.Converters;
-using ShelfApi.Infrastructure.Data.ShelfApiDb.ProductConfigurations;
 using ShelfApi.Infrastructure.Data.ShelfApiDb.SettingConfigurations;
 using ShelfApi.Infrastructure.Interceptors;
 using ShelfApi.Infrastructure.Models;
-using ShelfApi.Modules.Identity.Domain;
-using ShelfApi.Modules.Identity.Infrastructure;
+using ShelfApi.Modules.IdentityModule.Domain;
+using ShelfApi.Modules.IdentityModule.Infrastructure;
+using ShelfApi.Modules.ProductModule.Application.Interfaces;
+using ShelfApi.Modules.ProductModule.Domain;
+using ShelfApi.Modules.ProductModule.Infrastructure;
+using ShelfApi.Shared.Common.ValueObjects;
 
 namespace ShelfApi.Infrastructure.Data.ShelfApiDb;
 
 public class ShelfApiDbContext : IdentityDbContext<User, Role, long>, IShelfApiDbContext,
-    IIdentityDbContext
+    IIdentityDbContext, IProductDbContext
 {
     private static readonly DomainEventInterceptor _domainEventInterceptor = new();
 
-    public DbSet<DomainEventOutboxMessage> DomainEventOutboxMessages { get; set; }
+    public DbSet<DomainEventOutboxMessage> DomainEventOutboxMessages { get; init; }
 
-    public DbSet<ProjectSetting> ProjectSettings { get; set; }
+    public DbSet<ProjectSetting> ProjectSettings { get; init; }
 
-    public DbSet<ApiError> ApiErrors { get; set; }
+    public DbSet<ApiError> ApiErrors { get; init; }
 
-    public DbSet<Product> Products { get; set; }
+    public DbSet<Product> Products { get; init; }
 
     #region Cart
 
-    public DbSet<CartItem> CartItems { get; set; }
+    public DbSet<CartItem> CartItems { get; init; }
 
     #endregion Cart
 
@@ -68,6 +69,7 @@ public class ShelfApiDbContext : IdentityDbContext<User, Role, long>, IShelfApiD
         builder.ApplyConfiguration(new DomainEventOutboxMessageConfiguration());
 
         builder.AddIdentityDbConfigurations();
+        builder.AddProductDbConfigurations();
 
         #region Error
 
@@ -80,12 +82,6 @@ public class ShelfApiDbContext : IdentityDbContext<User, Role, long>, IShelfApiD
         builder.ApplyConfiguration(new ProjectSettingsConfiguration());
 
         #endregion Settings
-
-        #region Product
-
-        builder.ApplyConfiguration(new ProductConfiguration());
-
-        #endregion Product
 
         #region Cart
 

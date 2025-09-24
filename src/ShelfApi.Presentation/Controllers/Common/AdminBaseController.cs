@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using ShelfApi.Modules.Identity.Domain;
+using ShelfApi.Modules.IdentityModule.Domain;
 
 namespace ShelfApi.Presentation.Controllers.Common;
 

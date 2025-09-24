@@ -1,3 +1,4 @@
+using System.Reflection;
 using Serilog;
 using Serilog.Events;
 using Serilog.Exceptions;
@@ -6,7 +7,7 @@ using Serilog.Exceptions.EntityFrameworkCore.Destructurers;
 using ShelfApi.Application;
 using ShelfApi.Application.Common.Data;
 using ShelfApi.Infrastructure;
-using ShelfApi.Modules.Identity.Infrastructure;
+using ShelfApi.Modules.IdentityModule.Infrastructure;
 using ShelfApi.Presentation;
 using ShelfApi.Presentation.Middlewares;
 using ServiceInjector = ShelfApi.Presentation.ServiceInjector;
@@ -65,7 +66,11 @@ static void ConfigureServices(IServiceCollection services, StartupData startupDa
     services.AddPresentation(startupData);
     services.AddInfrastructure(startupData);
     services.AddApplication();
+    AddModules(services, startupData);
+}
 
+static void AddModules(IServiceCollection services, StartupData startupData)
+{
     services.AddIdentityModule(tokenServiceOptions =>
     {
         tokenServiceOptions.JwtKey = startupData.Jwt.Key;
@@ -88,4 +93,12 @@ static void ConfigureApp(WebApplication app)
     app.UseAuthentication();
     app.UseAuthorization();
     app.MapControllers();
+}
+
+static Assembly[] GetModuleAssemblies()
+{
+    return AppDomain.CurrentDomain
+        .GetAssemblies()
+        .Where(a => a.FullName.Contains("Module"))
+        .ToArray();
 }

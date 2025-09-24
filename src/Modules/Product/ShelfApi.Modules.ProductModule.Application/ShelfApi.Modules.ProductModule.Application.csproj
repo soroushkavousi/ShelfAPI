@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>disable</Nullable>
+        <RootNamespace>ShelfApi.Modules.ProductModule.Application</RootNamespace>
+        <PackageId>ShelfApi.Modules.ProductModule.Application</PackageId>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\..\Shared\ShelfApi.Shared.Common\ShelfApi.Shared.Common.csproj"/>
+        <ProjectReference Include="..\..\..\Shared\ShelfApi.Shared.Elasticsearch\ShelfApi.Shared.Elasticsearch.csproj"/>
+        <ProjectReference Include="..\ShelfApi.Modules.ProductModule.Domain\ShelfApi.Modules.ProductModule.Domain.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="MassTransit.Abstractions" Version="8.4.1"/>
+        <PackageReference Include="MediatR" Version="12.3.0"/>
+        <PackageReference Include="ZiggyCreatures.FusionCache" Version="2.0.0"/>
+    </ItemGroup>
+
+</Project>

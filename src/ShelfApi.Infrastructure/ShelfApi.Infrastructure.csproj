@@ -33,8 +33,9 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Modules\Identity\Identity.Domain\Identity.Domain.csproj"/>
-        <ProjectReference Include="..\Modules\Identity\Identity.Infrastructure\Identity.Infrastructure.csproj"/>
+        <ProjectReference Include="..\Modules\Identity\ShelfApi.Modules.IdentityModule.Domain\ShelfApi.Modules.IdentityModule.Domain.csproj"/>
+        <ProjectReference Include="..\Modules\Identity\ShelfApi.Modules.IdentityModule.Infrastructure\ShelfApi.Modules.IdentityModule.Infrastructure.csproj"/>
+        <ProjectReference Include="..\Modules\Product\ShelfApi.Modules.ProductModule.Infrastructure\ShelfApi.Modules.ProductModule.Infrastructure.csproj"/>
         <ProjectReference Include="..\ShelfApi.Application\ShelfApi.Application.csproj"/>
         <ProjectReference Include="..\ShelfApi.Domain\ShelfApi.Domain.csproj"/>
     </ItemGroup>

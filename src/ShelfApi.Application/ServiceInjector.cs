@@ -1,11 +1,9 @@
-﻿using System.Reflection;
-using DotNetPotion.ScopeServicePack;
+﻿using DotNetPotion.ScopeServicePack;
 using DotNetPotion.SemaphorePoolPack;
 using MediatR.Pipeline;
 using Microsoft.Extensions.DependencyInjection;
 using ShelfApi.Application.Common.Services;
 using ShelfApi.Application.Common.Tools.MediatR;
-using ShelfApi.Application.ProductApplication.Services;
 
 namespace ShelfApi.Application;
 
@@ -16,7 +14,7 @@ public static class ServiceInjector
         services.AddScopeService();
         services.AddTransient(typeof(IRequestExceptionHandler<,,>), typeof(ExceptionHandler<,,>));
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ErrorResultPipelineBehavior<,>));
-        services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+
         services.AddSemaphorePool();
 
         AddHostedServices(services);
@@ -24,7 +22,6 @@ public static class ServiceInjector
 
     private static void AddHostedServices(IServiceCollection services)
     {
-        services.AddHostedService<SyncProductElasticDocumentBackgroundService>();
         services.AddHostedService<DomainEventOutboxProcessorBackgroundService>();
     }
 }

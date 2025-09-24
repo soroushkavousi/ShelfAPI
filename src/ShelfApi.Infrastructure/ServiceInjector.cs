@@ -1,6 +1,5 @@
 ﻿using System.Diagnostics;
 using System.Reflection;
-using Bitiano.Shared.Services.Elasticsearch;
 using DotNetPotion.AppEnvironmentPack;
 using Elastic.Ingest.Elasticsearch;
 using Elastic.Serilog.Sinks;
@@ -9,6 +8,7 @@ using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.StackExchangeRedis;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Events;
@@ -16,9 +16,12 @@ using Serilog.Exceptions;
 using Serilog.Exceptions.Core;
 using Serilog.Exceptions.EntityFrameworkCore.Destructurers;
 using ShelfApi.Application.Common.Data;
-using ShelfApi.Application.ProductApplication.Models.Dtos.Elasticsearch;
 using ShelfApi.Infrastructure.Data.ShelfApiDb;
 using ShelfApi.Infrastructure.Tools;
+using ShelfApi.Modules.ProductModule.Application.Interfaces;
+using ShelfApi.Modules.ProductModule.Application.Models.Dtos.Elasticsearch;
+using ShelfApi.Shared.Common.Tools;
+using ShelfApi.Shared.Elasticsearch;
 using ZiggyCreatures.Caching.Fusion;
 using ZiggyCreatures.Caching.Fusion.Serialization.SystemTextJson;
 
@@ -38,7 +41,11 @@ public static class ServiceInjector
         services.AddShelfApiDbContext(startupData);
         services.AddFusionCache(startupData);
         services.AddElasticsearch(startupData);
-        services.AddMassTransit(startupData);
+
+        Assembly[] allAssemblies = AppAssemblyHelper.GetAllProjectAssemblies();
+        services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(allAssemblies));
+        services.AddMassTransit(startupData, allAssemblies);
+        services.AddModulesHostedServices(allAssemblies);
     }
 
     public static void AddSerilog(this IServiceCollection services, StartupData startupData)
@@ -97,13 +104,14 @@ public static class ServiceInjector
 
     private static void AddShelfApiDbContext(this IServiceCollection services, StartupData startupData)
     {
-        services.AddScoped<IShelfApiDbContext, ShelfApiDbContext>();
         services.AddDbContext<ShelfApiDbContext>(options =>
         {
             options.UseNpgsql(startupData.DbConnectionString)
                 .LogTo(message => Debug.WriteLine(message), LogLevel.Information);
             options.EnableSensitiveDataLogging();
         });
+        services.AddScoped<IShelfApiDbContext, ShelfApiDbContext>();
+        services.AddScoped<IProductDbContext, ShelfApiDbContext>();
     }
 
     private static void AddFusionCache(this IServiceCollection services, StartupData startupData)
@@ -152,7 +160,17 @@ public static class ServiceInjector
         services.AddElasticsearch(elasticsearchSettings);
     }
 
-    private static void AddMassTransit(this IServiceCollection services, StartupData startupData)
+    private static void AddModulesHostedServices(this IServiceCollection services, Assembly[] moduleAssemblies)
+    {
+        IEnumerable<Type> hostedServiceTypes = moduleAssemblies
+            .SelectMany(a => a.GetTypes())
+            .Where(t => typeof(IHostedService).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract);
+
+        foreach (Type type in hostedServiceTypes)
+            services.AddSingleton(typeof(IHostedService), type);
+    }
+
+    private static void AddMassTransit(this IServiceCollection services, StartupData startupData, Assembly[] allAssemblies)
     {
         services.AddMassTransit(configure =>
         {
@@ -168,13 +186,7 @@ public static class ServiceInjector
                 cfg.ConfigureEndpoints(context);
             });
 
-            string[] targetProjectNames = [nameof(Application), nameof(Infrastructure)];
-            Assembly[] consumerAssemblies = AppDomain.CurrentDomain.GetAssemblies()
-                .Where(x => x.FullName != null && x.FullName.StartsWith(nameof(ShelfApi))
-                    && targetProjectNames.Any(p => x.FullName.Contains(p)))
-                .ToArray();
-
-            configure.AddConsumers(consumerAssemblies);
+            configure.AddConsumers(allAssemblies);
         });
     }
 }

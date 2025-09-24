@@ -1,8 +1,8 @@
 ﻿using System.Net;
-using Bitiano.Shared.Tools.Serializer;
 using MediatR;
 using ShelfApi.Application.ErrorApplication.Queries.GetApiError;
 using ShelfApi.Domain.ErrorAggregate;
+using ShelfApi.Shared.Common.Tools.Serializer;
 
 namespace ShelfApi.Presentation.Middlewares;
 

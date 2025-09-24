@@ -1,9 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using ShelfApi.Application.ProductApplication.Commands.AddProductByAdmin;
-using ShelfApi.Application.ProductApplication.Commands.DeleteProductByAdmin;
-using ShelfApi.Application.ProductApplication.Commands.UpdateProductByAdmin;
-using ShelfApi.Application.ProductApplication.Models.Views.UserViews;
+using ShelfApi.Modules.ProductModule.Contracts.Commands;
+using ShelfApi.Modules.ProductModule.Contracts.Views;
 using ShelfApi.Presentation.Controllers.Common;
 using ShelfApi.Presentation.Controllers.ProductController.Inputs;
 

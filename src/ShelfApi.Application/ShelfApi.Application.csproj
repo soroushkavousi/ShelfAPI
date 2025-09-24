@@ -18,10 +18,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="ProductApplication\Models\Dtos\"/>
-    </ItemGroup>
-
-    <ItemGroup>
+        <ProjectReference Include="..\Modules\Product\ShelfApi.Modules.ProductModule.Application\ShelfApi.Modules.ProductModule.Application.csproj"/>
         <ProjectReference Include="..\ShelfApi.Domain\ShelfApi.Domain.csproj"/>
     </ItemGroup>
 

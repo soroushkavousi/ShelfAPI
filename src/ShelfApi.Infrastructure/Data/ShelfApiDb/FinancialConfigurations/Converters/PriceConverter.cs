@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using ShelfApi.Domain.FinancialAggregate;
+using ShelfApi.Shared.Common.ValueObjects;
 
 namespace ShelfApi.Infrastructure.Data.ShelfApiDb.FinancialConfigurations.Converters;
 

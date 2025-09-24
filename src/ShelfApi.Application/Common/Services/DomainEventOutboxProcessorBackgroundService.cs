@@ -1,5 +1,4 @@
 using System.Diagnostics;
-using Bitiano.Shared.Services.BackgroundServices;
 using DotNetPotion.ScopeServicePack;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -7,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using ShelfApi.Application.Common.Commands;
 using ShelfApi.Application.Common.Data;
 using ShelfApi.Application.Common.Models;
+using ShelfApi.Shared.Common.Tools;
 
 namespace ShelfApi.Application.Common.Services;
 

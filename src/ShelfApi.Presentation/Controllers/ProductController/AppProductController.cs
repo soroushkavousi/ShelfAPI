@@ -1,8 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using ShelfApi.Application.ProductApplication.Models.Views.UserViews;
-using ShelfApi.Application.ProductApplication.Queries.GetProduct;
-using ShelfApi.Application.ProductApplication.Queries.ListProducts;
+using ShelfApi.Modules.ProductModule.Contracts.Queries;
+using ShelfApi.Modules.ProductModule.Contracts.Views;
 using ShelfApi.Presentation.Controllers.Common;
 
 namespace ShelfApi.Presentation.Controllers.ProductController;

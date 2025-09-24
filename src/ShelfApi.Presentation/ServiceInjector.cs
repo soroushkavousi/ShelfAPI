@@ -1,6 +1,5 @@
 ﻿using System.Text;
 using System.Text.Json.Serialization;
-using Bitiano.Shared.Tools.Serializer;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -11,12 +10,13 @@ using Serilog;
 using ShelfApi.Application.Common.Data;
 using ShelfApi.Application.SettingApplication;
 using ShelfApi.Infrastructure.Data.ShelfApiDb;
-using ShelfApi.Modules.Identity.Application.ValueObjects;
-using ShelfApi.Modules.Identity.Domain;
+using ShelfApi.Modules.IdentityModule.Application.ValueObjects;
+using ShelfApi.Modules.IdentityModule.Domain;
 using ShelfApi.Presentation.ActionFilters;
 using ShelfApi.Presentation.Tools;
 using ShelfApi.Presentation.Tools.Auth;
 using ShelfApi.Presentation.Tools.Swagger;
+using ShelfApi.Shared.Common.Tools.Serializer;
 
 namespace ShelfApi.Presentation;
 

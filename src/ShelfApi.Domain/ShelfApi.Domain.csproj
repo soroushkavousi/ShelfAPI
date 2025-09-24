@@ -12,9 +12,13 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Bitiano.Shared\Bitiano.Shared.csproj"/>
-        <ProjectReference Include="..\Modules\Identity\Identity.Domain\Identity.Domain.csproj"/>
+        <ProjectReference Include="..\Modules\Identity\ShelfApi.Modules.IdentityModule.Domain\ShelfApi.Modules.IdentityModule.Domain.csproj"/>
+        <ProjectReference Include="..\Modules\Product\ShelfApi.Modules.ProductModule.Domain\ShelfApi.Modules.ProductModule.Domain.csproj"/>
         <ProjectReference Include="..\Shared\ShelfApi.Shared.Common\ShelfApi.Shared.Common.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Folder Include="Common\"/>
     </ItemGroup>
 
 </Project>
