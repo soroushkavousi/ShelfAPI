@@ -1,9 +1,9 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using ShelfApi.Modules.ProductModule.Contracts.Commands;
-using ShelfApi.Modules.ProductModule.Contracts.Views;
 using ShelfApi.Presentation.Controllers.Common;
 using ShelfApi.Presentation.Controllers.ProductController.Inputs;
+using ShelfApi.ProductModule.Contracts.Commands;
+using ShelfApi.ProductModule.Contracts.Views;
 
 namespace ShelfApi.Presentation.Controllers.ProductController;
 

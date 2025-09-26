@@ -1,4 +1,4 @@
-﻿using ShelfApi.Modules.ProductModule.Application.Models.Dtos.Elasticsearch;
+﻿using ShelfApi.ProductModule.Application.Models.Dtos.Elasticsearch;
 using ShelfApi.Shared.Common.Tools.Serializer;
 
 namespace ShelfApi.Application.Common.Data;

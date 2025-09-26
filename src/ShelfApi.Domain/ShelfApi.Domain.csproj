@@ -12,8 +12,8 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Modules\Identity\ShelfApi.Modules.IdentityModule.Domain\ShelfApi.Modules.IdentityModule.Domain.csproj"/>
-        <ProjectReference Include="..\Modules\Product\ShelfApi.Modules.ProductModule.Domain\ShelfApi.Modules.ProductModule.Domain.csproj"/>
+        <ProjectReference Include="..\Modules\IdentityModule\ShelfApi.IdentityModule.Domain\ShelfApi.IdentityModule.Domain.csproj"/>
+        <ProjectReference Include="..\Modules\ProductModule\ShelfApi.ProductModule.Domain\ShelfApi.ProductModule.Domain.csproj"/>
         <ProjectReference Include="..\Shared\ShelfApi.Shared.Common\ShelfApi.Shared.Common.csproj"/>
     </ItemGroup>
 

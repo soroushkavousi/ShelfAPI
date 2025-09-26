@@ -1,5 +1,5 @@
-using ShelfApi.Modules.IdentityModule.Domain;
-using ShelfApi.Modules.ProductModule.Domain;
+using ShelfApi.IdentityModule.Domain;
+using ShelfApi.ProductModule.Domain;
 using ShelfApi.Shared.Common.ValueObjects;
 
 namespace ShelfApi.Domain.CartDomain;

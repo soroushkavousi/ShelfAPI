@@ -1,8 +1,8 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ShelfApi.Modules.IdentityModule.Contracts.Commands;
-using ShelfApi.Modules.IdentityModule.Contracts.Dtos;
+using ShelfApi.IdentityModule.Contracts.Commands;
+using ShelfApi.IdentityModule.Contracts.Dtos;
 using ShelfApi.Presentation.Controllers.AuthController.UsernameController.Inputs;
 using ShelfApi.Presentation.Controllers.Common;
 using ShelfApi.Presentation.Tools;
