@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ShelfApi.IdentityModule.Contracts.Commands;
-using ShelfApi.IdentityModule.Contracts.Dtos;
+using ShelfApi.IdentityModule.Contracts.Views;
 using ShelfApi.Presentation.Controllers.AuthController.EmailController.Inputs;
 using ShelfApi.Presentation.Controllers.Common;
 using ShelfApi.Presentation.Tools;
@@ -40,13 +40,13 @@ public class AppEmailAuthController(ISender sender) : AppBaseController(sender)
     /// <returns>Logged in user</returns>
     /// <response code="200">Returns the newly created item</response>
     [AllowAnonymous]
-    [ProducesResponseType(typeof(Result<UserCredentialDto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(Result<UserCredentialView>), StatusCodes.Status200OK)]
     [Consumes(Constants.JsonContentTypeName)]
     [HttpPost("log-in")]
-    public async Task<ActionResult<Result<UserCredentialDto>>> LogInWithEmailAsync(
+    public async Task<ActionResult<Result<UserCredentialView>>> LogInWithEmailAsync(
         [FromBody] LogInWithEmailInputBody inputBody)
     {
-        Result<UserCredentialDto> result = await _sender.Send(new LogInWithEmailCommand
+        Result<UserCredentialView> result = await _sender.Send(new LogInWithEmailCommand
         {
             EmailAddress = inputBody.EmailAddress,
             Password = inputBody.Password

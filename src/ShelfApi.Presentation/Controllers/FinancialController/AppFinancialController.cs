@@ -1,19 +1,19 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using ShelfApi.Application.FinancialApplication.Dtos;
-using ShelfApi.Application.FinancialApplication.Queries.GetCartPaymentPreview;
+using ShelfApi.CartModule.Contracts.Queries;
+using ShelfApi.FinancialModule.Contracts.Commands;
 using ShelfApi.Presentation.Controllers.Common;
 
 namespace ShelfApi.Presentation.Controllers.FinancialController;
 
-[Route("app")]
+[Route("app/financial")]
 public class AppFinancialController(ISender sender) : AppBaseController(sender)
 {
-    [ProducesResponseType(typeof(Result<PaymentPreviewDto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(Result<PaymentPreviewView>), StatusCodes.Status200OK)]
     [HttpGet("cart/buy/preview")]
-    public async Task<ActionResult<Result<PaymentPreviewDto>>> GetCartPaymentPreviewAsync()
+    public async Task<ActionResult<Result<PaymentPreviewView>>> GetCartPaymentPreviewAsync()
     {
-        Result<PaymentPreviewDto> result = await _sender.Send(new GetCartPaymentPreviewQuery
+        Result<PaymentPreviewView> result = await _sender.Send(new GetCartPaymentPreviewQuery
         {
             UserId = UserId
         });
