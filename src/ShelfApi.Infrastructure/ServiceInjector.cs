@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using System.Reflection;
+﻿using System.Reflection;
 using Bitiano.Shared.Services.Elasticsearch;
 using DotNetPotion.AppEnvironmentPack;
 using Elastic.Ingest.Elasticsearch;
@@ -9,12 +8,12 @@ using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.StackExchangeRedis;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Events;
 using Serilog.Exceptions;
 using Serilog.Exceptions.Core;
 using Serilog.Exceptions.EntityFrameworkCore.Destructurers;
+using Serilog.Sinks.Grafana.Loki;
 using ShelfApi.Application.Common.Data;
 using ShelfApi.Application.ProductApplication.Models.Dtos.Elasticsearch;
 using ShelfApi.Infrastructure.Data.ShelfApiDb;
@@ -51,6 +50,21 @@ public static class ServiceInjector
             .Enrich.FromLogContext()
             .ReadFrom.Services(services)
             .WriteTo.Console(AppEnvironment.IsDevelopment ? LogEventLevel.Information : LogEventLevel.Warning)
+            .WriteTo.GrafanaLoki(
+                uri: startupData.Loki.Url,
+                labels:
+                [
+                    new() { Key = "app", Value = "ShelfApi" },
+                    new() { Key = "env", Value = AppEnvironment.EnvironmentName }
+                ],
+                propertiesAsLabels: ["Elapsed", "RequestPath"],
+                tenant: "ShelfApi",
+                restrictedToMinimumLevel: LogEventLevel.Information,
+                period: TimeSpan.FromSeconds(2),
+                useInternalTimestamp: false,
+                leavePropertiesIntact: true,
+                credentials: new() { Login = startupData.Loki.Username, Password = startupData.Loki.Password }
+            )
             .WriteTo.Elasticsearch([new(startupData.Elasticsearch.Url)], opts =>
             {
                 opts.DataStream = new("logs", nameof(ShelfApi), AppEnvironment.EnvironmentName);
@@ -85,9 +99,7 @@ public static class ServiceInjector
             .MinimumLevel.Override("Microsoft.EntityFrameworkCore.Query", LogEventLevel.Warning)
             .MinimumLevel.Override("Microsoft.EntityFrameworkCore.Update", LogEventLevel.Warning)
             .MinimumLevel.Override("Microsoft.EntityFrameworkCore.Model.Validation", LogEventLevel.Warning)
-            .MinimumLevel.Override("Microsoft.EntityFrameworkCore.Database.Command", AppEnvironment.IsDevelopment
-                ? LogEventLevel.Debug
-                : LogEventLevel.Warning)
+            .MinimumLevel.Override("Microsoft.EntityFrameworkCore.Database.Command", LogEventLevel.Warning)
             .MinimumLevel.Override("Microsoft.AspNetCore.Hosting", LogEventLevel.Warning)
             .MinimumLevel.Override("System.Net.Http.HttpClient", LogEventLevel.Warning)
         );
@@ -100,9 +112,9 @@ public static class ServiceInjector
         services.AddScoped<IShelfApiDbContext, ShelfApiDbContext>();
         services.AddDbContext<ShelfApiDbContext>(options =>
         {
-            options.UseNpgsql(startupData.DbConnectionString)
-                .LogTo(message => Debug.WriteLine(message), LogLevel.Information);
-            options.EnableSensitiveDataLogging();
+            options.UseNpgsql(startupData.DbConnectionString);
+            if (!AppEnvironment.IsProduction)
+                options.EnableSensitiveDataLogging();
         });
     }
 
