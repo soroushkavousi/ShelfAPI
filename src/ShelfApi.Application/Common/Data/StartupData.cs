@@ -43,6 +43,12 @@ public record StartupData
             VirtualHost = "/",
             Username = "guest",
             Password = "guest"
+        },
+        Loki = new()
+        {
+            Url = "http://localhost:3100", // Update for prod (e.g., internal Docker network or server IP)
+            Username = "admin",
+            Password = "admin"
         }
     };
 
@@ -53,6 +59,7 @@ public record StartupData
     public RedisStartupData Redis { get; init; }
     public ElasticsearchStartupData Elasticsearch { get; init; }
     public RabbitMqStartupData RabbitMq { get; init; }
+    public LokiStartupData Loki { get; init; }
 }
 
 public record IdGeneratorStartupData
@@ -96,6 +103,13 @@ public record RabbitMqStartupData
     public string Host { get; init; }
     public ushort Port { get; init; }
     public string VirtualHost { get; init; }
+    public string Username { get; init; }
+    public string Password { get; init; }
+}
+
+public record LokiStartupData
+{
+    public string Url { get; init; }
     public string Username { get; init; }
     public string Password { get; init; }
 }
