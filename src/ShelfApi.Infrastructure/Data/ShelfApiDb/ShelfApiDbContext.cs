@@ -3,26 +3,29 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using ShelfApi.Application.Common.Data;
 using ShelfApi.Application.Common.Models;
-using ShelfApi.Domain.CartDomain;
+using ShelfApi.CartModule.Application.Interfaces;
+using ShelfApi.CartModule.Domain;
+using ShelfApi.CartModule.Infrastructure.Configurations;
 using ShelfApi.Domain.ErrorAggregate;
-using ShelfApi.Domain.SettingDomain;
+using ShelfApi.IdentityModule.Application.Interfaces;
 using ShelfApi.IdentityModule.Domain;
 using ShelfApi.IdentityModule.Infrastructure;
-using ShelfApi.Infrastructure.Data.ShelfApiDb.CartConfiguration;
 using ShelfApi.Infrastructure.Data.ShelfApiDb.ErrorConfigurations;
 using ShelfApi.Infrastructure.Data.ShelfApiDb.FinancialConfigurations.Converters;
-using ShelfApi.Infrastructure.Data.ShelfApiDb.SettingConfigurations;
 using ShelfApi.Infrastructure.Interceptors;
 using ShelfApi.Infrastructure.Models;
 using ShelfApi.ProductModule.Application.Interfaces;
 using ShelfApi.ProductModule.Domain;
 using ShelfApi.ProductModule.Infrastructure;
+using ShelfApi.SettingModule.Application.Interfaces;
+using ShelfApi.SettingModule.Domain;
+using ShelfApi.SettingModule.Infrastructure;
 using ShelfApi.Shared.Common.ValueObjects;
 
 namespace ShelfApi.Infrastructure.Data.ShelfApiDb;
 
 public class ShelfApiDbContext : IdentityDbContext<User, Role, long>, IShelfApiDbContext,
-    IIdentityDbContext, IProductDbContext
+    IIdentityDbContext, IProductDbContext, ICartDbContext, ISettingDbContext
 {
     private static readonly DomainEventInterceptor _domainEventInterceptor = new();
 
@@ -34,11 +37,8 @@ public class ShelfApiDbContext : IdentityDbContext<User, Role, long>, IShelfApiD
 
     public DbSet<Product> Products { get; init; }
 
-    #region Cart
-
+    public DbSet<Cart> Carts { get; init; }
     public DbSet<CartItem> CartItems { get; init; }
-
-    #endregion Cart
 
     private ShelfApiDbContext() { }
 
@@ -70,18 +70,13 @@ public class ShelfApiDbContext : IdentityDbContext<User, Role, long>, IShelfApiD
 
         builder.AddIdentityDbConfigurations();
         builder.AddProductDbConfigurations();
+        builder.AddSettingDbConfigurations();
 
         #region Error
 
         builder.ApplyConfiguration(new ApiErrorConfiguration());
 
         #endregion Error
-
-        #region Settings
-
-        builder.ApplyConfiguration(new ProjectSettingsConfiguration());
-
-        #endregion Settings
 
         #region Cart
 

@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Reflection;
 using DotNetPotion.AppEnvironmentPack;
+using Elastic.Clients.Elasticsearch.IndexManagement;
 using Elastic.Ingest.Elasticsearch;
 using Elastic.Serilog.Sinks;
 using Elastic.Transport;
@@ -16,10 +17,12 @@ using Serilog.Exceptions;
 using Serilog.Exceptions.Core;
 using Serilog.Exceptions.EntityFrameworkCore.Destructurers;
 using ShelfApi.Application.Common.Data;
+using ShelfApi.CartModule.Application.Interfaces;
 using ShelfApi.Infrastructure.Data.ShelfApiDb;
 using ShelfApi.Infrastructure.Tools;
 using ShelfApi.ProductModule.Application.Interfaces;
 using ShelfApi.ProductModule.Application.Models.Dtos.Elasticsearch;
+using ShelfApi.SettingModule.Application.Interfaces;
 using ShelfApi.Shared.Common.Tools;
 using ShelfApi.Shared.Elasticsearch;
 using ZiggyCreatures.Caching.Fusion;
@@ -111,7 +114,9 @@ public static class ServiceInjector
             options.EnableSensitiveDataLogging();
         });
         services.AddScoped<IShelfApiDbContext, ShelfApiDbContext>();
+        services.AddScoped<ISettingDbContext, ShelfApiDbContext>();
         services.AddScoped<IProductDbContext, ShelfApiDbContext>();
+        services.AddScoped<ICartDbContext, ShelfApiDbContext>();
     }
 
     private static void AddFusionCache(this IServiceCollection services, StartupData startupData)

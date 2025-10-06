@@ -33,7 +33,7 @@ public class AppProductController(ISender sender) : AppBaseController(sender)
     [HttpGet("{id:long}")]
     public async Task<ActionResult<Result<ProductUserView>>> GetProductAsync(long id)
     {
-        Result<ProductUserView> result = await _sender.Send(new GetProductQuery
+        Result<ProductUserView> result = await _sender.Send(new GetProductByUserQuery
         {
             Id = id
         });

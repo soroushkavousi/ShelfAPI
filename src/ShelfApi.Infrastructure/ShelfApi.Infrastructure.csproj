@@ -33,9 +33,14 @@
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\Modules\CartModule\ShelfApi.CartModule.Application\ShelfApi.CartModule.Application.csproj" />
+        <ProjectReference Include="..\Modules\CartModule\ShelfApi.CartModule.Domain\ShelfApi.CartModule.Domain.csproj" />
+        <ProjectReference Include="..\Modules\CartModule\ShelfApi.CartModule.Infrastructure\ShelfApi.CartModule.Infrastructure.csproj" />
         <ProjectReference Include="..\Modules\IdentityModule\ShelfApi.IdentityModule.Domain\ShelfApi.IdentityModule.Domain.csproj"/>
         <ProjectReference Include="..\Modules\IdentityModule\ShelfApi.IdentityModule.Infrastructure\ShelfApi.IdentityModule.Infrastructure.csproj"/>
         <ProjectReference Include="..\Modules\ProductModule\ShelfApi.ProductModule.Infrastructure\ShelfApi.ProductModule.Infrastructure.csproj"/>
+        <ProjectReference Include="..\Modules\SettingModule\ShelfApi.SettingModule.Application\ShelfApi.SettingModule.Application.csproj" />
+        <ProjectReference Include="..\Modules\SettingModule\ShelfApi.SettingModule.Infrastructure\ShelfApi.SettingModule.Infrastructure.csproj" />
         <ProjectReference Include="..\ShelfApi.Application\ShelfApi.Application.csproj"/>
         <ProjectReference Include="..\ShelfApi.Domain\ShelfApi.Domain.csproj"/>
     </ItemGroup>

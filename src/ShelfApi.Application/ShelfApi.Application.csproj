@@ -18,6 +18,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\Modules\CartModule\ShelfApi.CartModule.Domain\ShelfApi.CartModule.Domain.csproj" />
         <ProjectReference Include="..\Modules\ProductModule\ShelfApi.ProductModule.Application\ShelfApi.ProductModule.Application.csproj"/>
         <ProjectReference Include="..\ShelfApi.Domain\ShelfApi.Domain.csproj"/>
     </ItemGroup>

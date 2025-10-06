@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>disable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\Shared\ShelfApi.Shared.Common\ShelfApi.Shared.Common.csproj" />
+      <ProjectReference Include="..\..\IdentityModule\ShelfApi.IdentityModule.Domain\ShelfApi.IdentityModule.Domain.csproj" />
+      <ProjectReference Include="..\..\ProductModule\ShelfApi.ProductModule.Domain\ShelfApi.ProductModule.Domain.csproj" />
+    </ItemGroup>
+
+</Project>

@@ -19,6 +19,8 @@
 
     <ItemGroup>
         <Folder Include="Common\"/>
+        <Folder Include="FinancialAggregate\" />
+        <Folder Include="SettingDomain\" />
     </ItemGroup>
 
 </Project>

@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using ShelfApi.Application.CartApplication.Commands.AddProductToCart;
+using ShelfApi.CartModule.Contracts.Commands;
 using ShelfApi.Presentation.Controllers.Common;
 
 namespace ShelfApi.Presentation.Controllers.CartController;

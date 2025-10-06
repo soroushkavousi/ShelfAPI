@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using ShelfApi.IdentityModule.Application.ValueObjects;
-using ShelfApi.IdentityModule.Contracts.Dtos;
+using ShelfApi.IdentityModule.Contracts.Views;
 using ShelfApi.IdentityModule.Domain;
 
 namespace ShelfApi.IdentityModule.Application.Services.TokenServicePack;
@@ -14,7 +14,7 @@ public class TokenService(IOptions<TokenServiceOptions> options, UserManager<Use
 {
     private readonly TokenServiceOptions _options = options.Value;
 
-    public async Task<UserCredentialDto> GenerateAccessTokenAsync(User user)
+    public async Task<UserCredentialView> GenerateAccessTokenAsync(User user)
     {
         List<Claim> authClaims =
         [
@@ -27,7 +27,7 @@ public class TokenService(IOptions<TokenServiceOptions> options, UserManager<Use
         string accessToken = GenerateAccessToken(authClaims);
         Guid refreshToken = Guid.NewGuid();
 
-        UserCredentialDto userCredential = new()
+        UserCredentialView userCredential = new()
         {
             AccessToken = accessToken,
             RefreshToken = refreshToken
